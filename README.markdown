@@ -1,7 +1,9 @@
 Flashless
 =========
 
-Flashless is a Cocoa WebKit plugin that blocks Flash content until you click on it. Requires Mac OS X 10.5 Leopard.
+[Download Flashless 1.1](http://cloud.github.com/downloads/useless/Flashless/Flashless.1.1.zip) (Universal Binary, 24K).
+
+Flashless is a Cocoa WebKit plug-in that blocks Flash content until you click on it. Requires Mac OS X 10.5 Leopard.
 
 It also displays a preview image and permits direct downloading of video files for some services.
 
