@@ -1,0 +1,392 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		224339580A6F05F3000348D4 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224339570A6F05F3000348D4 /* WebKit.framework */; };
+		8D1AC96B0486D14A00FE50C9 /* UCFlashlessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0259C576FE90428111CA0C5A /* UCFlashlessView.m */; settings = {ATTRIBUTES = (); }; };
+		8D1AC9700486D14A00FE50C9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
+		8D1AC9800486D23B00FE50C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D1AC97F0486D23B00FE50C9 /* InfoPlist.strings */; };
+		BF344CE70FF13D0D003F125D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BF344CE20FF13D0D003F125D /* main.m */; };
+		BF344CEA0FF13D0D003F125D /* UCFlashTester.m in Sources */ = {isa = PBXBuildFile; fileRef = BF344CE60FF13D0D003F125D /* UCFlashTester.m */; };
+		BF344D100FF14026003F125D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
+		BF344D110FF14027003F125D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224339570A6F05F3000348D4 /* WebKit.framework */; };
+		BF344D1B0FF14093003F125D /* UCFlashlessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0259C576FE90428111CA0C5A /* UCFlashlessView.m */; };
+		BF344D360FF141FB003F125D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF344D350FF141FB003F125D /* MainMenu.xib */; };
+		BF344D420FF14255003F125D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF344D410FF14255003F125D /* Localizable.strings */; };
+		BF344D430FF14255003F125D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF344D410FF14255003F125D /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0259C576FE90428111CA0C5A /* UCFlashlessView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessView.m; sourceTree = "<group>"; };
+		0259C57AFE90428111CA0C5A /* UCFlashlessView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UCFlashlessView.h; sourceTree = "<group>"; };
+		224339570A6F05F3000348D4 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		32DBCF980370C29C00C91783 /* Flashless_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flashless_Prefix.pch; sourceTree = "<group>"; };
+		8D1AC9730486D14A00FE50C9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1AC9740486D14A00FE50C9 /* Flashless.webplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Flashless.webplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1AC97B0486D23100FE50C9 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BF344CD10FF13C24003F125D /* FlashTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF344CD30FF13C24003F125D /* FlashTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FlashTest-Info.plist"; sourceTree = "<group>"; };
+		BF344CE20FF13D0D003F125D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BF344CE30FF13D0D003F125D /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BF344CE40FF13D0D003F125D /* UCFlashTester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashTester.h; sourceTree = "<group>"; };
+		BF344CE50FF13D0D003F125D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BF344CE60FF13D0D003F125D /* UCFlashTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashTester.m; sourceTree = "<group>"; };
+		BF344D440FF14261003F125D /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BF344D450FF14269003F125D /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D1AC96E0486D14A00FE50C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D1AC9700486D14A00FE50C9 /* Cocoa.framework in Frameworks */,
+				224339580A6F05F3000348D4 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF344CCF0FF13C24003F125D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF344D100FF14026003F125D /* Cocoa.framework in Frameworks */,
+				BF344D110FF14027003F125D /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0259C574FE90428111CA0C5A /* Flashless */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF9E0370C38000C91783 /* Classes */,
+				32DBCF9F0370C38200C91783 /* Other Sources */,
+				0259C582FE90428111CA0C5A /* Resources */,
+				1ED78706FE9D4A0611CA0C5A /* Products */,
+				2E58F364FFB232C311CA0CBA /* Frameworks */,
+			);
+			name = Flashless;
+			sourceTree = "<group>";
+		};
+		0259C582FE90428111CA0C5A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BF344D410FF14255003F125D /* Localizable.strings */,
+				BF344D350FF141FB003F125D /* MainMenu.xib */,
+				BF344CD30FF13C24003F125D /* FlashTest-Info.plist */,
+				8D1AC9730486D14A00FE50C9 /* Info.plist */,
+				8D1AC97F0486D23B00FE50C9 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		1ED78706FE9D4A0611CA0C5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1AC9740486D14A00FE50C9 /* Flashless.webplugin */,
+				BF344CD10FF13C24003F125D /* FlashTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2E58F364FFB232C311CA0CBA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD92D38A0106425D02CA0E72 /* Cocoa.framework */,
+				224339570A6F05F3000348D4 /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		32DBCF9E0370C38000C91783 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				BF344CE40FF13D0D003F125D /* UCFlashTester.h */,
+				BF344CE60FF13D0D003F125D /* UCFlashTester.m */,
+				0259C57AFE90428111CA0C5A /* UCFlashlessView.h */,
+				0259C576FE90428111CA0C5A /* UCFlashlessView.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		32DBCF9F0370C38200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				BF344CE20FF13D0D003F125D /* main.m */,
+				32DBCF980370C29C00C91783 /* Flashless_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1AC9600486D14A00FE50C9 /* Flashless */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C027D11908A954E7001699E2 /* Build configuration list for PBXNativeTarget "Flashless" */;
+			buildPhases = (
+				8D1AC9660486D14A00FE50C9 /* Resources */,
+				8D1AC96A0486D14A00FE50C9 /* Sources */,
+				8D1AC96E0486D14A00FE50C9 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Flashless;
+			productInstallPath = "$(HOME)/Developer/Palettes";
+			productName = Flashless;
+			productReference = 8D1AC9740486D14A00FE50C9 /* Flashless.webplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+		BF344CD00FF13C24003F125D /* FlashTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF344CD60FF13C26003F125D /* Build configuration list for PBXNativeTarget "FlashTest" */;
+			buildPhases = (
+				BF344CCD0FF13C24003F125D /* Resources */,
+				BF344CCE0FF13C24003F125D /* Sources */,
+				BF344CCF0FF13C24003F125D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FlashTest;
+			productName = FlashTest;
+			productReference = BF344CD10FF13C24003F125D /* FlashTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0259C573FE90428111CA0C5A /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C027D11D08A954E7001699E2 /* Build configuration list for PBXProject "Flashless" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 0259C574FE90428111CA0C5A /* Flashless */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1AC9600486D14A00FE50C9 /* Flashless */,
+				BF344CD00FF13C24003F125D /* FlashTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1AC9660486D14A00FE50C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D1AC9800486D23B00FE50C9 /* InfoPlist.strings in Resources */,
+				BF344D420FF14255003F125D /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF344CCD0FF13C24003F125D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF344D430FF14255003F125D /* Localizable.strings in Resources */,
+				BF344D360FF141FB003F125D /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D1AC96A0486D14A00FE50C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D1AC96B0486D14A00FE50C9 /* UCFlashlessView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF344CCE0FF13C24003F125D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF344CE70FF13D0D003F125D /* main.m in Sources */,
+				BF344CEA0FF13D0D003F125D /* UCFlashTester.m in Sources */,
+				BF344D1B0FF14093003F125D /* UCFlashlessView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8D1AC97F0486D23B00FE50C9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8D1AC97B0486D23100FE50C9 /* English */,
+				BF344D450FF14269003F125D /* German */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BF344D350FF141FB003F125D /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF344CE50FF13D0D003F125D /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		BF344D410FF14255003F125D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF344CE30FF13D0D003F125D /* English */,
+				BF344D440FF14261003F125D /* German */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BF344CD40FF13C25003F125D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = TESTAPP;
+				INFOPLIST_FILE = "FlashTest-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = FlashTest;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BF344CD50FF13C25003F125D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = TESTAPP;
+				INFOPLIST_FILE = "FlashTest-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = FlashTest;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		C027D11A08A954E7001699E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_VERSION = 1.1;
+			};
+			name = Debug;
+		};
+		C027D11B08A954E7001699E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_VERSION = 1.1;
+			};
+			name = Release;
+		};
+		C027D11E08A954E7001699E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Flashless_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Internet Plug-Ins";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Flashless;
+				SDKROOT = macosx10.5;
+				WARNING_CFLAGS = "-Wall";
+				WRAPPER_EXTENSION = webplugin;
+			};
+			name = Debug;
+		};
+		C027D11F08A954E7001699E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Flashless_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Internet Plug-Ins";
+				PRODUCT_NAME = Flashless;
+				SDKROOT = macosx10.5;
+				WARNING_CFLAGS = "-Wall";
+				WRAPPER_EXTENSION = webplugin;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BF344CD60FF13C26003F125D /* Build configuration list for PBXNativeTarget "FlashTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF344CD40FF13C25003F125D /* Debug */,
+				BF344CD50FF13C25003F125D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C027D11908A954E7001699E2 /* Build configuration list for PBXNativeTarget "Flashless" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C027D11A08A954E7001699E2 /* Debug */,
+				C027D11B08A954E7001699E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C027D11D08A954E7001699E2 /* Build configuration list for PBXProject "Flashless" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C027D11E08A954E7001699E2 /* Debug */,
+				C027D11F08A954E7001699E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0259C573FE90428111CA0C5A /* Project object */;
+}

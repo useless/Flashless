@@ -1,0 +1,21 @@
+﻿/* About Desription */
+"A WebKit plug-in to prevent automatic loading of Flash content." = "Ein WebKit-Plugin, das das automatische Laden von Flash-Inhalten verhindert.";
+
+/* About Menu Title */
+"About Flashless" = "Über Flashless";
+
+/* Copy Download Menu Title */
+"Copy Download URL" = "Video-URL kopieren";
+
+/* Copy Preview Menu Title */
+"Copy Preview URL" = "Vorschau-URL kopieren";
+
+/* Copy Source Menu Title */
+"Copy Source URL" = "URL kopieren";
+
+/* Download Menu Title */
+"Download Video" = "Video laden";
+
+/* Load Menu Title */
+"Show Flash" = "Flash anzeigen";
+
