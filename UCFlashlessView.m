@@ -347,29 +347,17 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 		return @"???";
 		}
 	
-	NSString * host = [src host];
-	if([host rangeOfString:@"youtube.com"].location!=NSNotFound || [host rangeOfString:@"ytimg.com"].location!=NSNotFound)
-		{
-		return @"YouTube";
-		}
-	else if([host rangeOfString:@"xtube.com"].location!=NSNotFound)
-		{
-		return @"XTube";
-		}
-	else if([host rangeOfString:@"vimeo.com"].location!=NSNotFound)
-		{
-		return @"Vimeo";
-		}
-	else if([host rangeOfString:@"blip.tv"].location!=NSNotFound)
-		{
-		return @"blip.tv";
-		}
-	else if([host rangeOfString:@"viddler.com"].location!=NSNotFound)
-		{
-		return @"Viddler";
-		}
+	NSString * host = [@"." stringByAppendingString:[src host]];
+	NSRange dot = [host rangeOfString:@"." options:NSBackwardsSearch range:NSMakeRange(0, [host rangeOfString:@"." options:NSBackwardsSearch].location)];
 	
-	return nil;
+	return [[NSDictionary dictionaryWithObjectsAndKeys:@"YouTube", @"youtube.com",
+			@"YouTube", @"ytimg.com",
+			@"XTube", @"xtube.com",
+			@"Vimeo", @"vimeo.com",
+			@"blip.tv", @"blip.tv",
+			@"Viddler", @"viddler.com",
+			@"USTREAM", @"ustream.tv",
+		nil] objectForKey:[host substringFromIndex:dot.location+1]];
 }
 
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL
@@ -476,13 +464,17 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 		}
 	else if([host rangeOfString:@"viddler.com"].location!=NSNotFound)
 		{
-		NSScanner * scan = [NSScanner scannerWithString:[src absoluteString]];
-		[scan scanUpToString:@"simple_on_site/" intoString:nil];
-		if([scan scanString:@"simple_on_site/" intoString:nil])
+		videoID = [flashVars objectForKey:@"key"];
+		if(videoID==nil)
 			{
-			[scan scanUpToString:@"/" intoString:&videoID];
+			NSScanner * scan = [NSScanner scannerWithString:[src absoluteString]];
+			[scan scanUpToString:@"simple_on_site/" intoString:nil];
+			if([scan scanString:@"simple_on_site/" intoString:nil])
+				{
+				[scan scanUpToString:@"/" intoString:&videoID];
+				}
+			if(videoID==nil) { return nil; }
 			}
-		if(videoID==nil) { return nil; }
 		previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://cdn-thumbs.viddler.com/thumbnail_2_%@.jpg", videoID]];
 		}
 
