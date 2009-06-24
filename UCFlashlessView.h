@@ -33,9 +33,11 @@
 
 - (id)initWithArguments:(NSDictionary *)arguments;
 
+- (void)_drawPlayWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds;
+- (void)_drawBadgeWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds;
+
 - (void)_convertTypesForContainer;
 - (void)_convertTypesForElement:(DOMElement *)element;
-- (void)_drawBackground;
 
 - (NSString *)_labelForSrc:(NSURL *)src;
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL;

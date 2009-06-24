@@ -69,11 +69,6 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 #pragma mark -
 
-- (void)drawRect:(NSRect)rect
-{
-    [self _drawBackground];
-}
-
 - (void)mouseEntered:(NSEvent *)event
 {
     _mouseInside=YES;
@@ -151,6 +146,121 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	[_previewConnection cancel];
 }
 
+#pragma mark Draw
+
+- (void)drawRect:(NSRect)rect
+{
+	const float kXOff = 10;
+	const float kYOff = 5;
+	const float kPadd = 10;
+	const float kRad = 6;
+
+	NSRect bounds = [self bounds];
+	
+	NSBezierPath * shape;
+	NSColor * tint;
+	NSColor * halo;
+	NSPoint loc;
+	NSDictionary * atts = nil;
+	NSString * flash = nil;
+	NSSize size;
+	
+	shape = [NSBezierPath bezierPathWithRect:bounds];
+
+	if(_mouseDown && _mouseInside)
+		{
+		tint = [NSColor colorWithCalibratedWhite:0.75 alpha:1.0];
+		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.5];
+		}
+	else
+		{
+		tint = [NSColor whiteColor];
+		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.2];
+		[[NSColor colorWithCalibratedWhite:1.0 alpha:0.25] set];
+		[shape fill];
+		}
+	
+	if(_previewImage)
+		{
+		[_previewImage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+		}
+	
+	if(_downloadURL!=nil)
+		{
+		flash = @"\u2b07";
+		}
+	
+	if(_siteLabel!=nil || flash!=nil)
+		{
+		atts = [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSFont systemFontOfSize:16], NSFontAttributeName,
+			[NSNumber numberWithFloat:20], NSStrokeWidthAttributeName,
+			[NSColor colorWithCalibratedWhite:1.0 alpha:0.8], NSStrokeColorAttributeName,
+		nil];
+		
+		if(_siteLabel!=nil)
+			{
+			size = [_siteLabel sizeWithAttributes:atts];
+			loc = NSMakePoint(bounds.size.width - size.width - kXOff, kYOff);
+			[_siteLabel drawAtPoint:loc withAttributes:atts];
+			}
+		if(flash!=nil)
+			{
+			[flash drawAtPoint:NSMakePoint(kXOff, kYOff) withAttributes:atts];
+			}
+
+		atts = [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSFont systemFontOfSize:16], NSFontAttributeName,
+			[NSColor colorWithCalibratedWhite:0.6 alpha:1.0], NSForegroundColorAttributeName,
+		nil];
+		if(_siteLabel!=nil)
+			{
+			[_siteLabel drawAtPoint:loc withAttributes:atts];
+			}
+		if(flash!=nil)
+			{
+			[flash drawAtPoint:NSMakePoint(kXOff, kYOff) withAttributes:atts];
+			}
+		}
+
+	if(_mouseDown && _mouseInside)
+		{
+		[[NSColor colorWithCalibratedWhite:0.25 alpha:0.25] set];
+		[shape fill];
+		}
+	
+	[[NSColor colorWithCalibratedWhite:0.0 alpha:0.5] set];
+	[shape stroke];
+	[self _drawPlayWithTint:tint andHalo:halo inRect:bounds];
+}
+
+- (void)_drawPlayWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds;
+{
+	const float kMin = 50;
+	const float kMar = 3;
+
+	if(bounds.size.width>kMin && bounds.size.height>kMin)
+		{
+		NSSize size = NSMakeSize(42, 42);
+		NSBezierPath * shape;
+				
+		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2-kMar, (bounds.size.height-size.height)/1.8-kMar, size.width+2*kMar, size.height+2*kMar)];
+		[halo set];
+		[shape fill];
+		
+		[tint set];
+		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2, (bounds.size.height-size.height)/1.8, size.width, size.height)];
+		[shape setLineWidth:3];
+		[shape stroke];
+
+		shape = [NSBezierPath bezierPath];
+		[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width/3, (bounds.size.height-size.height)/1.8+size.height/2)];
+		[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height/2+size.height*0.3)];
+		[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height/2-size.height*0.3)];
+		[shape fill];
+		}
+}
+
 #pragma mark Internal
 
 - (void)_convertTypesForElement:(DOMElement *)element
@@ -190,110 +300,6 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	
 	[_element release];
 	_element = nil;
-}
-
-- (void)_drawBackground
-{
-	const float kXOff = 10;
-	const float kYOff = 5;
-	const float kPadd = 10;
-	const float kRad = 6;
-	const float kMar = 3;
-	const float kMin = 50;
-
-	NSRect bounds = [self bounds];
-	
-	NSBezierPath * shape;
-	NSColor * tint;
-	NSColor * halo;
-	shape = [NSBezierPath bezierPathWithRect:bounds];
-
-	if(_mouseDown && _mouseInside)
-		{
-		tint = [NSColor colorWithCalibratedWhite:0.75 alpha:1.0];
-		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.5];
-		[[NSColor colorWithCalibratedWhite:0.25 alpha:0.25] set];
-		}
-	else
-		{
-		tint = [NSColor whiteColor];
-		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.2];
-		[[NSColor colorWithCalibratedWhite:1.0 alpha:0.25] set];
-		[shape fill];
-		}
-	
-	if(_previewImage)
-		{
-		[_previewImage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-		}
-	
-	if(_mouseDown && _mouseInside)
-		{
-		[shape fill];
-		}
-	
-	
-	[[NSColor colorWithCalibratedWhite:0.0 alpha:0.5] set];
-	[shape stroke];
-
-	NSPoint loc;
-	NSDictionary * atts = nil;
-	NSSize size;
-	NSString * flash = nil;
-	
-	if(bounds.size.width>kMin && bounds.size.height>kMin)
-		{
-		size = NSMakeSize(42, 42);
-		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2-kMar, (bounds.size.height-size.height)/1.8-kMar, size.width+2*kMar, size.height+2*kMar)];
-		[halo set];
-		[shape fill];
-		
-		[tint set];
-		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2, (bounds.size.height-size.height)/1.8, size.width, size.height)];
-		[shape setLineWidth:3];
-		[shape stroke];
-
-//		loc = NSMakePoint((bounds.size.width-size.width)/2 , (bounds.size.height-size.height)/1.8);
-//		[flash drawAtPoint:loc withAttributes:atts];
-		}
-
-	if(_downloadURL!=nil)
-		{
-		flash = @"\u2b07";
-		}
-	
-	if(_siteLabel!=nil || flash!=nil)
-		{
-		atts = [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont systemFontOfSize:16], NSFontAttributeName,
-			[NSNumber numberWithFloat:20], NSStrokeWidthAttributeName,
-			[NSColor colorWithCalibratedWhite:1.0 alpha:0.8], NSStrokeColorAttributeName,
-		nil];
-		
-		if(_siteLabel!=nil)
-			{
-			size = [_siteLabel sizeWithAttributes:atts];
-			loc = NSMakePoint(bounds.size.width - size.width - kXOff, kYOff);
-			[_siteLabel drawAtPoint:loc withAttributes:atts];
-			}
-		if(flash!=nil)
-			{
-			[flash drawAtPoint:NSMakePoint(kXOff, kYOff) withAttributes:atts];
-			}
-
-		atts = [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont systemFontOfSize:16], NSFontAttributeName,
-			[NSColor colorWithCalibratedWhite:0.6 alpha:1.0], NSForegroundColorAttributeName,
-		nil];
-		if(_siteLabel!=nil)
-			{
-			[_siteLabel drawAtPoint:loc withAttributes:atts];
-			}
-		if(flash!=nil)
-			{
-			[flash drawAtPoint:NSMakePoint(kXOff, kYOff) withAttributes:atts];
-			}
-		}
 }
 
 - (NSString *)_labelForSrc:(NSURL *)src
