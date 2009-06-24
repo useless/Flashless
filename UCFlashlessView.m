@@ -199,15 +199,14 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	const float kPadd = 10;
 	const float kRad = 6;
 	const float kMar = 3;
-	const float kXMin = 50;
-	const float kYMin = 42;
+	const float kMin = 50;
 
 	NSRect bounds = [self bounds];
 	
-	NSBezierPath * back;
+	NSBezierPath * shape;
 	NSColor * tint;
 	NSColor * halo;
-	back = [NSBezierPath bezierPathWithRect:bounds];
+	shape = [NSBezierPath bezierPathWithRect:bounds];
 
 	if(_mouseDown && _mouseInside)
 		{
@@ -220,7 +219,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 		tint = [NSColor whiteColor];
 		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.2];
 		[[NSColor colorWithCalibratedWhite:1.0 alpha:0.25] set];
-		[back fill];
+		[shape fill];
 		}
 	
 	if(_previewImage)
@@ -230,46 +229,37 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	
 	if(_mouseDown && _mouseInside)
 		{
-		[back fill];
+		[shape fill];
 		}
 	
 	
 	[[NSColor colorWithCalibratedWhite:0.0 alpha:0.5] set];
-	[back stroke];
+	[shape stroke];
 
 	NSPoint loc;
-	NSDictionary * atts;
+	NSDictionary * atts = nil;
 	NSSize size;
-	NSString * flash = @"\u25b6";
+	NSString * flash = nil;
 	
-	if(bounds.size.width>kXMin && bounds.size.height>kYMin)
+	if(bounds.size.width>kMin && bounds.size.height>kMin)
 		{
-		atts = [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont systemFontOfSize:28], NSFontAttributeName,
-			[NSNumber numberWithFloat:-1.0], NSKernAttributeName,
-			tint, NSForegroundColorAttributeName,
-		nil];
-		size = [flash sizeWithAttributes:atts];
-		back = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect((bounds.size.width-size.width)/2-kPadd-kMar, (bounds.size.height-size.height)/1.8-kMar, size.width+2*kPadd+2*kMar, size.height+2*kMar) xRadius:kRad+kMar yRadius:kRad+kMar];
+		size = NSMakeSize(42, 42);
+		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2-kMar, (bounds.size.height-size.height)/1.8-kMar, size.width+2*kMar, size.height+2*kMar)];
 		[halo set];
-		[back fill];
+		[shape fill];
 		
 		[tint set];
-		back = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect((bounds.size.width-size.width)/2-kPadd, (bounds.size.height-size.height)/1.8, size.width+2*kPadd, size.height) xRadius:kRad yRadius:kRad];
-		[back setLineWidth:3];
-		[back stroke];
+		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2, (bounds.size.height-size.height)/1.8, size.width, size.height)];
+		[shape setLineWidth:3];
+		[shape stroke];
 
-		loc = NSMakePoint((bounds.size.width-size.width)/2 , (bounds.size.height-size.height)/1.8);
-		[flash drawAtPoint:loc withAttributes:atts];
+//		loc = NSMakePoint((bounds.size.width-size.width)/2 , (bounds.size.height-size.height)/1.8);
+//		[flash drawAtPoint:loc withAttributes:atts];
 		}
 
 	if(_downloadURL!=nil)
 		{
 		flash = @"\u2b07";
-		}
-	else
-		{
-		flash=nil;
 		}
 	
 	if(_siteLabel!=nil || flash!=nil)
