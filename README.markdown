@@ -17,4 +17,4 @@ If direct downloading is supported, an downward arrow will be displayed in the l
 
 ***
 
-This project is somewhat based on **ClickToFlash** (https://github.com/rentzsch/clicktoflash).
+This project is somewhat based on **ClickToFlash** (<https://github.com/rentzsch/clicktoflash>).
