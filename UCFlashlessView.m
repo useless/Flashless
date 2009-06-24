@@ -152,8 +152,6 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 {
 	const float kXOff = 10;
 	const float kYOff = 5;
-	const float kPadd = 10;
-	const float kRad = 6;
 
 	NSRect bounds = [self bounds];
 	
@@ -231,17 +229,24 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	
 	[[NSColor colorWithCalibratedWhite:0.0 alpha:0.5] set];
 	[shape stroke];
-	[self _drawPlayWithTint:tint andHalo:halo inRect:bounds];
+
+	if(_siteLabel!=nil)
+		{
+		[self _drawPlayWithTint:tint andHalo:halo inRect:bounds];
+		}
+	else
+		{
+		[self _drawBadgeWithTint:tint andHalo:halo inRect:bounds];
+		}
 }
 
 - (void)_drawPlayWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds;
 {
-	const float kMin = 50;
 	const float kMar = 3;
 
-	if(bounds.size.width>kMin && bounds.size.height>kMin)
+	NSSize size = NSMakeSize(42, 42);
+	if(bounds.size.width>size.width+3*kMar && bounds.size.height>size.height+3*kMar)
 		{
-		NSSize size = NSMakeSize(42, 42);
 		NSBezierPath * shape;
 				
 		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2-kMar, (bounds.size.height-size.height)/1.8-kMar, size.width+2*kMar, size.height+2*kMar)];
@@ -258,6 +263,39 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 		[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height/2+size.height*0.3)];
 		[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height/2-size.height*0.3)];
 		[shape fill];
+		}
+}
+
+- (void)_drawBadgeWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds;
+{
+	const float kPadd = 5;
+	const float kRad = 6;
+	const float kMar = 2;
+
+	NSDictionary * atts;
+	NSString * flash = @"Flash";
+	
+	atts = [NSDictionary dictionaryWithObjectsAndKeys:
+		[NSFont boldSystemFontOfSize:18], NSFontAttributeName,
+		[NSNumber numberWithFloat:-1.0], NSKernAttributeName,
+		tint, NSForegroundColorAttributeName,
+	nil];
+	NSSize size = [flash sizeWithAttributes:atts];
+		
+	if(bounds.size.width>size.width+2*kPadd+3*kMar && bounds.size.height>size.height+4*kMar)
+		{
+		NSBezierPath * shape;
+		
+		shape = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect((bounds.size.width-size.width)/2-kPadd-kMar, (bounds.size.height-size.height-kMar)/1.8-kMar, size.width+2*kPadd+2*kMar, size.height+3*kMar) xRadius:kRad+kMar yRadius:kRad+kMar];
+		[halo set];
+		[shape fill];
+		
+		[tint set];
+		shape = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect((bounds.size.width-size.width)/2-kPadd, (bounds.size.height-size.height-kMar)/1.8, size.width+2*kPadd, size.height+kMar) xRadius:kRad yRadius:kRad];
+		[shape setLineWidth:2];
+		[shape stroke];
+
+		[flash drawAtPoint:NSMakePoint((bounds.size.width-size.width)/2 , (bounds.size.height-size.height)/1.8) withAttributes:atts];
 		}
 }
 
