@@ -276,7 +276,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	NSString * flash = @"Flash";
 	
 	atts = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSFont boldSystemFontOfSize:18], NSFontAttributeName,
+		[NSFont systemFontOfSize:18], NSFontAttributeName,
 		[NSNumber numberWithFloat:-1.0], NSKernAttributeName,
 		tint, NSForegroundColorAttributeName,
 	nil];
