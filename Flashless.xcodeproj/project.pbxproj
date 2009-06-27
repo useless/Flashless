@@ -311,14 +311,14 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_VERSION = 1.1;
+				PRODUCT_VERSION = 1.2;
 			};
 			name = Debug;
 		};
 		C027D11B08A954E7001699E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_VERSION = 1.1;
+				PRODUCT_VERSION = 1.2;
 			};
 			name = Release;
 		};

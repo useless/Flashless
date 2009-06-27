@@ -1,0 +1,54 @@
+YouTube
+SRC>	http://youtube.com/v/{ID}& ...
+	... video_id={ID}& ...
+
+FLASHVARS> video_id={ID}
+	t={HASH}
+
+PREVIEW: http://i1.ytimg.com/vi/{ID}/hqdefault.jpg
+
+DOWNLOAD: http://www.youtube.com/get_video?fmt=18&video_id={ID}&t={HASH}
+
+
+XTube
+FLASHVARS> user_id={USERID}
+	idx={IDX}
+	video_id={ID}
+	clip_id={CLIPID}
+	swfURL={URL}
+
+HINT:	http://video2.xtube.com/find_video.php?sid=0&v_user_id={USERID}&idx={IDX}&from=&video_id={ID}&clip_id={CLIPID}&qid=&qidx=&qnum=
+
+HINT> ... &filename={VIDEOFILE}& ...
+
+VIDEOFILE> /videos{PREVIEWID}.flv
+
+PREVIEW: http://cdns.xtube.com/u/e10/video_thumb{PREVIEWID}_0000.jpg
+
+DOWNLOAD: {URL}{VIDEOFILE}
+
+
+Vimeo
+SRC>	http://www.vimeo.com/moogaloop.swf?clip_id={ID}&...
+
+FLASHVARS> clip_id={ID}
+
+HINT:	http://www.vimeo.com/moogaloop/load/clip:{ID}/embed
+
+HINT>	... <thumbnail>{PREVIEWID}</thumbnail> ...
+
+PREVIEW: {PREVIEWID}
+
+
+blip.tv
+
+
+Viddler
+SRC>	... simple_on_site/{ID}/
+
+FLASHVARS> key={ID}
+
+PREVIEW: http://cdn-thumbs.viddler.com/thumbnail_2_{ID}.jpg
+
+
+USTREAM

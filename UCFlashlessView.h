@@ -39,7 +39,8 @@
 - (void)_convertTypesForContainer;
 - (void)_convertTypesForElement:(DOMElement *)element;
 
-- (NSString *)_labelForSrc:(NSURL *)src;
+- (NSString *)_domainForSrc:(NSURL *)src;
+- (NSString *)_labelForDomain:(NSString *)domain;
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL;
 - (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes;
 - (NSURL *)_previewURLForSrc:(NSURL *)src andFlashVars:(NSMutableDictionary *)flashVars;

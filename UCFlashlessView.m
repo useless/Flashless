@@ -10,6 +10,8 @@
 
 static NSString * sFlashOldMIMEType = @"application/x-shockwave-flash";
 static NSString * sFlashNewMIMEType = @"application/futuresplash";
+static NSString * sVideoIDKey = @"UCFlashlessVideoID";
+static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 
 @implementation UCFlashlessView
 
@@ -36,10 +38,10 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 		NSDictionary * attributes = [newArguments objectForKey:WebPlugInAttributesKey];
 		[self setMenu:[self _prepareMenu]];
 		
-		_src = [[self _srcFromAttributes:attributes withBaseURL:[newArguments objectForKey:WebPlugInBaseURLKey]] retain];
+		_src = [[self _srcFromAttributes:attributes withBaseURL:[newArguments objectForKey:WebPlugInBaseURLKey]] copy];
 		[self setToolTip:[_src absoluteString]];
 		
-		_siteLabel = [[self _labelForSrc:_src] retain];
+		_siteLabel = [[self _labelForDomain:[self _domainForSrc:_src]] retain];
 		_flashVars = [[self _flashVarsFromAttributes:attributes] retain];
 		
 		_mouseDown=NO;
@@ -340,16 +342,27 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	_element = nil;
 }
 
-- (NSString *)_labelForSrc:(NSURL *)src
+#pragma mark -
+
+- (NSString *)_domainForSrc:(NSURL *)src
 {
 	if(src==nil)
 		{
-		return @"???";
+		return nil;
 		}
-	
+		
 	NSString * host = [@"." stringByAppendingString:[src host]];
 	NSRange dot = [host rangeOfString:@"." options:NSBackwardsSearch range:NSMakeRange(0, [host rangeOfString:@"." options:NSBackwardsSearch].location)];
-	
+	return [host substringFromIndex:dot.location+1];
+}
+
+- (NSString *)_labelForDomain:(NSString *)domain;
+{
+	if(domain==nil)
+		{
+		return @"???";
+		}
+		
 	return [[NSDictionary dictionaryWithObjectsAndKeys:@"YouTube", @"youtube.com",
 			@"YouTube", @"ytimg.com",
 			@"XTube", @"xtube.com",
@@ -357,7 +370,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 			@"blip.tv", @"blip.tv",
 			@"Viddler", @"viddler.com",
 			@"USTREAM", @"ustream.tv",
-		nil] objectForKey:[host substringFromIndex:dot.location+1]];
+		nil] objectForKey:domain];
 }
 
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL
@@ -400,7 +413,6 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 			}		
 		}
 	
-//	NSLog(@"Flash Vars: %@.", vars);
 	return vars;
 }
 
@@ -409,25 +421,25 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	if(src==nil) { return nil; }
 	
 	NSURL * previewURL = nil;
-	NSString * host = [src host];
+	NSString * domain = [self _domainForSrc:src];
 	NSString * videoID = nil;
 	
-	if([host rangeOfString:@"youtube.com"].location!=NSNotFound || [host rangeOfString:@"ytimg.com"].location!=NSNotFound)
+	if([domain isEqualToString:@"youtube.com"] || [domain isEqualToString:@"ytimg.com"])
 		{
 		videoID = [flashVars objectForKey:@"video_id"];
 		if(videoID==nil)
 			{
 			NSScanner * scan = [NSScanner scannerWithString:[src absoluteString]];
-			[scan scanUpToString:@"youtube.com/v/" intoString:nil];
-			if([scan scanString:@"youtube.com/v/" intoString:nil])
+			[scan scanUpToString:@"youtube.com/v/" intoString:NULL];
+			if([scan scanString:@"youtube.com/v/" intoString:NULL])
 				{
 				[scan scanUpToString:@"&" intoString:&videoID];
 				}
 			if(videoID==nil)
 				{
 				[scan setScanLocation:0];
-				[scan scanUpToString:@"video_id=" intoString:nil];
-				if([scan scanString:@"video_id=" intoString:nil])
+				[scan scanUpToString:@"video_id=" intoString:NULL];
+				if([scan scanString:@"video_id=" intoString:NULL])
 					{
 					[scan scanUpToString:@"&" intoString:&videoID];
 					}
@@ -436,7 +448,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 			}
 		previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://i1.ytimg.com/vi/%@/hqdefault.jpg", videoID]];
 		}
-	else if([host rangeOfString:@"xtube.com"].location!=NSNotFound)
+	else if([domain isEqualToString:@"xtube.com"])
 		{
 		if([flashVars objectForKey:@"user_id"]==nil) { return nil; }
 		NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://video2.xtube.com/find_video.php?sid=0&v_user_id=%@&idx=%@&from=&video_id=%@&clip_id=%@&qid=&qidx=&qnum=",
@@ -448,28 +460,28 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 		if(hint==nil) { return nil; }
 		NSString * filename;
 		NSScanner * scan = [NSScanner scannerWithString:hint];
-		if([scan scanString:@"&filename=" intoString:nil])
+		if([scan scanString:@"&filename=" intoString:NULL])
 			{
 			[scan scanUpToString:@"&" intoString:&filename];
 			}
 		if(filename==nil) { return nil; }
-		[flashVars setObject:filename forKey:@"XTubeFilename"];
+		[flashVars setObject:filename forKey:sVideoFilenameKey];
 		scan = [NSScanner scannerWithString:filename];
-		if([scan scanString:@"/videos" intoString:nil])
+		if([scan scanString:@"/videos" intoString:NULL])
 			{
 			[scan scanUpToString:@".flv" intoString:&filename];
 			}
 		if(filename==nil) { return nil; }
 		previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://cdns.xtube.com/u/e10/video_thumb%@_0000.jpg", filename]];
 		}
-	else if([host rangeOfString:@"viddler.com"].location!=NSNotFound)
+	else if([domain isEqualToString:@"viddler.com"])
 		{
 		videoID = [flashVars objectForKey:@"key"];
 		if(videoID==nil)
 			{
 			NSScanner * scan = [NSScanner scannerWithString:[src absoluteString]];
-			[scan scanUpToString:@"simple_on_site/" intoString:nil];
-			if([scan scanString:@"simple_on_site/" intoString:nil])
+			[scan scanUpToString:@"simple_on_site/" intoString:NULL];
+			if([scan scanString:@"simple_on_site/" intoString:NULL])
 				{
 				[scan scanUpToString:@"/" intoString:&videoID];
 				}
@@ -477,8 +489,34 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 			}
 		previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://cdn-thumbs.viddler.com/thumbnail_2_%@.jpg", videoID]];
 		}
+	else if([domain isEqualToString:@"vimeo.com"])
+		{
+		videoID = [flashVars objectForKey:@"clip_id"];
+		NSScanner * scan;
+		if(videoID==nil)
+			{
+			scan = [NSScanner scannerWithString:[src absoluteString]];
+			[scan scanUpToString:@"clip_id=" intoString:NULL];
+			if([scan scanString:@"clip_id=" intoString:NULL])
+				{
+				[scan scanUpToString:@"&" intoString:&videoID];
+				}
+			}
+		if(videoID==nil) { return nil; }
+		NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@/embed", videoID]]];
+		if(hint==nil) { return nil; }
+		NSString * previewfile;
+		scan = [NSScanner scannerWithString:hint];
+		[scan scanUpToString:@"<thumbnail>" intoString:NULL];
+		if([scan scanString:@"<thumbnail>" intoString:NULL])
+			{
+			[scan scanUpToString:@"</thumbnail>" intoString:&previewfile];
+			}
+		if(previewfile==nil) { return nil; }
+		previewURL = [NSURL URLWithString:previewfile];
+		}
 
-	if(videoID!=nil) { [flashVars setObject:videoID forKey:@"FlashlessVideoID"]; }
+	if(videoID!=nil) { [flashVars setObject:videoID forKey:sVideoIDKey]; }
 	
 	return previewURL;
 }
@@ -488,20 +526,20 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	if(src==nil) { return nil; }
 	
 	NSURL * downloadURL = nil;
-	NSString * host = [src host];
+	NSString * domain = [self _domainForSrc:src];
 	
-	if([host rangeOfString:@"youtube.com"].location!=NSNotFound || [host rangeOfString:@"ytimg.com"].location!=NSNotFound)
+	if([domain isEqualToString:@"youtube.com"] || [domain isEqualToString:@"ytimg.com"])
 		{
 		NSString * videoHash = [flashVars objectForKey:@"t"];
 		if(videoHash==nil) { return nil; }
 		downloadURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video?fmt=18&video_id=%@&t=%@",
-			[flashVars objectForKey:@"FlashlessVideoID"],
+			[flashVars objectForKey:sVideoIDKey],
 			videoHash
 		]];
 		}
-	else if([host rangeOfString:@"xtube.com"].location!=NSNotFound)
+	else if([domain isEqualToString:@"xtube.com"])
 		{
-		NSString * filename = [flashVars objectForKey:@"XTubeFilename"];
+		NSString * filename = [flashVars objectForKey:sVideoFilenameKey];
 		if(filename==nil) { return nil; }
 		downloadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [flashVars objectForKey:@"swfURL"], filename]];
 		}
@@ -599,6 +637,8 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	[about runModal];
 	[about release];
 }
+
+#pragma mark -
 
 - (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
 {
