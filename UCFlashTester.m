@@ -13,42 +13,20 @@
 
 - (void)awakeFromNib
 {
-/*	[flashView initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			@"http://useless.com/play.swf", @"src",
-			nil], WebPlugInAttributesKey,
-		[NSURL URLWithString:@"http://useless.com"], WebPlugInBaseURLKey,
-		nil]];
-*/
-/*	[flashView initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			@"en_flash_debug_mode=0&en_flash_show_overlay=false&en_flash_overlay_xml_path=http://www.xtube.com/phone_caption.php&en_flash_show_adverticement_type=4&en_flash_mdh_image=http://cdn01.xtube.com/e5/embed/mdh_video_baner_nm_3.jpg&en_flash_mdh_link= http://www.mydirtyhobby.com/?sub=9718-1&en_flash_lib_path=library.swf&h=&swfURL=http://cdns15.xtube.com/s/e13&wall_idx=111_9&sid=0&user_id=duplo&owner_u=duplo&idx=5&from=&sex_type=G&video_id=8Dr2g-C118-&clip_id=C8sUI-C118-&content_type=&preview_flag=&preview_video_id=&preview_clip_id=", @"flashvars",
-			@"scenes_player.swf", @"src",
-			nil], WebPlugInAttributesKey,
-		[NSURL URLWithString:@"http://video2.xtube.com/watch_video.php?v_user_id=duplo&idx=5&v=8Dr2g-C118-&cl=C8sUI-C118-&from=&ver=3&ccaa=1&qid=&qidx=&qnum=&preview_flag="], WebPlugInBaseURLKey,
-		nil]];
-*/
-/*	[flashView initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			@"/v/fstVfM49zsU&hl=de&fs=1&", @"src",
-			nil], WebPlugInAttributesKey,
-		[NSURL URLWithString:@"http://www.youtube.com/v/fstVfM49zsU&hl=de&fs=1&"], WebPlugInBaseURLKey,
-		nil]];
-*/
-/*	[flashView initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			@"http://www.viddler.com/simple_on_site/4348c94", @"src",
-			nil], WebPlugInAttributesKey,
-		[NSURL URLWithString:@"http://www.fscklog.com/"], WebPlugInBaseURLKey,
-		nil]];
-*/
 	[flashView initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			@"http://example.com/play.swf", @"src",
+			nil], WebPlugInAttributesKey,
+		[NSURL URLWithString:@"http://example.com"], WebPlugInBaseURLKey,
+		nil]];
+/*	[flashView initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
 		[NSDictionary dictionaryWithObjectsAndKeys:
 			@"http://www.vimeo.com/moogaloop_local.swf?ver=26144", @"src",
 			@"clip_id=5245067&amp;server=vimeo.com&amp;autoplay=0&amp;fullscreen=1&amp;md5=0&amp;show_portrait=0&amp;show_title=0&amp;show_byline=0&amp;context=user:1927735&amp;context_id=&amp;force_embed=0&amp;multimoog=&amp;color=00ADEF&amp;force_info=undefined", @"flashvars",
 			nil], WebPlugInAttributesKey,
 		[NSURL URLWithString:@"http://www.fscklog.com/"], WebPlugInBaseURLKey,
 		nil]];
+*/
 }
 
 - (void)start:(id)sender
