@@ -36,7 +36,6 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		_element = [[newArguments objectForKey:WebPlugInContainingElementKey] retain];
 		_container = [[newArguments objectForKey:WebPlugInContainerKey] retain];
 		NSDictionary * attributes = [newArguments objectForKey:WebPlugInAttributesKey];
-		[self setMenu:[self _prepareMenu]];
 		
 		_src = [[self _srcFromAttributes:attributes withBaseURL:[newArguments objectForKey:WebPlugInBaseURLKey]] copy];
 		[self setToolTip:[_src absoluteString]];
@@ -120,6 +119,14 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 
 - (void)webPlugInInitialize
 {
+	// if whitelisted
+	if(NO)
+		{
+		[self _convertTypesForContainer];
+		return;
+		}
+	
+	[self setMenu:[self _prepareMenu]];
 	_previewURL = [[self _previewURLForSrc:_src andFlashVars:_flashVars] retain];
 	_downloadURL = [[self _downloadURLForSrc:_src andFlashVars:_flashVars] retain];
 	
@@ -129,18 +136,6 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		_previewBuf = [[NSMutableData alloc] init];
 		}
 	[self setNeedsDisplay:YES];
-}
-
-- (void)webPlugInStart
-{
-    // The plug-in usually begins drawing, playing sounds and/or animation in this method.
-    // You are not required to implement this method.  It may safely be removed.
-}
-
-- (void)webPlugInStop
-{
-    // The plug-in normally stop animations/sounds in this method.
-    // You are not required to implement this method.  It may safely be removed.
 }
 
 - (void)webPlugInDestroy
@@ -553,14 +548,25 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 - (NSMenu *)_prepareMenu
 {
 	NSMenu * menu = [[NSMenu alloc] init];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show Flash", nil, _myBundle, @"Load Menu Title") action:@selector(loadFlash:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show Flash", nil, _myBundle, @"Show Menu Title") action:@selector(loadFlash:) keyEquivalent:@""];
+	if([_src host]!=nil)
+		{
+		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Always Show from '%@'", nil, _myBundle, @"Whitelist Menu Title"), [_src host]] action:@selector(whitelistFlash:) keyEquivalent:@""];
+		}
+	else
+		{
+		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Always Show", nil, _myBundle, @"Nil Whitelist Menu Title")] action:NULL keyEquivalent:@""];		
+		}
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Download Video", nil, _myBundle, @"Download Menu Title") action:@selector(download:) keyEquivalent:@""];
+	[menu addItem:[NSMenuItem separatorItem]];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Source URL", nil, _myBundle, @"Copy Source Menu Title") action:@selector(copySource:) keyEquivalent:@""];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Preview URL", nil, _myBundle, @"Copy Preview Menu Title") action:@selector(copyPreview:) keyEquivalent:@""];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Download URL", nil, _myBundle, @"Copy Download Menu Title") action:@selector(copyDownload:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"About Flashless", nil, _myBundle, @"About Menu Title") action:@selector(showAbout:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Settings...", nil, _myBundle, @"Settings Menu Title") action:@selector(showSettings:) keyEquivalent:@""];
 	return [menu autorelease];
 }
 
@@ -611,6 +617,16 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		}
 }
 
+- (void)remove:(id)sender
+{
+	[[self retain] autorelease];
+	
+	[_element.parentNode removeChild:_element];
+	
+	[_element release];
+	_element = nil;
+}
+
 - (void)copySource:(id)sender
 {
 	[self _writeToPasteboard:_src];
@@ -631,7 +647,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 	NSAlert * about = [[NSAlert alloc] init];
 	[about setMessageText:[_myBundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey]];
 	[about setInformativeText:[NSString stringWithFormat:@"%@\nVersion %@ (%@) (%@)\n\n%@",
-		NSLocalizedStringFromTableInBundle(@"A WebKit plug-in to prevent automatic loading of Flash content.", nil, _myBundle, @"About Desription"),
+		NSLocalizedStringFromTableInBundle(@"A plug-in to block Flash.", nil, _myBundle, @"About Desription"),
 		[_myBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
 		[_myBundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey],
 		[_myBundle objectForInfoDictionaryKey:@"WebPluginDescription"],

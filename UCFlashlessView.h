@@ -51,6 +51,7 @@
 
 - (void)loadFlash:(id)sender;
 - (void)download:(id)sender;
+- (void)remove:(id)sender;
 - (void)copySource:(id)sender;
 - (void)copyPreview:(id)sender;
 - (void)copyDownload:(id)sender;
