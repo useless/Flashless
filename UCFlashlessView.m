@@ -381,14 +381,17 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		{
 		srcAttribute = [attributes objectForKey:@"data"];
 		}
-
+	if(srcAttribute==nil)
+		{
+		srcAttribute = [attributes objectForKey:@"movie"];
+		}
 	if(srcAttribute==nil)
 		{
 		return baseURL;
 		}
 	else
 		{
-		return [NSURL URLWithString:srcAttribute relativeToURL:baseURL];
+		return [NSURL URLWithString:[srcAttribute stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] relativeToURL:baseURL];
 		}
 }
 
