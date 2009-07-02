@@ -360,6 +360,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		
 	return [[NSDictionary dictionaryWithObjectsAndKeys:@"YouTube", @"youtube.com",
 			@"YouTube", @"ytimg.com",
+			@"YouTube", @"youtube-nocookie.com",
 			@"XTube", @"xtube.com",
 			@"Vimeo", @"vimeo.com",
 			@"blip.tv", @"blip.tv",
@@ -422,14 +423,14 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 	NSString * domain = [self _domainForSrc:src];
 	NSString * videoID = nil;
 	
-	if([domain isEqualToString:@"youtube.com"] || [domain isEqualToString:@"ytimg.com"])
+	if([domain isEqualToString:@"youtube.com"] || [domain isEqualToString:@"ytimg.com"] || [domain isEqualToString:@"youtube-nocookie.com"])
 		{
 		videoID = [flashVars objectForKey:@"video_id"];
 		if(videoID==nil)
 			{
 			NSScanner * scan = [NSScanner scannerWithString:[src absoluteString]];
-			[scan scanUpToString:@"youtube.com/v/" intoString:NULL];
-			if([scan scanString:@"youtube.com/v/" intoString:NULL])
+			[scan scanUpToString:@".com/v/" intoString:NULL];
+			if([scan scanString:@".com/v/" intoString:NULL])
 				{
 				[scan scanUpToString:@"&" intoString:&videoID];
 				}
