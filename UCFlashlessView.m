@@ -366,6 +366,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 			@"blip.tv", @"blip.tv",
 			@"Viddler", @"viddler.com",
 			@"USTREAM", @"ustream.tv",
+			@"Flickr", @"flickr.com",
 		nil] objectForKey:domain];
 }
 
@@ -513,6 +514,30 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 			}
 		if(previewfile==nil) { return nil; }
 		previewURL = [NSURL URLWithString:previewfile];
+		}
+	else if([domain isEqualToString:@"flickr.com"])
+		{
+		videoID = [flashVars objectForKey:@"photo_id"];
+		if(videoID==nil) { return nil; }
+		NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id=%@&secret=null&olang=null&noBuffer=null&bitrate=700&target=_blank&show_info_box=1", videoID]]];
+		if(hint==nil) { return nil; }
+		NSString * server;
+		NSString * secret;
+		NSScanner * scan = [NSScanner scannerWithString:hint];
+		[scan scanUpToString:@"<Item id=\"photo_server\">" intoString:NULL];
+		if([scan scanString:@"<Item id=\"photo_server\">" intoString:NULL])
+			{
+			[scan scanUpToString:@"</Item>" intoString:&server];
+			}
+		[scan scanUpToString:@"<Item id=\"photo_secret\">" intoString:NULL];
+		if([scan scanString:@"<Item id=\"photo_secret\">" intoString:NULL])
+			{
+			[scan scanUpToString:@"</Item>" intoString:&secret];
+			}
+		if(server!=nil && secret!=nil)
+			{
+			previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://farm3.static.flickr.com/%@/%@_%@.jpg?0", server, videoID, secret]];
+			}
 		}
 
 	if(videoID!=nil) { [flashVars setObject:videoID forKey:sVideoIDKey]; }

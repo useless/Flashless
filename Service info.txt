@@ -52,3 +52,14 @@ PREVIEW: http://cdn-thumbs.viddler.com/thumbnail_2_{ID}.jpg
 
 
 USTREAM
+
+
+Flickr
+FLASHVARS> photo_id={ID}
+
+HINT:	http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id={ID}&secret=null&olang=null&noBuffer=null&bitrate=700&target=_blank&show_info_box=1
+
+HINT>	<Item id="photo_server">{SERVER}</Item>
+	<Item id="photo_secret">{SECRET}</Item>
+
+PREVIEW: http://farm3.static.flickr.com/{SERVER}/{ID}_{SECRET}.jpg?0
