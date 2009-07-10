@@ -189,8 +189,9 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		{
 		atts = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont systemFontOfSize:16], NSFontAttributeName,
-			[NSNumber numberWithFloat:20], NSStrokeWidthAttributeName,
-			[NSColor colorWithCalibratedWhite:1.0 alpha:0.8], NSStrokeColorAttributeName,
+			[NSNumber numberWithFloat:16], NSStrokeWidthAttributeName,
+			halo, NSStrokeColorAttributeName,
+			halo, NSForegroundColorAttributeName,
 		nil];
 		
 		if(_siteLabel!=nil)
@@ -206,7 +207,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 
 		atts = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont systemFontOfSize:16], NSFontAttributeName,
-			[NSColor colorWithCalibratedWhite:0.6 alpha:1.0], NSForegroundColorAttributeName,
+			tint, NSForegroundColorAttributeName,
 		nil];
 		if(_siteLabel!=nil)
 			{
