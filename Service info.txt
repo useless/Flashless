@@ -63,3 +63,7 @@ HINT>	<Item id="photo_server">{SERVER}</Item>
 	<Item id="photo_secret">{SECRET}</Item>
 
 PREVIEW: http://farm3.static.flickr.com/{SERVER}/{ID}_{SECRET}.jpg?0
+
+
+Google Video
+SRC>	... videoUrl={DOWNLOAD}&thumbnailUrl={PREVIEW}& ...

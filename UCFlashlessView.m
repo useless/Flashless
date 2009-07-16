@@ -368,6 +368,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 			@"Viddler", @"viddler.com",
 			@"USTREAM", @"ustream.tv",
 			@"Flickr", @"flickr.com",
+			@"Google Video", @"google.com",
 		nil] objectForKey:domain];
 }
 
@@ -424,13 +425,14 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 	NSURL * previewURL = nil;
 	NSString * domain = [self _domainForSrc:src];
 	NSString * videoID = nil;
+	NSString * srcString = [[src absoluteString] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 	
 	if([domain isEqualToString:@"youtube.com"] || [domain isEqualToString:@"ytimg.com"] || [domain isEqualToString:@"youtube-nocookie.com"])
 		{
 		videoID = [flashVars objectForKey:@"video_id"];
 		if(videoID==nil)
 			{
-			NSScanner * scan = [NSScanner scannerWithString:[src absoluteString]];
+			NSScanner * scan = [NSScanner scannerWithString:srcString];
 			[scan scanUpToString:@".com/v/" intoString:NULL];
 			if([scan scanString:@".com/v/" intoString:NULL])
 				{
@@ -480,7 +482,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		videoID = [flashVars objectForKey:@"key"];
 		if(videoID==nil)
 			{
-			NSScanner * scan = [NSScanner scannerWithString:[src absoluteString]];
+			NSScanner * scan = [NSScanner scannerWithString:srcString];
 			[scan scanUpToString:@"simple_on_site/" intoString:NULL];
 			if([scan scanString:@"simple_on_site/" intoString:NULL])
 				{
@@ -496,7 +498,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		NSScanner * scan;
 		if(videoID==nil)
 			{
-			scan = [NSScanner scannerWithString:[src absoluteString]];
+			scan = [NSScanner scannerWithString:srcString];
 			[scan scanUpToString:@"clip_id=" intoString:NULL];
 			if([scan scanString:@"clip_id=" intoString:NULL])
 				{
@@ -540,6 +542,31 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 			previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://farm3.static.flickr.com/%@/%@_%@.jpg?0", server, videoID, secret]];
 			}
 		}
+	else if([domain isEqualToString:@"google.com"])
+		{
+		NSString * filename;
+		NSString * thumbnail;
+		NSScanner * scan = [NSScanner scannerWithString:srcString];
+		[scan scanUpToString:@"videoURL=" intoString:NULL];
+		if([scan scanString:@"videoURL=" intoString:NULL])
+			{
+			[scan scanUpToString:@"&" intoString:&filename];
+			if(filename!=nil)
+				{
+				[flashVars setObject:[filename stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding] forKey:sVideoFilenameKey];
+				}
+			}
+		[scan setScanLocation:0];
+		[scan scanUpToString:@"thumbnailUrl=" intoString:NULL];
+		if([scan scanString:@"thumbnailUrl=" intoString:NULL])
+			{
+			[scan scanUpToString:@"&" intoString:&thumbnail];
+			if(thumbnail!=nil)
+				{
+				previewURL = [NSURL URLWithString:[thumbnail stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+				}
+			}
+		}
 
 	if(videoID!=nil) { [flashVars setObject:videoID forKey:sVideoIDKey]; }
 	
@@ -567,6 +594,12 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		NSString * filename = [flashVars objectForKey:sVideoFilenameKey];
 		if(filename==nil) { return nil; }
 		downloadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [flashVars objectForKey:@"swfURL"], filename]];
+		}
+	else if([domain isEqualToString:@"google.com"])
+		{
+		NSString * filename = [flashVars objectForKey:sVideoFilenameKey];
+		if(filename==nil) { return nil; }
+		downloadURL = [NSURL URLWithString:filename];
 		}
 	
 	return downloadURL;
