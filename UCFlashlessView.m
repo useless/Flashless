@@ -157,7 +157,6 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 	NSColor * halo;
 	NSPoint loc;
 	NSDictionary * atts = nil;
-	NSString * flash = nil;
 	NSSize size;
 	
 	shape = [NSBezierPath bezierPathWithRect:bounds];
@@ -179,20 +178,16 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		{
 		[_previewImage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
 		}
-	
-	if(_downloadURL!=nil)
-		{
-		flash = @"\u2b07";
-		}
-	
-	if(_siteLabel!=nil || flash!=nil)
+
+	if(_siteLabel!=nil || _downloadURL!=nil)
 		{
 		atts = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont systemFontOfSize:16], NSFontAttributeName,
-			[NSNumber numberWithFloat:16], NSStrokeWidthAttributeName,
+			[NSNumber numberWithFloat:17], NSStrokeWidthAttributeName,
 			halo, NSStrokeColorAttributeName,
 			halo, NSForegroundColorAttributeName,
 		nil];
+		NSString * arrow = @"\u2b07";
 		
 		if(_siteLabel!=nil)
 			{
@@ -200,9 +195,9 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 			loc = NSMakePoint(bounds.size.width - size.width - kXOff, kYOff);
 			[_siteLabel drawAtPoint:loc withAttributes:atts];
 			}
-		if(flash!=nil)
+		if(_downloadURL!=nil)
 			{
-			[flash drawAtPoint:NSMakePoint(kXOff, kYOff) withAttributes:atts];
+			[arrow drawAtPoint:NSMakePoint(kXOff, kYOff) withAttributes:atts];
 			}
 
 		atts = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -213,9 +208,9 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 			{
 			[_siteLabel drawAtPoint:loc withAttributes:atts];
 			}
-		if(flash!=nil)
+		if(_downloadURL!=nil)
 			{
-			[flash drawAtPoint:NSMakePoint(kXOff, kYOff) withAttributes:atts];
+			[arrow drawAtPoint:NSMakePoint(kXOff, kYOff) withAttributes:atts];
 			}
 		}
 
@@ -228,21 +223,15 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 	[[NSColor colorWithCalibratedWhite:0.0 alpha:0.5] set];
 	[shape stroke];
 
-	if(_siteLabel!=nil)
-		{
-		[self _drawPlayWithTint:tint andHalo:halo inRect:bounds];
-		}
-	else
-		{
-		[self _drawBadgeWithTint:tint andHalo:halo inRect:bounds];
-		}
+	[self _drawWithTint:tint andHalo:halo inRect:bounds asPlay:(_siteLabel!=nil)];
 }
 
-- (void)_drawPlayWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds;
+- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play;
 {
 	const float kMar = 3;
 
-	NSSize size = NSMakeSize(42, 42);
+	NSSize size = play?NSMakeSize(48, 48):NSMakeSize(32, 32);
+
 	if(bounds.size.width>size.width+3*kMar && bounds.size.height>size.height+3*kMar)
 		{
 		NSBezierPath * shape;
@@ -257,43 +246,25 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		[shape stroke];
 
 		shape = [NSBezierPath bezierPath];
-		[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width/3, (bounds.size.height-size.height)/1.8+size.height/2)];
-		[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height/2+size.height*0.3)];
-		[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height/2-size.height*0.3)];
+
+		if(play)
+			{
+			[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width/3, (bounds.size.height-size.height)/1.8+size.height/2)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.8)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.2)];
+			}
+		else
+			{
+			[shape moveToPoint:NSMakePoint(bounds.size.width/2-size.width*0.13, (bounds.size.height-size.height)/1.8+size.height*0.1)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.03, (bounds.size.height-size.height)/1.8+size.height*0.49)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.21, (bounds.size.height-size.height)/1.8+size.height*0.45)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.09, (bounds.size.height-size.height)/1.8+size.height)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.2, (bounds.size.height-size.height)/1.8+size.height)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.05, (bounds.size.height-size.height)/1.8+size.height*0.61)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width/4, (bounds.size.height-size.height)/1.8+size.height*0.65)];
+			}
+
 		[shape fill];
-		}
-}
-
-- (void)_drawBadgeWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds;
-{
-	const float kPadd = 5;
-	const float kRad = 6;
-	const float kMar = 2;
-
-	NSDictionary * atts;
-	NSString * flash = @"Flash";
-	
-	atts = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSFont systemFontOfSize:18], NSFontAttributeName,
-		[NSNumber numberWithFloat:-1.0], NSKernAttributeName,
-		tint, NSForegroundColorAttributeName,
-	nil];
-	NSSize size = [flash sizeWithAttributes:atts];
-		
-	if(bounds.size.width>size.width+2*kPadd+3*kMar && bounds.size.height>size.height+4*kMar)
-		{
-		NSBezierPath * shape;
-		
-		shape = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect((bounds.size.width-size.width)/2-kPadd-kMar, (bounds.size.height-size.height-kMar)/1.8-kMar, size.width+2*kPadd+2*kMar, size.height+3*kMar) xRadius:kRad+kMar yRadius:kRad+kMar];
-		[halo set];
-		[shape fill];
-		
-		[tint set];
-		shape = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect((bounds.size.width-size.width)/2-kPadd, (bounds.size.height-size.height-kMar)/1.8, size.width+2*kPadd, size.height+kMar) xRadius:kRad yRadius:kRad];
-		[shape setLineWidth:2];
-		[shape stroke];
-
-		[flash drawAtPoint:NSMakePoint((bounds.size.width-size.width)/2 , (bounds.size.height-size.height)/1.8) withAttributes:atts];
 		}
 }
 

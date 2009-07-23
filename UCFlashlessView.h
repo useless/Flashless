@@ -33,8 +33,7 @@
 
 - (id)initWithArguments:(NSDictionary *)arguments;
 
-- (void)_drawPlayWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds;
-- (void)_drawBadgeWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds;
+- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play;
 
 - (void)_convertTypesForContainer;
 - (void)_convertTypesForElement:(DOMElement *)element;
