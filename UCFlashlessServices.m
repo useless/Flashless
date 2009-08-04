@@ -265,7 +265,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 	NSURL * originalURL = nil;
 	NSString * domain = [self domainForSrc:src];
 	
-	if([domain isEqualToString:@"ytimg.com"])
+	if([domain isEqualToString:@"youtube.com"])
 		{
 		originalURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@",
 			[flashVars objectForKey:sVideoIDKey]

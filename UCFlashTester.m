@@ -21,8 +21,7 @@
 		nil]];
 */	[flashView initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
 		[NSDictionary dictionaryWithObjectsAndKeys:
-			@"http://www.flickr.com/apps/video/stewart.swf?v=1.161", @"src",
-			@"photo_id=3704704282&amp;flickr_show_info_box=true", @"flashvars",
+			@"http://www.youtube.com/v/0ciPntuvX0c&hl=en&fs=1&rel=0&hd=1", @"src",
 			nil], WebPlugInAttributesKey,
 		[NSURL URLWithString:@"http://www.fscklog.com/"], WebPlugInBaseURLKey,
 		nil]];

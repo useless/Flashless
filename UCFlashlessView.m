@@ -361,10 +361,10 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 - (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes
 {
 	NSString * flashVars = [attributes objectForKey:@"flashvars"];
-	if(flashVars==nil) { return nil; }
+
 	NSArray * args = [flashVars componentsSeparatedByString:@"&"];
 	NSUInteger count = [args count];
-	NSMutableDictionary * vars = [NSMutableDictionary dictionaryWithCapacity:count];
+	NSMutableDictionary * vars = [NSMutableDictionary dictionaryWithCapacity:count+1];
 	
 	NSUInteger i;
 	NSString * arg;
@@ -459,14 +459,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 {
 	if(_originalURL)
 		{
-		if([_container respondsToSelector:@selector(webPlugInContainerLoadRequest:inFrame:)])
-			{
-			[_container webPlugInContainerLoadRequest:[NSURLRequest requestWithURL:_originalURL] inFrame:nil];
-			}
-		else
-			{
-			[[NSWorkspace sharedWorkspace] openURL:_originalURL];
-			}
+		[[NSWorkspace sharedWorkspace] openURL:_originalURL];
 		}
 }
 
