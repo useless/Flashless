@@ -37,6 +37,7 @@
 
 - (void)_convertTypesForContainer;
 - (void)_convertTypesForElement:(DOMElement *)element;
+- (void)_removeFromContainer;
 
 - (NSString *)_domainForSrc:(NSURL *)src;
 - (NSString *)_labelForDomain:(NSString *)domain;

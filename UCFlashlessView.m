@@ -126,6 +126,13 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		return;
 		}
 	
+	// if blacklisted
+	if(NO)
+		{
+		[self _removeFromContainer];
+		return;
+		}
+	
 	[self setMenu:[self _prepareMenu]];
 	_previewURL = [[self _previewURLForSrc:_src andFlashVars:_flashVars] retain];
 	_downloadURL = [[self _downloadURLForSrc:_src andFlashVars:_flashVars] retain];
@@ -169,7 +176,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 	else
 		{
 		tint = [NSColor whiteColor];
-		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.2];
+		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.25];
 		[[NSColor colorWithCalibratedWhite:1.0 alpha:0.25] set];
 		[shape fill];
 		}
@@ -184,6 +191,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		atts = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont systemFontOfSize:16], NSFontAttributeName,
 			[NSNumber numberWithFloat:17], NSStrokeWidthAttributeName,
+			[NSNumber numberWithFloat:-0.5], NSKernAttributeName,
 			halo, NSStrokeColorAttributeName,
 			halo, NSForegroundColorAttributeName,
 		nil];
@@ -202,6 +210,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 
 		atts = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont systemFontOfSize:16], NSFontAttributeName,
+			[NSNumber numberWithFloat:-0.5], NSKernAttributeName,
 			tint, NSForegroundColorAttributeName,
 		nil];
 		if(_siteLabel!=nil)
@@ -304,6 +313,16 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 	[[self retain] autorelease];
 	
 	[_element.parentNode replaceChild:newElement oldChild:_element];
+	
+	[_element release];
+	_element = nil;
+}
+
+- (void)_removeFromContainer
+{	
+	[[self retain] autorelease];
+	
+	[_element.parentNode removeChild:_element];
 	
 	[_element release];
 	_element = nil;
@@ -580,17 +599,21 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 {
 	NSMenu * menu = [[NSMenu alloc] init];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show Flash", nil, _myBundle, @"Show Menu Title") action:@selector(loadFlash:) keyEquivalent:@""];
-	if([_src host]!=nil)
+//	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Open Original", nil, _myBundle, @"Original Menu Title") action:@selector(openOriginal:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Download Video", nil, _myBundle, @"Download Menu Title") action:@selector(download:) keyEquivalent:@""];
+	[menu addItem:[NSMenuItem separatorItem]];
+/*	if([_src host]!=nil)
 		{
 		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Always Show from '%@'", nil, _myBundle, @"Whitelist Menu Title"), [_src host]] action:@selector(whitelistFlash:) keyEquivalent:@""];
+		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Never Show from '%@'...", nil, _myBundle, @"Blacklist Menu Title"), [_src host]] action:@selector(whitelistFlash:) keyEquivalent:@""];
 		}
 	else
 		{
 		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Always Show", nil, _myBundle, @"Nil Whitelist Menu Title")] action:NULL keyEquivalent:@""];		
+		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Never Show...", nil, _myBundle, @"Nil Blacklist Menu Title")] action:NULL keyEquivalent:@""];		
 		}
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Download Video", nil, _myBundle, @"Download Menu Title") action:@selector(download:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
+*/	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Source URL", nil, _myBundle, @"Copy Source Menu Title") action:@selector(copySource:) keyEquivalent:@""];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Preview URL", nil, _myBundle, @"Copy Preview Menu Title") action:@selector(copyPreview:) keyEquivalent:@""];
@@ -650,12 +673,7 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 
 - (void)remove:(id)sender
 {
-	[[self retain] autorelease];
-	
-	[_element.parentNode removeChild:_element];
-	
-	[_element release];
-	_element = nil;
+	[self _removeFromContainer];
 }
 
 - (void)copySource:(id)sender
