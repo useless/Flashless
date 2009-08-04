@@ -19,6 +19,8 @@
 		BF344D360FF141FB003F125D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF344D350FF141FB003F125D /* MainMenu.xib */; };
 		BF344D420FF14255003F125D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF344D410FF14255003F125D /* Localizable.strings */; };
 		BF344D430FF14255003F125D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF344D410FF14255003F125D /* Localizable.strings */; };
+		D096D10F1028946100A47EE6 /* UCFlashlessServices.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessServices.m */; };
+		D096D1101028946100A47EE6 /* UCFlashlessServices.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessServices.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		BF344CE60FF13D0D003F125D /* UCFlashTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashTester.m; sourceTree = "<group>"; };
 		BF344D440FF14261003F125D /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF344D450FF14269003F125D /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D096D10D1028946100A47EE6 /* UCFlashlessServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessServices.h; sourceTree = "<group>"; };
+		D096D10E1028946100A47EE6 /* UCFlashlessServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessServices.m; sourceTree = "<group>"; };
 		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -108,6 +112,8 @@
 		32DBCF9E0370C38000C91783 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D096D10D1028946100A47EE6 /* UCFlashlessServices.h */,
+				D096D10E1028946100A47EE6 /* UCFlashlessServices.m */,
 				BF344CE40FF13D0D003F125D /* UCFlashTester.h */,
 				BF344CE60FF13D0D003F125D /* UCFlashTester.m */,
 				0259C57AFE90428111CA0C5A /* UCFlashlessView.h */,
@@ -208,6 +214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D1AC96B0486D14A00FE50C9 /* UCFlashlessView.m in Sources */,
+				D096D10F1028946100A47EE6 /* UCFlashlessServices.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +225,7 @@
 				BF344CE70FF13D0D003F125D /* main.m in Sources */,
 				BF344CEA0FF13D0D003F125D /* UCFlashTester.m in Sources */,
 				BF344D1B0FF14093003F125D /* UCFlashlessView.m in Sources */,
+				D096D1101028946100A47EE6 /* UCFlashlessServices.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,14 +320,14 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = PLUGIN_DEBUG;
-				PRODUCT_VERSION = 1.3;
+				PRODUCT_VERSION = 1.4b;
 			};
 			name = Debug;
 		};
 		C027D11B08A954E7001699E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_VERSION = 1.3;
+				PRODUCT_VERSION = 1.4b;
 			};
 			name = Release;
 		};

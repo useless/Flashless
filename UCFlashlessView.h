@@ -8,17 +8,24 @@
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
+#import "UCFlashlessServices.h"
 
 
 @interface UCFlashlessView : NSView <WebPlugInViewFactory>
 {
 	DOMElement * _element;
 	NSObject * _container;
+
+	UCFlashlessServices * _services;
+
+	NSURL * _src;
 	NSMutableDictionary * _flashVars;
+	NSString * _siteLabel;
+
 	NSURL * _previewURL;
 	NSURL * _downloadURL;
-	NSString * _siteLabel;
-	NSURL * _src;
+	NSURL * _originalURL;
+
 	NSImage * _previewImage;
 	
 	NSBundle * _myBundle;
@@ -39,18 +46,20 @@
 - (void)_convertTypesForElement:(DOMElement *)element;
 - (void)_removeFromContainer;
 
-- (NSString *)_domainForSrc:(NSURL *)src;
-- (NSString *)_labelForDomain:(NSString *)domain;
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL;
 - (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes;
-- (NSURL *)_previewURLForSrc:(NSURL *)src andFlashVars:(NSMutableDictionary *)flashVars;
-- (NSURL *)_downloadURLForSrc:(NSURL *)src andFlashVars:(NSMutableDictionary *)flashVars;
+
+- (BOOL)_isWhitelisted;
+- (BOOL)_isBlacklisted;
 
 - (NSMenu *)_prepareMenu;
 - (void)_writeToPasteboard:(NSURL *)url;
 
 - (void)loadFlash:(id)sender;
+- (void)openOriginal:(id)sender;
 - (void)download:(id)sender;
+- (void)whitelistFlash:(id)sender;
+- (void)blacklistFlash:(id)sender;
 - (void)remove:(id)sender;
 - (void)copySource:(id)sender;
 - (void)copyPreview:(id)sender;
