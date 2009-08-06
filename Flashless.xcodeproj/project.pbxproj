@@ -19,6 +19,8 @@
 		BF344D360FF141FB003F125D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF344D350FF141FB003F125D /* MainMenu.xib */; };
 		BF344D420FF14255003F125D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF344D410FF14255003F125D /* Localizable.strings */; };
 		BF344D430FF14255003F125D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF344D410FF14255003F125D /* Localizable.strings */; };
+		D03EDEE7102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
+		D03EDEE8102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
 		D096D10F1028946100A47EE6 /* UCFlashlessServices.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessServices.m */; };
 		D096D1101028946100A47EE6 /* UCFlashlessServices.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessServices.m */; };
 /* End PBXBuildFile section */
@@ -40,6 +42,8 @@
 		BF344CE60FF13D0D003F125D /* UCFlashTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashTester.m; sourceTree = "<group>"; };
 		BF344D440FF14261003F125D /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF344D450FF14269003F125D /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCBlackwhitelist.h; sourceTree = "<group>"; };
+		D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCBlackwhitelist.m; sourceTree = "<group>"; };
 		D096D10D1028946100A47EE6 /* UCFlashlessServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessServices.h; sourceTree = "<group>"; };
 		D096D10E1028946100A47EE6 /* UCFlashlessServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessServices.m; sourceTree = "<group>"; };
 		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -112,6 +116,8 @@
 		32DBCF9E0370C38000C91783 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */,
+				D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */,
 				D096D10D1028946100A47EE6 /* UCFlashlessServices.h */,
 				D096D10E1028946100A47EE6 /* UCFlashlessServices.m */,
 				BF344CE40FF13D0D003F125D /* UCFlashTester.h */,
@@ -215,6 +221,7 @@
 			files = (
 				8D1AC96B0486D14A00FE50C9 /* UCFlashlessView.m in Sources */,
 				D096D10F1028946100A47EE6 /* UCFlashlessServices.m in Sources */,
+				D03EDEE8102B0B19001AD28D /* UCBlackwhitelist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +233,7 @@
 				BF344CEA0FF13D0D003F125D /* UCFlashTester.m in Sources */,
 				BF344D1B0FF14093003F125D /* UCFlashlessView.m in Sources */,
 				D096D1101028946100A47EE6 /* UCFlashlessServices.m in Sources */,
+				D03EDEE7102B0B19001AD28D /* UCBlackwhitelist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 #import "UCFlashlessServices.h"
+#import "UCBlackwhitelist.h"
 
 
 @interface UCFlashlessView : NSView <WebPlugInViewFactory>
@@ -17,6 +18,7 @@
 	NSObject * _container;
 
 	UCFlashlessServices * _services;
+	UCBlackwhitelist * _blackwhitelist;
 
 	NSURL * _src;
 	NSMutableDictionary * _flashVars;
@@ -48,9 +50,6 @@
 
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL;
 - (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes;
-
-- (BOOL)_isWhitelisted;
-- (BOOL)_isBlacklisted;
 
 - (NSMenu *)_prepareMenu;
 - (void)_writeToPasteboard:(NSURL *)url;

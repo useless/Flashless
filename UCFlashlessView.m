@@ -51,6 +51,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	[_container release];
 	[_element release];
 
+	[_blackwhitelist release];
 	[_services release];
 
 	[_flashVars release];
@@ -119,17 +120,19 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)webPlugInInitialize
 {
+	_blackwhitelist = [[UCBlackwhitelist alloc] initWithBundleIdentifier:[_myBundle bundleIdentifier]];
+
 	// if whitelisted show directly
-	if([self _isWhitelisted])
+	if([_blackwhitelist isWhiteHost:[_src host]])
 		{
 		[self _convertTypesForContainer];
 		return;
 		}
 	
-	// if blacklisted remove from container
-	if([self _isBlacklisted])
+	// if blacklisted remove from container after delay
+	if([_blackwhitelist isBlackHost:[_src host]])
 		{
-		[self _removeFromContainer];
+		[self performSelector:@selector(_removeFromContainer) withObject:nil afterDelay:0];
 		return;
 		}
 
@@ -382,18 +385,6 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	return vars;
 }
 
-#pragma mark White-/Blacklisting
-
-- (BOOL)_isWhitelisted
-{
-	return NO;
-}
-
-- (BOOL)_isBlacklisted
-{
-	return NO;
-}
-
 - (NSMenu *)_prepareMenu
 {
 	NSMenu * menu = [[NSMenu alloc] init];
@@ -480,12 +471,13 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)whitelistFlash:(id)sender
 {
+	[_blackwhitelist whitelistHost:[_src host]];
 	[self _convertTypesForContainer];
 }
 
 - (void)blacklistFlash:(id)sender
 {
-	// Confirmation!
+	[_blackwhitelist blacklistHost:[_src host]];
 	[self _removeFromContainer];
 }
 
