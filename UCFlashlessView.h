@@ -18,7 +18,6 @@
 	NSObject * _container;
 
 	UCFlashlessServices * _services;
-	UCBlackwhitelist * _blackwhitelist;
 
 	NSURL * _src;
 	NSMutableDictionary * _flashVars;
@@ -64,6 +63,8 @@
 - (void)copyPreview:(id)sender;
 - (void)copyDownload:(id)sender;
 - (void)showAbout:(id)sender;
+
+- (void)confirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection;

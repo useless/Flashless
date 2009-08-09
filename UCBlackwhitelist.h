@@ -18,6 +18,8 @@
 	NSMutableArray * whitelist;
 }
 
++ (UCBlackwhitelist *)sharedBlackwhitelist;
+
 - (id)initWithBundleIdentifier:(NSString *)newBundleIdentifier;
 
 - (void)setBundleIdentifier:(NSString *)newBundleIdentifier;

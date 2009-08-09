@@ -8,14 +8,26 @@
 
 #import "UCBlackwhitelist.h"
 
+static UCBlackwhitelist * sharedInstance = nil;
 
 @implementation UCBlackwhitelist
+
++ (UCBlackwhitelist *)sharedBlackwhitelist
+{
+	if(sharedInstance==nil)
+		{
+		sharedInstance = [[self alloc] initWithBundleIdentifier:[[NSBundle bundleForClass:self] bundleIdentifier]];
+		}
+
+	return sharedInstance;
+}
 
 - (id) init
 {
 	self = [super init];
 	if (self!=nil)
 		{
+		NSLog(@"UCBlackwhitelist inited.");
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(blackwhitelistDidChange:) name:@"UCBlackwhitelistDidChange" object:self];
 		}
 	return self;
@@ -34,6 +46,9 @@
 
 - (void) dealloc
 {
+	NSLog(@"UCBlackwhitelist freed.");
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
 	[bundleIdentifier release];
 	[blacklist release];
 	[whitelist release];
@@ -79,6 +94,7 @@
 
 - (void)blackwhitelistDidChange:(NSNotification *)notification
 {
+	NSLog(@"Write Prefs (%@).", bundleIdentifier);
 	[[NSUserDefaults standardUserDefaults] setPersistentDomain:defaultsDict forName:bundleIdentifier];
 }
 

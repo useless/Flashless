@@ -51,7 +51,6 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	[_container release];
 	[_element release];
 
-	[_blackwhitelist release];
 	[_services release];
 
 	[_flashVars release];
@@ -120,17 +119,15 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)webPlugInInitialize
 {
-	_blackwhitelist = [[UCBlackwhitelist alloc] initWithBundleIdentifier:[_myBundle bundleIdentifier]];
-
 	// if whitelisted show directly
-	if([_blackwhitelist isWhiteHost:[_src host]])
+	if([[UCBlackwhitelist sharedBlackwhitelist] isWhiteHost:[_src host]])
 		{
 		[self _convertTypesForContainer];
 		return;
 		}
 	
 	// if blacklisted remove from container after delay
-	if([_blackwhitelist isBlackHost:[_src host]])
+	if([[UCBlackwhitelist sharedBlackwhitelist] isBlackHost:[_src host]])
 		{
 		[self performSelector:@selector(_removeFromContainer) withObject:nil afterDelay:0];
 		return;
@@ -392,7 +389,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Open Original", nil, _myBundle, @"Original Menu Title") action:@selector(openOriginal:) keyEquivalent:@""];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Download Video", nil, _myBundle, @"Download Menu Title") action:@selector(download:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
-/*	if([_src host]!=nil)
+	if([_src host]!=nil)
 		{
 		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Always Show from '%@'", nil, _myBundle, @"Whitelist Menu Title"), [_src host]] action:@selector(whitelistFlash:) keyEquivalent:@""];
 		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Never Show from '%@'...", nil, _myBundle, @"Blacklist Menu Title"), [_src host]] action:@selector(blacklistFlash:) keyEquivalent:@""];
@@ -403,7 +400,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Never Show...", nil, _myBundle, @"Nil Blacklist Menu Title")] action:NULL keyEquivalent:@""];		
 		}
 	[menu addItem:[NSMenuItem separatorItem]];
-*/	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Source URL", nil, _myBundle, @"Copy Source Menu Title") action:@selector(copySource:) keyEquivalent:@""];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Preview URL", nil, _myBundle, @"Copy Preview Menu Title") action:@selector(copyPreview:) keyEquivalent:@""];
@@ -471,14 +468,20 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)whitelistFlash:(id)sender
 {
-	[_blackwhitelist whitelistHost:[_src host]];
+	[[UCBlackwhitelist sharedBlackwhitelist] whitelistHost:[_src host]];
 	[self _convertTypesForContainer];
 }
 
 - (void)blacklistFlash:(id)sender
 {
-	[_blackwhitelist blacklistHost:[_src host]];
-	[self _removeFromContainer];
+	NSAlert * confirm = [[NSAlert alloc] init];
+	[confirm setMessageText:NSLocalizedStringFromTableInBundle(@"Remove all?", nil, _myBundle, @"Blacklist Confirm Question")];
+	[confirm setInformativeText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Remove from '%@'", nil, _myBundle, @"Blacklist Confirm Info"), [_src host]]];
+	[confirm addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Blacklist Confirm Button")];
+	[confirm addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", nil, _myBundle, @"Blacklist Confirm Cancel")];
+
+	[confirm beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:@selector(confirmDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+	[confirm release];
 }
 
 - (void)remove:(id)sender
@@ -514,6 +517,17 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 		]];
 	[about runModal];
 	[about release];
+}
+
+#pragma mark -
+
+- (void)confirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	if(returnCode==NSAlertFirstButtonReturn)
+		{
+		[[UCBlackwhitelist sharedBlackwhitelist] blacklistHost:[_src host]];
+		[self _removeFromContainer];
+		}
 }
 
 #pragma mark -
