@@ -59,12 +59,17 @@
 - (void)whitelistFlash:(id)sender;
 - (void)blacklistFlash:(id)sender;
 - (void)remove:(id)sender;
+- (void)showAll:(id)sender;
+- (void)removeAll:(id)sender;
 - (void)copySource:(id)sender;
 - (void)copyPreview:(id)sender;
 - (void)copyDownload:(id)sender;
 - (void)showAbout:(id)sender;
 
-- (void)confirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)allShouldRemove:(NSNotification *)notification;
+- (void)allShouldShow:(NSNotification *)notification;
+
+- (void) blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection;

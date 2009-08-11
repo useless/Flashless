@@ -134,6 +134,8 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 		}
 
 	[self setMenu:[self _prepareMenu]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldRemove:) name:@"UCFlashlessAllShouldRemove" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldShow:) name:@"UCFlashlessAllShouldShow" object:nil];
 
 	_services = [[UCFlashlessServices alloc] init];
 
@@ -153,6 +155,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)webPlugInDestroy
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[_previewConnection cancel];
 }
 
@@ -389,18 +392,22 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Open Original", nil, _myBundle, @"Original Menu Title") action:@selector(openOriginal:) keyEquivalent:@""];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Download Video", nil, _myBundle, @"Download Menu Title") action:@selector(download:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
+	[menu addItem:[NSMenuItem separatorItem]];
+	NSMenuItem * allItem = [menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"All From", nil, _myBundle, @"Blackwhitelist Submenu Title") action:NULL keyEquivalent:@""];
 	if([_src host]!=nil)
 		{
-		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Always Show from '%@'", nil, _myBundle, @"Whitelist Menu Title"), [_src host]] action:@selector(whitelistFlash:) keyEquivalent:@""];
-		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Never Show from '%@'...", nil, _myBundle, @"Blacklist Menu Title"), [_src host]] action:@selector(blacklistFlash:) keyEquivalent:@""];
+		NSMenu * smenu = [[NSMenu alloc] initWithTitle:@"All"];
+		[smenu addItemWithTitle:[_src host] action:NULL keyEquivalent:@""];
+		[smenu addItem:[NSMenuItem separatorItem]];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show All", nil, _myBundle, @"Show All Menu Title") action:@selector(showAll:) keyEquivalent:@""];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove All", nil, _myBundle, @"Remove All Menu Title") action:@selector(removeAll:) keyEquivalent:@""];
+		[smenu addItem:[NSMenuItem separatorItem]];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Always Show", nil, _myBundle, @"Whitelist Menu Title") action:@selector(whitelistFlash:) keyEquivalent:@""];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Never Show...", nil, _myBundle, @"Blacklist Menu Title") action:@selector(blacklistFlash:) keyEquivalent:@""];
+		[menu setSubmenu:smenu forItem:allItem];
+		[smenu release];
 		}
-	else
-		{
-		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Always Show", nil, _myBundle, @"Nil Whitelist Menu Title")] action:NULL keyEquivalent:@""];		
-		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Never Show...", nil, _myBundle, @"Nil Blacklist Menu Title")] action:NULL keyEquivalent:@""];		
-		}
-	[menu addItem:[NSMenuItem separatorItem]];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Source URL", nil, _myBundle, @"Copy Source Menu Title") action:@selector(copySource:) keyEquivalent:@""];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Preview URL", nil, _myBundle, @"Copy Preview Menu Title") action:@selector(copyPreview:) keyEquivalent:@""];
@@ -469,24 +476,35 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 - (void)whitelistFlash:(id)sender
 {
 	[[UCBlackwhitelist sharedBlackwhitelist] whitelistHost:[_src host]];
-	[self _convertTypesForContainer];
+	[self showAll:self];
 }
 
 - (void)blacklistFlash:(id)sender
 {
-	NSAlert * confirm = [[NSAlert alloc] init];
-	[confirm setMessageText:NSLocalizedStringFromTableInBundle(@"Remove all?", nil, _myBundle, @"Blacklist Confirm Question")];
-	[confirm setInformativeText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Remove from '%@'", nil, _myBundle, @"Blacklist Confirm Info"), [_src host]]];
-	[confirm addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Blacklist Confirm Button")];
-	[confirm addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", nil, _myBundle, @"Blacklist Confirm Cancel")];
-
-	[confirm beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:@selector(confirmDidEnd:returnCode:contextInfo:) contextInfo:NULL];
-	[confirm release];
+	NSAlert * alert = [[NSAlert alloc] init];
+	[alert setMessageText:NSLocalizedStringFromTableInBundle(@"Never show Flash from this site?", nil, _myBundle, @"Blacklist Confirmation Question")];
+	[alert setInformativeText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"All Flash from '%@' will be removed when loading a site.", nil, _myBundle, @"Blacklist Explanation"), [_src host]]];
+	[alert addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Never Show", nil, _myBundle, @"Blacklist Confirmation Button")];
+	[alert addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", nil, _myBundle, @"Blacklist Cancel Button")];
+	// FIXME: Crashes on endSelector
+	// if we got removed by an remove all notification
+	[alert beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:@selector(blacklistConfirmDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	[alert autorelease];
 }
 
 - (void)remove:(id)sender
 {
 	[self _removeFromContainer];
+}
+
+- (void)showAll:(id)sender
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"UCFlashlessAllShouldShow" object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:@"UCFlashlessHost"]];
+}
+
+- (void)removeAll:(id)sender
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"UCFlashlessAllShouldRemove" object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:@"UCFlashlessHost"]];
 }
 
 - (void)copySource:(id)sender
@@ -521,16 +539,36 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 #pragma mark -
 
-- (void)confirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)allShouldShow:(NSNotification *)notification
 {
-	if(returnCode==NSAlertFirstButtonReturn)
+	NSString * host = [[notification userInfo] objectForKey:@"UCFlashlessHost"];
+	if([host isEqualToString:[_src host]])
 		{
-		[[UCBlackwhitelist sharedBlackwhitelist] blacklistHost:[_src host]];
-		[self _removeFromContainer];
+		[self _convertTypesForContainer];
+		}
+}
+
+- (void)allShouldRemove:(NSNotification *)notification
+{
+	NSString * host = [[notification userInfo] objectForKey:@"UCFlashlessHost"];
+	if([host isEqualToString:[_src host]])
+		{
+		[self performSelector:@selector(_removeFromContainer) withObject:nil afterDelay:0];
 		}
 }
 
 #pragma mark -
+
+- (void) blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+{
+	[[alert window] orderOut:self];
+
+	if(returnCode==NSAlertFirstButtonReturn)
+		{
+		[[UCBlackwhitelist sharedBlackwhitelist] blacklistHost:[_src host]];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"UCFlashlessAllShouldRemove" object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:@"UCFlashlessHost"]];
+		}
+}
 
 - (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
 {
