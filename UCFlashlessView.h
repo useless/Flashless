@@ -8,16 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
-#import "UCFlashlessServices.h"
-#import "UCBlackwhitelist.h"
 
 
 @interface UCFlashlessView : NSView <WebPlugInViewFactory>
 {
 	DOMElement * _element;
 	NSObject * _container;
-
-	UCFlashlessServices * _services;
 
 	NSURL * _src;
 	NSMutableDictionary * _flashVars;

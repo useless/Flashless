@@ -7,9 +7,16 @@
 //
 
 #import "UCFlashlessView.h"
+#import "UCBlackwhitelist.h"
+#import "UCFlashlessServices.h"
 
 static NSString * sFlashOldMIMEType = @"application/x-shockwave-flash";
 static NSString * sFlashNewMIMEType = @"application/futuresplash";
+
+static NSString * sShowAllNotification = @"UCFlashlessAllShouldShow";
+static NSString * sRemoveAllNotification = @"UCFlashlessAllShouldRemove";
+
+static NSString * sHostKey = @"UCFlashlessHost";
 
 @implementation UCFlashlessView
 
@@ -37,7 +44,6 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 		
 		_src = [[self _srcFromAttributes:attributes withBaseURL:[newArguments objectForKey:WebPlugInBaseURLKey]] copy];
 		_flashVars = [[self _flashVarsFromAttributes:attributes] retain];
-		[self setToolTip:[_src absoluteString]];
 		
 		_mouseDown=NO;
 		_mouseInside=NO;
@@ -50,8 +56,6 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 {
 	[_container release];
 	[_element release];
-
-	[_services release];
 
 	[_flashVars release];
 	[_previewURL release];
@@ -134,16 +138,18 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 		}
 
 	[self setMenu:[self _prepareMenu]];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldRemove:) name:@"UCFlashlessAllShouldRemove" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldShow:) name:@"UCFlashlessAllShouldShow" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldRemove:) name:sRemoveAllNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldShow:) name:sShowAllNotification object:nil];
 
-	_services = [[UCFlashlessServices alloc] init];
+	UCFlashlessServices * services = [[UCFlashlessServices alloc] init];
 
-	_siteLabel = [[_services labelForSrc:_src] retain];
+	_siteLabel = [[services labelForSrc:_src] retain];
 
-	_previewURL = [[_services previewURLForSrc:_src andFlashVars:_flashVars] retain];
-	_downloadURL = [[_services downloadURLForSrc:_src andFlashVars:_flashVars] retain];
-	_originalURL = [[_services originalURLForSrc:_src andFlashVars:_flashVars] retain];
+	_previewURL = [[services previewURLForSrc:_src andFlashVars:_flashVars] retain];
+	_downloadURL = [[services downloadURLForSrc:_src andFlashVars:_flashVars] retain];
+	_originalURL = [[services originalURLForSrc:_src andFlashVars:_flashVars] retain];
+
+	[services release];
 	
 	if(_previewURL)
 		{
@@ -414,7 +420,6 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Download URL", nil, _myBundle, @"Copy Download Menu Title") action:@selector(copyDownload:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"About Flashless", nil, _myBundle, @"About Menu Title") action:@selector(showAbout:) keyEquivalent:@""];
-//	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Settings...", nil, _myBundle, @"Settings Menu Title") action:@selector(showSettings:) keyEquivalent:@""];
 	return [menu autorelease];
 }
 
@@ -499,12 +504,12 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)showAll:(id)sender
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"UCFlashlessAllShouldShow" object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:@"UCFlashlessHost"]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:sShowAllNotification object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:sHostKey]];
 }
 
 - (void)removeAll:(id)sender
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"UCFlashlessAllShouldRemove" object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:@"UCFlashlessHost"]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:sRemoveAllNotification object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:sHostKey]];
 }
 
 - (void)copySource:(id)sender
@@ -541,7 +546,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)allShouldShow:(NSNotification *)notification
 {
-	NSString * host = [[notification userInfo] objectForKey:@"UCFlashlessHost"];
+	NSString * host = [[notification userInfo] objectForKey:sHostKey];
 	if([host isEqualToString:[_src host]])
 		{
 		[self _convertTypesForContainer];
@@ -550,7 +555,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)allShouldRemove:(NSNotification *)notification
 {
-	NSString * host = [[notification userInfo] objectForKey:@"UCFlashlessHost"];
+	NSString * host = [[notification userInfo] objectForKey:sHostKey];
 	if([host isEqualToString:[_src host]])
 		{
 		[self performSelector:@selector(_removeFromContainer) withObject:nil afterDelay:0];
@@ -566,7 +571,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	if(returnCode==NSAlertFirstButtonReturn)
 		{
 		[[UCBlackwhitelist sharedBlackwhitelist] blacklistHost:[_src host]];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"UCFlashlessAllShouldRemove" object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:@"UCFlashlessHost"]];
+		[[NSNotificationCenter defaultCenter] postNotificationName:sRemoveAllNotification object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:sHostKey]];
 		}
 }
 
