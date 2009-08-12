@@ -16,6 +16,7 @@
 	NSMutableDictionary * defaultsDict;
 	NSMutableArray * blacklist;
 	NSMutableArray * whitelist;
+	BOOL isPersistent;
 }
 
 + (UCBlackwhitelist *)sharedBlackwhitelist;

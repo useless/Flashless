@@ -394,17 +394,17 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
-	NSMenuItem * allItem = [menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"All From", nil, _myBundle, @"Blackwhitelist Submenu Title") action:NULL keyEquivalent:@""];
+	NSMenuItem * allItem = [menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Source", nil, _myBundle, @"Blackwhitelist Submenu Title") action:NULL keyEquivalent:@""];
 	if([_src host]!=nil)
 		{
-		NSMenu * smenu = [[NSMenu alloc] initWithTitle:@"All"];
+		NSMenu * smenu = [[NSMenu alloc] initWithTitle:@"Source"];
 		[smenu addItemWithTitle:[_src host] action:NULL keyEquivalent:@""];
 		[smenu addItem:[NSMenuItem separatorItem]];
 		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show All", nil, _myBundle, @"Show All Menu Title") action:@selector(showAll:) keyEquivalent:@""];
 		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove All", nil, _myBundle, @"Remove All Menu Title") action:@selector(removeAll:) keyEquivalent:@""];
 		[smenu addItem:[NSMenuItem separatorItem]];
-		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Always Show", nil, _myBundle, @"Whitelist Menu Title") action:@selector(whitelistFlash:) keyEquivalent:@""];
-		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Never Show...", nil, _myBundle, @"Blacklist Menu Title") action:@selector(blacklistFlash:) keyEquivalent:@""];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Also Show Subsequent", nil, _myBundle, @"Whitelist Menu Title") action:@selector(whitelistFlash:) keyEquivalent:@""];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Also Remove Subsequent...", nil, _myBundle, @"Blacklist Menu Title") action:@selector(blacklistFlash:) keyEquivalent:@""];
 		[menu setSubmenu:smenu forItem:allItem];
 		[smenu release];
 		}
@@ -482,8 +482,8 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 - (void)blacklistFlash:(id)sender
 {
 	NSAlert * alert = [[NSAlert alloc] init];
-	[alert setMessageText:NSLocalizedStringFromTableInBundle(@"Never show Flash from this site?", nil, _myBundle, @"Blacklist Confirmation Question")];
-	[alert setInformativeText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"All Flash from '%@' will be removed when loading a site.", nil, _myBundle, @"Blacklist Explanation"), [_src host]]];
+	[alert setMessageText:NSLocalizedStringFromTableInBundle(@"Never show Flash from this source?", nil, _myBundle, @"Blacklist Confirmation Question")];
+	[alert setInformativeText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"All Flash from '%@' will be removed when loading a site, until you restart %@.", nil, _myBundle, @"Blacklist Explanation"), [_src host], [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey]]];
 	[alert addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Never Show", nil, _myBundle, @"Blacklist Confirmation Button")];
 	[alert addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", nil, _myBundle, @"Blacklist Cancel Button")];
 	// FIXME: Crashes on endSelector

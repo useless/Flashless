@@ -27,7 +27,7 @@ static UCBlackwhitelist * sharedInstance = nil;
 	self = [super init];
 	if (self!=nil)
 		{
-		NSLog(@"UCBlackwhitelist inited.");
+		isPersistent=NO;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(blackwhitelistDidChange:) name:@"UCBlackwhitelistDidChange" object:self];
 		}
 	return self;
@@ -46,7 +46,6 @@ static UCBlackwhitelist * sharedInstance = nil;
 
 - (void) dealloc
 {
-	NSLog(@"UCBlackwhitelist freed.");
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[bundleIdentifier release];
@@ -87,15 +86,20 @@ static UCBlackwhitelist * sharedInstance = nil;
 		{
 		whitelist = [[NSMutableArray alloc] init];
 		}
-	
+
+	isPersistent = [[defaultsDict objectForKey:@"UCIsPersistent"] boolValue];
+
+	[defaultsDict setObject:isPersistent?@"YES":@"NO" forKey:@"UCIsPersistent"];
 	[defaultsDict setObject:blacklist forKey:@"UCBlacklist"];
 	[defaultsDict setObject:whitelist forKey:@"UCWhitelist"];
 }
 
 - (void)blackwhitelistDidChange:(NSNotification *)notification
 {
-	NSLog(@"Write Prefs (%@).", bundleIdentifier);
-	[[NSUserDefaults standardUserDefaults] setPersistentDomain:defaultsDict forName:bundleIdentifier];
+	if(isPersistent)
+		{
+		[[NSUserDefaults standardUserDefaults] setPersistentDomain:defaultsDict forName:bundleIdentifier];
+		}
 }
 
 - (void)blacklistHost:(NSString *)host
@@ -125,7 +129,5 @@ static UCBlackwhitelist * sharedInstance = nil;
 {
 	return [blacklist containsObject:host];
 }
-
-#pragma mark Data Source
 
 @end
