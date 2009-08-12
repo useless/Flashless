@@ -1,7 +1,7 @@
 Flashless
 =========
 
-[Download Flashless 1.3](http://cloud.github.com/downloads/useless/Flashless/Flashless.1.3.zip) (Universal Binary, 27K).
+[Download Flashless 1.4](http://cloud.github.com/downloads/useless/Flashless/Flashless.1.4.zip) (Universal Binary, 37K).
 
 Flashless is a Cocoa WebKit plug-in to display preview images for Flash based video services and block the rest. Requires Mac OS X 10.5 Leopard.
 
@@ -9,8 +9,8 @@ It also permits direct downloading of video files for some services.
 
 Currently supported are:
 
-* **Flickr** (preview) NEW
-* **Google Video** (preview, download) NEW
+* **Flickr** (preview)
+* **Google Video** (preview, download)
 * **Viddler** (preview)
 * **Vimeo** (preview)
 * **XTube** (preview, download)
@@ -18,8 +18,20 @@ Currently supported are:
 
 If direct downloading is supported, an downward arrow will be displayed in the lower left corner. In this case you can choose _Download Video_ from the contextual menu or just click the plug-in area with the alternate key pressed.
 
-Changes in Version 1.3
+Changes in Version 1.4
 ----------------------
+
+* Can open YouTube-Page for a video.
+
+* Allows showing or removing of all flash instances.
+
+* Allows automatic showing or removing from a source for the rest of the session.
+
+
+Version 1.3
+-----------
+
+[Download Flashless 1.3](http://cloud.github.com/downloads/useless/Flashless/Flashless.1.3.zip) (Universal Binary, 29K).
 
 * Uses new icon for unknown flash content.
 
