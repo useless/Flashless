@@ -26,26 +26,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0259C576FE90428111CA0C5A /* UCFlashlessView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessView.m; sourceTree = "<group>"; };
-		0259C57AFE90428111CA0C5A /* UCFlashlessView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UCFlashlessView.h; sourceTree = "<group>"; };
+		0259C576FE90428111CA0C5A /* UCFlashlessView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = UCFlashlessView.m; path = Plugin/UCFlashlessView.m; sourceTree = "<group>"; };
+		0259C57AFE90428111CA0C5A /* UCFlashlessView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UCFlashlessView.h; path = Plugin/UCFlashlessView.h; sourceTree = "<group>"; };
 		224339570A6F05F3000348D4 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
-		32DBCF980370C29C00C91783 /* Flashless_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flashless_Prefix.pch; sourceTree = "<group>"; };
-		8D1AC9730486D14A00FE50C9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		32DBCF980370C29C00C91783 /* Flashless_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flashless_Prefix.pch; path = Plugin/Flashless_Prefix.pch; sourceTree = "<group>"; };
+		8D1AC9730486D14A00FE50C9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plugin/Info.plist; sourceTree = "<group>"; };
 		8D1AC9740486D14A00FE50C9 /* Flashless.webplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Flashless.webplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1AC97B0486D23100FE50C9 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BF344CD10FF13C24003F125D /* FlashTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF344CD30FF13C24003F125D /* FlashTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FlashTest-Info.plist"; sourceTree = "<group>"; };
-		BF344CE20FF13D0D003F125D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BF344CD30FF13C24003F125D /* FlashTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FlashTest-Info.plist"; path = "TestApp/FlashTest-Info.plist"; sourceTree = "<group>"; };
+		BF344CE20FF13D0D003F125D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TestApp/main.m; sourceTree = "<group>"; };
 		BF344CE30FF13D0D003F125D /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		BF344CE40FF13D0D003F125D /* UCFlashTester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashTester.h; sourceTree = "<group>"; };
+		BF344CE40FF13D0D003F125D /* UCFlashTester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCFlashTester.h; path = TestApp/UCFlashTester.h; sourceTree = "<group>"; };
 		BF344CE50FF13D0D003F125D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		BF344CE60FF13D0D003F125D /* UCFlashTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashTester.m; sourceTree = "<group>"; };
+		BF344CE60FF13D0D003F125D /* UCFlashTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCFlashTester.m; path = TestApp/UCFlashTester.m; sourceTree = "<group>"; };
 		BF344D440FF14261003F125D /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF344D450FF14269003F125D /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCBlackwhitelist.h; sourceTree = "<group>"; };
-		D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCBlackwhitelist.m; sourceTree = "<group>"; };
-		D096D10D1028946100A47EE6 /* UCFlashlessServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessServices.h; sourceTree = "<group>"; };
-		D096D10E1028946100A47EE6 /* UCFlashlessServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessServices.m; sourceTree = "<group>"; };
+		D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCBlackwhitelist.h; path = Plugin/UCBlackwhitelist.h; sourceTree = "<group>"; };
+		D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCBlackwhitelist.m; path = Plugin/UCBlackwhitelist.m; sourceTree = "<group>"; };
+		D096D10D1028946100A47EE6 /* UCFlashlessServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCFlashlessServices.h; path = Plugin/UCFlashlessServices.h; sourceTree = "<group>"; };
+		D096D10E1028946100A47EE6 /* UCFlashlessServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCFlashlessServices.m; path = Plugin/UCFlashlessServices.m; sourceTree = "<group>"; };
 		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -247,6 +247,7 @@
 				BF344D450FF14269003F125D /* German */,
 			);
 			name = InfoPlist.strings;
+			path = Plugin;
 			sourceTree = "<group>";
 		};
 		BF344D350FF141FB003F125D /* MainMenu.xib */ = {
@@ -255,6 +256,7 @@
 				BF344CE50FF13D0D003F125D /* English */,
 			);
 			name = MainMenu.xib;
+			path = TestApp;
 			sourceTree = "<group>";
 		};
 		BF344D410FF14255003F125D /* Localizable.strings */ = {
@@ -264,6 +266,7 @@
 				BF344D440FF14261003F125D /* German */,
 			);
 			name = Localizable.strings;
+			path = Plugin;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -281,7 +284,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = TESTAPP;
-				INFOPLIST_FILE = "FlashTest-Info.plist";
+				INFOPLIST_FILE = "TestApp/FlashTest-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -306,7 +309,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = TESTAPP;
-				INFOPLIST_FILE = "FlashTest-Info.plist";
+				INFOPLIST_FILE = "TestApp/FlashTest-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -327,7 +330,9 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = Plugin/Flashless_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = PLUGIN_DEBUG;
+				INFOPLIST_FILE = Plugin/Info.plist;
 				PRODUCT_VERSION = 1.4;
 			};
 			name = Debug;
@@ -335,6 +340,8 @@
 		C027D11B08A954E7001699E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_PREFIX_HEADER = Plugin/Flashless_Prefix.pch;
+				INFOPLIST_FILE = Plugin/Info.plist;
 				PRODUCT_VERSION = 1.4;
 			};
 			name = Release;
