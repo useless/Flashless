@@ -538,7 +538,12 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		[_myBundle objectForInfoDictionaryKey:@"WebPluginDescription"],
 		[_myBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]
 		]];
-	[about runModal];
+	[about addButtonWithTitle:@"OK"];
+	[about addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Product Site...", nil, _myBundle, @"Product Site Button")];
+	if([about runModal]==NSAlertSecondButtonReturn)
+		{
+		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[_myBundle objectForInfoDictionaryKey:@"UCProductSite"]]];
+		}
 	[about release];
 }
 
