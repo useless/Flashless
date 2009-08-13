@@ -138,12 +138,21 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		if(videoID==nil)
 			{
 			NSScanner * scan = [NSScanner scannerWithString:srcString];
-			[scan scanUpToString:@"simple_on_site/" intoString:NULL];
-			if([scan scanString:@"simple_on_site/" intoString:NULL])
+			[scan scanUpToString:@"simple/" intoString:NULL];
+			if([scan scanString:@"simple/" intoString:NULL])
 				{
 				[scan scanUpToString:@"/" intoString:&videoID];
 				}
-			if(videoID==nil) { return nil; }
+			if(videoID==nil)
+				{
+				[scan setScanLocation:0];
+				[scan scanUpToString:@"simple_on_site/" intoString:NULL];
+				if([scan scanString:@"simple_on_site/" intoString:NULL])
+					{
+					[scan scanUpToString:@"/" intoString:&videoID];
+					}
+				if(videoID==nil) { return nil; }
+				}
 			}
 		previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://cdn-thumbs.viddler.com/thumbnail_2_%@.jpg", videoID]];
 		}

@@ -9,6 +9,8 @@ PREVIEW: http://i1.ytimg.com/vi/{ID}/hqdefault.jpg
 
 DOWNLOAD: http://www.youtube.com/get_video?fmt=18&video_id={ID}&t={HASH}
 
+ORIGINAL: http://youtube.com/watch?v={ID}
+
 
 XTube
 FLASHVARS> user_id={USERID}
@@ -44,7 +46,8 @@ blip.tv
 
 
 Viddler
-SRC>	... simple_on_site/{ID}/
+SRC>	... simple/{ID}/
+	... simple_on_site/{ID}/
 
 FLASHVARS> key={ID}
 
