@@ -3,35 +3,67 @@
 //  Flashless
 //
 //  Created by Christoph on 13.06.09.
-//  Copyright Useless Coding 2009. All rights reserved.
-//
+//  Copyright Useless Coding 2009.
+/*
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 
 #import "UCFlashlessView.h"
 #import "UCBlackwhitelist.h"
 #import "UCFlashlessServices.h"
 
-static NSString * sFlashOldMIMEType = @"application/x-shockwave-flash";
-static NSString * sFlashNewMIMEType = @"application/futuresplash";
+#import "PluginView+DOM.m"
 
 static NSString * sShowAllNotification = @"UCFlashlessAllShouldShow";
 static NSString * sRemoveAllNotification = @"UCFlashlessAllShouldRemove";
 
 static NSString * sHostKey = @"UCFlashlessHost";
 
-@implementation UCFlashlessView
+@interface UCFlashlessView (Internal)
 
-// WebPlugInViewFactory protocol
-// The principal class of the plug-in bundle must implement this protocol.
+- (id)_initWithArguments:(NSDictionary *)arguments;
 
-+ (NSView *)plugInViewWithArguments:(NSDictionary *)newArguments
-{
-    return [[[self alloc] initWithArguments:newArguments] autorelease];
-}
+- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play;
 
-- (id)initWithArguments:(NSDictionary *)newArguments
+- (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL;
+- (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes;
+
+- (NSMenu *)_prepareMenu;
+- (void)_writeToPasteboard:(NSURL *)url;
+
+- (void)blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
+
+@end
+
+@implementation UCFlashlessView (Internal)
+
+- (id)_initWithArguments:(NSDictionary *)newArguments
 {
 #ifndef TESTAPP // In Test-App the View gets initialized by the Nib
-	self=[super init];
+	self=[super initWithFrame:NSZeroRect];
 #endif
 
     if(self)
@@ -50,6 +82,174 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
     
     return self;
+}
+
+- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play;
+{
+	const float kMar = 3;
+
+	NSSize size = play?NSMakeSize(48, 48):NSMakeSize(32, 32);
+
+	if(bounds.size.width>size.width+3*kMar && bounds.size.height>size.height+3*kMar)
+		{
+		NSBezierPath * shape;
+
+		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2-kMar, (bounds.size.height-size.height)/1.8-kMar, size.width+2*kMar, size.height+2*kMar)];
+		[halo set];
+		[shape fill];
+
+		[tint set];
+		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2, (bounds.size.height-size.height)/1.8, size.width, size.height)];
+		[shape setLineWidth:3];
+		[shape stroke];
+
+		shape = [NSBezierPath bezierPath];
+
+		if(play)
+			{
+			[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width/3, (bounds.size.height-size.height)/1.8+size.height/2)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.8)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.2)];
+			}
+		else
+			{
+			[shape moveToPoint:NSMakePoint(bounds.size.width/2-size.width*0.13, (bounds.size.height-size.height)/1.8+size.height*0.1)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.03, (bounds.size.height-size.height)/1.8+size.height*0.49)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.21, (bounds.size.height-size.height)/1.8+size.height*0.45)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.09, (bounds.size.height-size.height)/1.8+size.height)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.2, (bounds.size.height-size.height)/1.8+size.height)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.05, (bounds.size.height-size.height)/1.8+size.height*0.61)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width/4, (bounds.size.height-size.height)/1.8+size.height*0.65)];
+			}
+
+		[shape fill];
+		}
+}
+
+- (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL
+{
+	NSString * srcAttribute = [attributes objectForKey:@"src"];
+
+	if(srcAttribute==nil)
+		{
+		srcAttribute = [attributes objectForKey:@"data"];
+		}
+	if(srcAttribute==nil)
+		{
+		srcAttribute = [attributes objectForKey:@"movie"];
+		}
+	if(srcAttribute==nil)
+		{
+		return baseURL;
+		}
+	else
+		{
+		return [NSURL URLWithString:[srcAttribute stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] relativeToURL:baseURL];
+		}
+}
+
+- (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes
+{
+	NSString * flashVars = [attributes objectForKey:@"flashvars"];
+
+	NSArray * args = [flashVars componentsSeparatedByString:@"&"];
+	NSUInteger count = [args count];
+	NSMutableDictionary * vars = [NSMutableDictionary dictionaryWithCapacity:count+1];
+
+	NSUInteger i;
+	NSString * arg;
+	NSRange sep;
+	for(i=0; i<count; i++)
+		{
+		arg = (NSString *)[args objectAtIndex:i];
+		sep=[arg rangeOfString:@"="];
+		if(sep.location != NSNotFound)
+			{
+			[vars setObject:[arg substringFromIndex:NSMaxRange(sep)] forKey:[arg substringToIndex:sep.location]];
+			}
+		}
+
+	return vars;
+}
+
+- (NSMenu *)_prepareMenu
+{
+	NSMenu * menu = [[NSMenu alloc] init];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show Flash", nil, _myBundle, @"Show Menu Title") action:@selector(loadFlash:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Open Original", nil, _myBundle, @"Original Menu Title") action:@selector(openOriginal:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Download Video", nil, _myBundle, @"Download Menu Title") action:@selector(download:) keyEquivalent:@""];
+	[menu addItem:[NSMenuItem separatorItem]];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
+	[menu addItem:[NSMenuItem separatorItem]];
+	NSMenuItem * allItem = [menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Source", nil, _myBundle, @"Blackwhitelist Submenu Title") action:NULL keyEquivalent:@""];
+	if([_src host]!=nil)
+		{
+		NSMenu * smenu = [[NSMenu alloc] initWithTitle:@"Source"];
+		[smenu addItemWithTitle:[_src host] action:NULL keyEquivalent:@""];
+		[smenu addItem:[NSMenuItem separatorItem]];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show All", nil, _myBundle, @"Show All Menu Title") action:@selector(showAll:) keyEquivalent:@""];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove All", nil, _myBundle, @"Remove All Menu Title") action:@selector(removeAll:) keyEquivalent:@""];
+		[smenu addItem:[NSMenuItem separatorItem]];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Also Show Subsequent", nil, _myBundle, @"Whitelist Menu Title") action:@selector(whitelistFlash:) keyEquivalent:@""];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Also Remove Subsequent...", nil, _myBundle, @"Blacklist Menu Title") action:@selector(blacklistFlash:) keyEquivalent:@""];
+		[menu setSubmenu:smenu forItem:allItem];
+		[smenu release];
+		}
+	[menu addItem:[NSMenuItem separatorItem]];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Source URL", nil, _myBundle, @"Copy Source Menu Title") action:@selector(copySource:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Preview URL", nil, _myBundle, @"Copy Preview Menu Title") action:@selector(copyPreview:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Download URL", nil, _myBundle, @"Copy Download Menu Title") action:@selector(copyDownload:) keyEquivalent:@""];
+	[menu addItem:[NSMenuItem separatorItem]];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"About Flashless", nil, _myBundle, @"About Menu Title") action:@selector(showAbout:) keyEquivalent:@""];
+	return [menu autorelease];
+}
+
+- (void)_writeToPasteboard:(NSURL *)url
+{
+	NSPasteboard * pb = [NSPasteboard generalPasteboard];
+	[pb declareTypes:[NSArray arrayWithObjects:NSURLPboardType, NSStringPboardType, nil] owner:self];
+	[url writeToPasteboard:pb];
+	[pb setString:[url absoluteString] forType:NSStringPboardType];
+}
+
+- (void) blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+{
+	[[alert window] orderOut:self];
+
+	if(returnCode==NSAlertFirstButtonReturn)
+		{
+		[[UCBlackwhitelist sharedBlackwhitelist] blacklistHost:[_src host]];
+		[[NSNotificationCenter defaultCenter] postNotificationName:sRemoveAllNotification object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:sHostKey]];
+		}
+}
+
+#pragma mark URLConnection Delegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+	[_previewBuf appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+	_previewImage = [[NSImage alloc] initWithData:_previewBuf];
+	[self setNeedsDisplay:YES];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+}
+
+@end
+
+@implementation UCFlashlessView
+
+// WebPlugInViewFactory protocol
+// The principal class of the plug-in bundle must implement this protocol.
+
++ (NSView *)plugInViewWithArguments:(NSDictionary *)newArguments
+{
+    return [[[self alloc] _initWithArguments:newArguments] autorelease];
 }
 
 - (void) dealloc
@@ -250,204 +450,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[self _drawWithTint:tint andHalo:halo inRect:bounds asPlay:(_siteLabel!=nil)];
 }
 
-- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play;
-{
-	const float kMar = 3;
-
-	NSSize size = play?NSMakeSize(48, 48):NSMakeSize(32, 32);
-
-	if(bounds.size.width>size.width+3*kMar && bounds.size.height>size.height+3*kMar)
-		{
-		NSBezierPath * shape;
-				
-		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2-kMar, (bounds.size.height-size.height)/1.8-kMar, size.width+2*kMar, size.height+2*kMar)];
-		[halo set];
-		[shape fill];
-		
-		[tint set];
-		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2, (bounds.size.height-size.height)/1.8, size.width, size.height)];
-		[shape setLineWidth:3];
-		[shape stroke];
-
-		shape = [NSBezierPath bezierPath];
-
-		if(play)
-			{
-			[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width/3, (bounds.size.height-size.height)/1.8+size.height/2)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.8)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.2)];
-			}
-		else
-			{
-			[shape moveToPoint:NSMakePoint(bounds.size.width/2-size.width*0.13, (bounds.size.height-size.height)/1.8+size.height*0.1)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.03, (bounds.size.height-size.height)/1.8+size.height*0.49)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.21, (bounds.size.height-size.height)/1.8+size.height*0.45)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.09, (bounds.size.height-size.height)/1.8+size.height)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.2, (bounds.size.height-size.height)/1.8+size.height)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.05, (bounds.size.height-size.height)/1.8+size.height*0.61)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width/4, (bounds.size.height-size.height)/1.8+size.height*0.65)];
-			}
-
-		[shape fill];
-		}
-}
-
-#pragma mark Internal
-
-- (void)_convertTypesForElement:(DOMElement *)element
-{
-    NSString *type = [element getAttribute:@"type"];
-
-    if([type isEqualToString:sFlashOldMIMEType] || [type length]==0)
-	{
-        [element setAttribute:@"type" value:sFlashNewMIMEType];
-    }
-}
-
-- (void)_convertTypesForContainer
-{
-	DOMElement * newElement = (DOMElement *)[_element cloneNode:YES];
-	DOMNodeList * nodeList;
-	
-	unsigned i;
-	
-	[self _convertTypesForElement:newElement];
-	
-	nodeList = [newElement getElementsByTagName:@"object"];
-	for (i=0; i<nodeList.length; i++)
-		{
-		[self _convertTypesForElement:(DOMElement *)[nodeList item:i]];
-		}
-
-	nodeList = [newElement getElementsByTagName:@"embed"];
-	for (i=0; i<nodeList.length; i++)
-		{
-		[self _convertTypesForElement:(DOMElement *)[nodeList item:i]];
-		}
-	
-	[[self retain] autorelease];
-	
-	[_element.parentNode replaceChild:newElement oldChild:_element];
-	
-	[_element release];
-	_element = nil;
-}
-
-- (void)_removeFromContainer
-{	
-	[[self retain] autorelease];
-	
-	[_element.parentNode removeChild:_element];
-	
-	[_element release];
-	_element = nil;
-}
-
-#pragma mark -
-
-- (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL
-{
-	NSString * srcAttribute = [attributes objectForKey:@"src"];
-
-	if(srcAttribute==nil)
-		{
-		srcAttribute = [attributes objectForKey:@"data"];
-		}
-	if(srcAttribute==nil)
-		{
-		srcAttribute = [attributes objectForKey:@"movie"];
-		}
-	if(srcAttribute==nil)
-		{
-		return baseURL;
-		}
-	else
-		{
-		return [NSURL URLWithString:[srcAttribute stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] relativeToURL:baseURL];
-		}
-}
-
-- (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes
-{
-	NSString * flashVars = [attributes objectForKey:@"flashvars"];
-
-	NSArray * args = [flashVars componentsSeparatedByString:@"&"];
-	NSUInteger count = [args count];
-	NSMutableDictionary * vars = [NSMutableDictionary dictionaryWithCapacity:count+1];
-	
-	NSUInteger i;
-	NSString * arg;
-	NSRange sep;
-	for(i=0; i<count; i++)
-		{
-		arg = (NSString *)[args objectAtIndex:i];
-		sep=[arg rangeOfString:@"="];
-		if(sep.location != NSNotFound)
-			{
-			[vars setObject:[arg substringFromIndex:NSMaxRange(sep)] forKey:[arg substringToIndex:sep.location]];
-			}		
-		}
-	
-	return vars;
-}
-
-- (NSMenu *)_prepareMenu
-{
-	NSMenu * menu = [[NSMenu alloc] init];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show Flash", nil, _myBundle, @"Show Menu Title") action:@selector(loadFlash:) keyEquivalent:@""];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Open Original", nil, _myBundle, @"Original Menu Title") action:@selector(openOriginal:) keyEquivalent:@""];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Download Video", nil, _myBundle, @"Download Menu Title") action:@selector(download:) keyEquivalent:@""];
-	[menu addItem:[NSMenuItem separatorItem]];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
-	[menu addItem:[NSMenuItem separatorItem]];
-	NSMenuItem * allItem = [menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Source", nil, _myBundle, @"Blackwhitelist Submenu Title") action:NULL keyEquivalent:@""];
-	if([_src host]!=nil)
-		{
-		NSMenu * smenu = [[NSMenu alloc] initWithTitle:@"Source"];
-		[smenu addItemWithTitle:[_src host] action:NULL keyEquivalent:@""];
-		[smenu addItem:[NSMenuItem separatorItem]];
-		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show All", nil, _myBundle, @"Show All Menu Title") action:@selector(showAll:) keyEquivalent:@""];
-		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove All", nil, _myBundle, @"Remove All Menu Title") action:@selector(removeAll:) keyEquivalent:@""];
-		[smenu addItem:[NSMenuItem separatorItem]];
-		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Also Show Subsequent", nil, _myBundle, @"Whitelist Menu Title") action:@selector(whitelistFlash:) keyEquivalent:@""];
-		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Also Remove Subsequent...", nil, _myBundle, @"Blacklist Menu Title") action:@selector(blacklistFlash:) keyEquivalent:@""];
-		[menu setSubmenu:smenu forItem:allItem];
-		[smenu release];
-		}
-	[menu addItem:[NSMenuItem separatorItem]];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Source URL", nil, _myBundle, @"Copy Source Menu Title") action:@selector(copySource:) keyEquivalent:@""];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Preview URL", nil, _myBundle, @"Copy Preview Menu Title") action:@selector(copyPreview:) keyEquivalent:@""];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Download URL", nil, _myBundle, @"Copy Download Menu Title") action:@selector(copyDownload:) keyEquivalent:@""];
-	[menu addItem:[NSMenuItem separatorItem]];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"About Flashless", nil, _myBundle, @"About Menu Title") action:@selector(showAbout:) keyEquivalent:@""];
-	return [menu autorelease];
-}
-
-- (void)_writeToPasteboard:(NSURL *)url
-{
-	NSPasteboard * pb = [NSPasteboard generalPasteboard];
-	[pb declareTypes:[NSArray arrayWithObjects:NSURLPboardType, NSStringPboardType, nil] owner:self];
-	[url writeToPasteboard:pb];
-	[pb setString:[url absoluteString] forType:NSStringPboardType];
-}
-
-#pragma mark URLConnection Delegate
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-	[_previewBuf appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-	_previewImage = [[NSImage alloc] initWithData:_previewBuf];
-	[self setNeedsDisplay:YES];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-}
-
 #pragma mark Actions
 
 - (void)loadFlash:(id)sender
@@ -568,17 +570,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 }
 
 #pragma mark -
-
-- (void) blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-{
-	[[alert window] orderOut:self];
-
-	if(returnCode==NSAlertFirstButtonReturn)
-		{
-		[[UCBlackwhitelist sharedBlackwhitelist] blacklistHost:[_src host]];
-		[[NSNotificationCenter defaultCenter] postNotificationName:sRemoveAllNotification object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:sHostKey]];
-		}
-}
 
 - (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
 {

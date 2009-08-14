@@ -23,6 +23,8 @@
 		D03EDEE8102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
 		D096D10F1028946100A47EE6 /* UCFlashlessServices.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessServices.m */; };
 		D096D1101028946100A47EE6 /* UCFlashlessServices.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessServices.m */; };
+		D0BDCD4310355D2000866394 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D0BDCD4210355D2000866394 /* LICENSE */; };
+		D0BDCD4410355D2000866394 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D0BDCD4210355D2000866394 /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCBlackwhitelist.m; path = Plugin/UCBlackwhitelist.m; sourceTree = "<group>"; };
 		D096D10D1028946100A47EE6 /* UCFlashlessServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCFlashlessServices.h; path = Plugin/UCFlashlessServices.h; sourceTree = "<group>"; };
 		D096D10E1028946100A47EE6 /* UCFlashlessServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCFlashlessServices.m; path = Plugin/UCFlashlessServices.m; sourceTree = "<group>"; };
+		D0BDCC9110354D3800866394 /* PluginView+DOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PluginView+DOM.m"; path = "Plugin/PluginView+DOM.m"; sourceTree = "<group>"; };
+		D0BDCD4210355D2000866394 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +90,7 @@
 		0259C582FE90428111CA0C5A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D0BDCD4210355D2000866394 /* LICENSE */,
 				BF344D410FF14255003F125D /* Localizable.strings */,
 				BF344D350FF141FB003F125D /* MainMenu.xib */,
 				BF344CD30FF13C24003F125D /* FlashTest-Info.plist */,
@@ -116,6 +121,7 @@
 		32DBCF9E0370C38000C91783 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D0BDCC9110354D3800866394 /* PluginView+DOM.m */,
 				D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */,
 				D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */,
 				D096D10D1028946100A47EE6 /* UCFlashlessServices.h */,
@@ -200,6 +206,7 @@
 			files = (
 				8D1AC9800486D23B00FE50C9 /* InfoPlist.strings in Resources */,
 				BF344D420FF14255003F125D /* Localizable.strings in Resources */,
+				D0BDCD4410355D2000866394 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +216,7 @@
 			files = (
 				BF344D430FF14255003F125D /* Localizable.strings in Resources */,
 				BF344D360FF141FB003F125D /* MainMenu.xib in Resources */,
+				D0BDCD4310355D2000866394 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

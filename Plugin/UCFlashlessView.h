@@ -3,8 +3,29 @@
 //  Flashless
 //
 //  Created by Christoph on 13.06.09.
-//  Copyright Useless Coding 2009. All rights reserved.
-//
+//  Copyright Useless Coding 2009.
+/*
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
@@ -12,6 +33,7 @@
 
 @interface UCFlashlessView : NSView <WebPlugInViewFactory>
 {
+@private
 	DOMElement * _element;
 	NSObject * _container;
 
@@ -35,20 +57,6 @@
 	NSTrackingArea * _tracking;
 }
 
-- (id)initWithArguments:(NSDictionary *)arguments;
-
-- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play;
-
-- (void)_convertTypesForContainer;
-- (void)_convertTypesForElement:(DOMElement *)element;
-- (void)_removeFromContainer;
-
-- (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL;
-- (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes;
-
-- (NSMenu *)_prepareMenu;
-- (void)_writeToPasteboard:(NSURL *)url;
-
 - (void)loadFlash:(id)sender;
 - (void)openOriginal:(id)sender;
 - (void)download:(id)sender;
@@ -64,11 +72,5 @@
 
 - (void)allShouldRemove:(NSNotification *)notification;
 - (void)allShouldShow:(NSNotification *)notification;
-
-- (void) blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 
 @end
