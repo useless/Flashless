@@ -21,11 +21,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>33</string>
-	<key>UCProductSite</key>
-	<string>http://useless.github.com/flashless/</string>
+	<string>34</string>
 	<key>NSPrincipalClass</key>
 	<string>UCFlashlessView</string>
+	<key>UCProductSite</key>
+	<string>http://useless.github.com/flashless/</string>
 	<key>WebPluginDescription</key>
 	<string>Shockwave Flash 10.0 r22</string>
 	<key>WebPluginMIMETypes</key>

@@ -48,6 +48,7 @@ blip.tv
 Viddler
 SRC>	... simple/{ID}/
 	... simple_on_site/{ID}/
+	... player/{ID}
 
 FLASHVARS> key={ID}
 

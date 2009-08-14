@@ -122,9 +122,9 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 					{
 					[scan scanUpToString:@"&" intoString:&videoID];
 					}
-				if(videoID==nil) { return nil; }
 				}
 			}
+		if(videoID==nil) { return nil; }
 		previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://i1.ytimg.com/vi/%@/hqdefault.jpg", videoID]];
 		}
 	else if([domain isEqualToString:@"xtube.com"])
@@ -172,9 +172,18 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 					{
 					[scan scanUpToString:@"/" intoString:&videoID];
 					}
-				if(videoID==nil) { return nil; }
+				}
+			if(videoID==nil)
+				{
+				[scan setScanLocation:0];
+				[scan scanUpToString:@"player/" intoString:NULL];
+				if([scan scanString:@"player/" intoString:NULL])
+					{
+					[scan scanUpToString:@"/" intoString:&videoID];
+					}
 				}
 			}
+		if(videoID==nil) { return nil; }
 		previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://cdn-thumbs.viddler.com/thumbnail_2_%@.jpg", videoID]];
 		}
 	else if([domain isEqualToString:@"vimeo.com"])
