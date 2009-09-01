@@ -348,6 +348,7 @@
 		C027D11B08A954E7001699E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_PREFIX_HEADER = Plugin/Flashless_Prefix.pch;
 				INFOPLIST_FILE = Plugin/Info.plist;
 				PRODUCT_VERSION = 1.4.1;

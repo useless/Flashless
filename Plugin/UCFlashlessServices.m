@@ -135,9 +135,9 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 			[flashVars objectForKey:@"idx"],
 			[flashVars objectForKey:@"video_id"],
 			[flashVars objectForKey:@"clip_id"]
-		]]];
+		]] encoding:NSUTF8StringEncoding error:NULL];
 		if(hint==nil) { return nil; }
-		NSString * filename;
+		NSString * filename = nil;
 		NSScanner * scan = [NSScanner scannerWithString:hint];
 		if([scan scanString:@"&filename=" intoString:NULL])
 			{
@@ -200,9 +200,9 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 				}
 			}
 		if(videoID==nil) { return nil; }
-		NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@/embed", videoID]]];
+		NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@/embed", videoID]] encoding:NSUTF8StringEncoding error:NULL];
 		if(hint==nil) { return nil; }
-		NSString * previewfile;
+		NSString * previewfile = nil;
 		scan = [NSScanner scannerWithString:hint];
 		[scan scanUpToString:@"<thumbnail>" intoString:NULL];
 		if([scan scanString:@"<thumbnail>" intoString:NULL])
@@ -216,10 +216,10 @@ static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
 		{
 		videoID = [flashVars objectForKey:@"photo_id"];
 		if(videoID==nil) { return nil; }
-		NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id=%@&secret=null&olang=null&noBuffer=null&bitrate=700&target=_blank&show_info_box=1", videoID]]];
+		NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id=%@&secret=null&olang=null&noBuffer=null&bitrate=700&target=_blank&show_info_box=1", videoID]] encoding:NSUTF8StringEncoding error:NULL];
 		if(hint==nil) { return nil; }
-		NSString * server;
-		NSString * secret;
+		NSString * server = nil;
+		NSString * secret = nil;
 		NSScanner * scan = [NSScanner scannerWithString:hint];
 		[scan scanUpToString:@"<Item id=\"photo_server\">" intoString:NULL];
 		if([scan scanString:@"<Item id=\"photo_server\">" intoString:NULL])
