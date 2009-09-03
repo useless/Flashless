@@ -44,7 +44,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)_altChanged;
 
-- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play;
+- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play withArrow:(BOOL)arrow;
 
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL;
 - (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes;
@@ -86,7 +86,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
     return self;
 }
 
-- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play;
+- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play withArrow:(BOOL)arrow;
 {
 	const float kMar = 3;
 
@@ -107,7 +107,17 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 		shape = [NSBezierPath bezierPath];
 
-		if(play)
+		if(arrow)
+			{
+			[shape moveToPoint:NSMakePoint(bounds.size.width/2-size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.8)];
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.3, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2, (bounds.size.height-size.height)/1.8+size.height*0.15)];						
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.3, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.8)];						
+			}
+		else if(play)
 			{
 			[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width/3, (bounds.size.height-size.height)/1.8+size.height/2)];
 			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.8)];
@@ -431,7 +441,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		[_previewImage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
 		}
 
-	if(_siteLabel!=nil || _downloadURL!=nil)
+	if(_siteLabel!=nil)
 		{
 		atts = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont systemFontOfSize:16], NSFontAttributeName,
@@ -440,32 +450,17 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			halo, NSStrokeColorAttributeName,
 			halo, NSForegroundColorAttributeName,
 		nil];
-		NSString * arrow = @"\u2b07";
 		
-		if(_siteLabel!=nil)
-			{
-			size = [_siteLabel sizeWithAttributes:atts];
-			loc = NSMakePoint(bounds.size.width - size.width - kXOff, kYOff);
-			[_siteLabel drawAtPoint:loc withAttributes:atts];
-			}
-		if(_downloadURL!=nil)
-			{
-			[arrow drawAtPoint:NSMakePoint(kXOff, kYOff) withAttributes:atts];
-			}
+		size = [_siteLabel sizeWithAttributes:atts];
+		loc = NSMakePoint(bounds.size.width - size.width - kXOff, kYOff);
+		[_siteLabel drawAtPoint:loc withAttributes:atts];
 
 		atts = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont systemFontOfSize:16], NSFontAttributeName,
 			[NSNumber numberWithFloat:-0.5], NSKernAttributeName,
 			tint, NSForegroundColorAttributeName,
 		nil];
-		if(_siteLabel!=nil)
-			{
-			[_siteLabel drawAtPoint:loc withAttributes:atts];
-			}
-		if(_downloadURL!=nil)
-			{
-			[arrow drawAtPoint:NSMakePoint(kXOff, kYOff) withAttributes:atts];
-			}
+		[_siteLabel drawAtPoint:loc withAttributes:atts];
 		}
 
 	if(_mouseDown && _mouseInside)
@@ -477,7 +472,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[[NSColor colorWithCalibratedWhite:0.0 alpha:0.5] set];
 	[shape stroke];
 
-	[self _drawWithTint:tint andHalo:halo inRect:bounds asPlay:(_siteLabel!=nil)];
+	[self _drawWithTint:tint andHalo:halo inRect:bounds asPlay:(_siteLabel!=nil) withArrow:(_downloadURL!=nil)&&_alternateKeyDown];
 }
 
 #pragma mark Actions
