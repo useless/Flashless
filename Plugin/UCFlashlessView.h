@@ -59,22 +59,23 @@ OTHER DEALINGS IN THE SOFTWARE.
 	NSTrackingArea * _tracking;
 }
 
-- (void)loadFlash:(id)sender;
+- (void)playFlash:(id)sender;
 - (void)openOriginal:(id)sender;
 - (void)download:(id)sender;
 - (void)whitelistFlash:(id)sender;
 - (void)blacklistFlash:(id)sender;
 - (void)remove:(id)sender;
-- (void)showAll:(id)sender;
+- (void)playAll:(id)sender;
 - (void)removeAll:(id)sender;
 - (void)copySource:(id)sender;
 - (void)copyPreview:(id)sender;
+- (void)copyOriginal:(id)sender;
 - (void)copyDownload:(id)sender;
 - (void)showAbout:(id)sender;
 
 - (void)windowDidUpdate:(NSNotification *)aNotification;
 
 - (void)allShouldRemove:(NSNotification *)notification;
-- (void)allShouldShow:(NSNotification *)notification;
+- (void)allShouldPlay:(NSNotification *)notification;
 
 @end

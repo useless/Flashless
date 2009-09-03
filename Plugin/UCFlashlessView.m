@@ -33,7 +33,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #import "PluginView+DOM.m"
 
-static NSString * sShowAllNotification = @"UCFlashlessAllShouldShow";
+static NSString * sPlayAllNotification = @"UCFlashlessAllShouldPlay";
 static NSString * sRemoveAllNotification = @"UCFlashlessAllShouldRemove";
 
 static NSString * sHostKey = @"UCFlashlessHost";
@@ -188,8 +188,15 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (NSMenu *)_prepareMenu
 {
 	NSMenu * menu = [[NSMenu alloc] init];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show Flash", nil, _myBundle, @"Show Menu Title") action:@selector(loadFlash:) keyEquivalent:@""];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Open Original", nil, _myBundle, @"Original Menu Title") action:@selector(openOriginal:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Play", nil, _myBundle, @"Play Menu Title") action:@selector(playFlash:) keyEquivalent:@""];
+	if(_siteLabel!=nil)
+		{
+		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Show At '%@'", nil, _myBundle, @"Original Menu Title"), _siteLabel] action:@selector(openOriginal:) keyEquivalent:@""];
+		}
+	else
+		{
+		[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show Original", nil, _myBundle, @"Original Nil Menu Title") action:@selector(openOriginal:) keyEquivalent:@""];
+		}
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Download Video", nil, _myBundle, @"Download Menu Title") action:@selector(download:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
@@ -200,17 +207,18 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		NSMenu * smenu = [[NSMenu alloc] initWithTitle:@"Source"];
 		[smenu addItemWithTitle:[_src host] action:NULL keyEquivalent:@""];
 		[smenu addItem:[NSMenuItem separatorItem]];
-		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show All", nil, _myBundle, @"Show All Menu Title") action:@selector(showAll:) keyEquivalent:@""];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Play All", nil, _myBundle, @"Play All Menu Title") action:@selector(playAll:) keyEquivalent:@""];
 		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove All", nil, _myBundle, @"Remove All Menu Title") action:@selector(removeAll:) keyEquivalent:@""];
 		[smenu addItem:[NSMenuItem separatorItem]];
-		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Also Show Subsequent", nil, _myBundle, @"Whitelist Menu Title") action:@selector(whitelistFlash:) keyEquivalent:@""];
-		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Also Remove Subsequent...", nil, _myBundle, @"Blacklist Menu Title") action:@selector(blacklistFlash:) keyEquivalent:@""];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Auto-Play", nil, _myBundle, @"Whitelist Menu Title") action:@selector(whitelistFlash:) keyEquivalent:@""];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Auto-Remove...", nil, _myBundle, @"Blacklist Menu Title") action:@selector(blacklistFlash:) keyEquivalent:@""];
 		[menu setSubmenu:smenu forItem:allItem];
 		[smenu release];
 		}
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Source URL", nil, _myBundle, @"Copy Source Menu Title") action:@selector(copySource:) keyEquivalent:@""];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Preview URL", nil, _myBundle, @"Copy Preview Menu Title") action:@selector(copyPreview:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Original URL", nil, _myBundle, @"Copy Original Menu Title") action:@selector(copyOriginal:) keyEquivalent:@""];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Copy Download URL", nil, _myBundle, @"Copy Download Menu Title") action:@selector(copyDownload:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"About Flashless", nil, _myBundle, @"About Menu Title") action:@selector(showAbout:) keyEquivalent:@""];
@@ -365,13 +373,13 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		return;
 		}
 
-	[self setMenu:[self _prepareMenu]];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldRemove:) name:sRemoveAllNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldShow:) name:sShowAllNotification object:nil];
-
 	UCFlashlessServices * services = [[UCFlashlessServices alloc] init];
 
 	_siteLabel = [[services labelForSrc:_src] retain];
+
+	[self setMenu:[self _prepareMenu]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldRemove:) name:sRemoveAllNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldPlay:) name:sPlayAllNotification object:nil];
 
 	_previewURL = [[services previewURLForSrc:_src andFlashVars:_flashVars] retain];
 	_downloadURL = [[services downloadURLForSrc:_src andFlashVars:_flashVars] retain];
@@ -479,7 +487,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 #pragma mark Actions
 
-- (void)loadFlash:(id)sender
+- (void)playFlash:(id)sender
 {
 	[self _convertTypesForContainer];
 }
@@ -510,15 +518,15 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)whitelistFlash:(id)sender
 {
 	[[UCBlackwhitelist sharedBlackwhitelist] whitelistHost:[_src host]];
-	[self showAll:self];
+	[self playAll:self];
 }
 
 - (void)blacklistFlash:(id)sender
 {
 	NSAlert * alert = [[NSAlert alloc] init];
-	[alert setMessageText:NSLocalizedStringFromTableInBundle(@"Never show Flash from this source?", nil, _myBundle, @"Blacklist Confirmation Question")];
+	[alert setMessageText:NSLocalizedStringFromTableInBundle(@"Automatically remove all Flash from this source?", nil, _myBundle, @"Blacklist Confirmation Question")];
 	[alert setInformativeText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"All Flash from '%@' will be removed when loading a site, until you restart %@.", nil, _myBundle, @"Blacklist Explanation"), [_src host], [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey]]];
-	[alert addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Never Show", nil, _myBundle, @"Blacklist Confirmation Button")];
+	[alert addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Auto-Remove", nil, _myBundle, @"Blacklist Confirmation Button")];
 	[alert addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", nil, _myBundle, @"Blacklist Cancel Button")];
 	[alert beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:@selector(blacklistConfirmDidEnd:returnCode:contextInfo:) contextInfo:nil];
 	_sheetOpen=YES;
@@ -530,9 +538,9 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[self _removeFromContainer];
 }
 
-- (void)showAll:(id)sender
+- (void)playAll:(id)sender
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:sShowAllNotification object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:sHostKey]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:sPlayAllNotification object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:sHostKey]];
 }
 
 - (void)removeAll:(id)sender
@@ -548,6 +556,11 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)copyPreview:(id)sender
 {
 	[self _writeToPasteboard:_previewURL];
+}
+
+- (void)copyOriginal:(id)sender
+{
+	[self _writeToPasteboard:_originalURL];
 }
 
 - (void)copyDownload:(id)sender
@@ -586,7 +599,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 #pragma mark -
 
-- (void)allShouldShow:(NSNotification *)notification
+- (void)allShouldPlay:(NSNotification *)notification
 {
 	NSString * host = [[notification userInfo] objectForKey:sHostKey];
 	if([host isEqualToString:[_src host]] && !_sheetOpen)
@@ -608,7 +621,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
 {
-	if([anItem action]==@selector(openOriginal:))
+	if([anItem action]==@selector(openOriginal:) || [anItem action]==@selector(copyOriginal:))
 		{
 		return _originalURL!=nil;
 		}
