@@ -30,18 +30,20 @@ OTHER DEALINGS IN THE SOFTWARE.
 #import <Cocoa/Cocoa.h>
 
 
-@interface UCFlashlessServices : NSObject
+@interface UCFlashlessService : NSObject
 {
-@private
-	NSURL * lastSrc;
-	NSString * lastDomain;
+	NSURL * src;
+	NSString * domain;
+	NSMutableDictionary * flashVars;
 }
 
-- (NSString *)domainForSrc:(NSURL *)src;
-- (NSString *)labelForSrc:(NSURL *)src;
+- (id)initWithSrc:(NSURL *)src andFlashVars:(NSDictionary *)flashVars;
 
-- (NSURL *)previewURLForSrc:(NSURL *)src andFlashVars:(NSMutableDictionary *)flashVars;
-- (NSURL *)downloadURLForSrc:(NSURL *)src andFlashVars:(NSMutableDictionary *)flashVars;
-- (NSURL *)originalURLForSrc:(NSURL *)src andFlashVars:(NSMutableDictionary *)flashVars;
+- (NSString *)domain;
+- (NSString *)label;
+
+- (NSURL *)previewURL;
+- (NSURL *)downloadURL;
+- (NSURL *)originalURL;
 
 @end

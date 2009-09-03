@@ -29,7 +29,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #import "UCFlashlessView.h"
 #import "UCBlackwhitelist.h"
-#import "UCFlashlessServices.h"
+#import "UCFlashlessService.h"
 
 #import "PluginView+DOM.m"
 
@@ -373,19 +373,19 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		return;
 		}
 
-	UCFlashlessServices * services = [[UCFlashlessServices alloc] init];
+	UCFlashlessService * service = [[UCFlashlessService alloc] initWithSrc:_src andFlashVars:_flashVars];
 
-	_siteLabel = [[services labelForSrc:_src] retain];
+	_siteLabel = [[service label] retain];
 
 	[self setMenu:[self _prepareMenu]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldRemove:) name:sRemoveAllNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldPlay:) name:sPlayAllNotification object:nil];
 
-	_previewURL = [[services previewURLForSrc:_src andFlashVars:_flashVars] retain];
-	_downloadURL = [[services downloadURLForSrc:_src andFlashVars:_flashVars] retain];
-	_originalURL = [[services originalURLForSrc:_src andFlashVars:_flashVars] retain];
+	_previewURL = [[service previewURL] retain];
+	_downloadURL = [[service downloadURL] retain];
+	_originalURL = [[service originalURL] retain];
 
-	[services release];
+	[service release];
 	
 	if(_previewURL)
 		{

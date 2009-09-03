@@ -23,8 +23,8 @@
 		BFE965A1104FCD5D00432F88 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE9659F104FCD5D00432F88 /* Logo.png */; };
 		D03EDEE7102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
 		D03EDEE8102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
-		D096D10F1028946100A47EE6 /* UCFlashlessServices.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessServices.m */; };
-		D096D1101028946100A47EE6 /* UCFlashlessServices.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessServices.m */; };
+		D096D10F1028946100A47EE6 /* UCFlashlessService.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessService.m */; };
+		D096D1101028946100A47EE6 /* UCFlashlessService.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessService.m */; };
 		D0BDCD4310355D2000866394 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D0BDCD4210355D2000866394 /* LICENSE */; };
 		D0BDCD4410355D2000866394 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D0BDCD4210355D2000866394 /* LICENSE */; };
 /* End PBXBuildFile section */
@@ -49,8 +49,8 @@
 		BFE9659F104FCD5D00432F88 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCBlackwhitelist.h; path = Plugin/UCBlackwhitelist.h; sourceTree = "<group>"; };
 		D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCBlackwhitelist.m; path = Plugin/UCBlackwhitelist.m; sourceTree = "<group>"; };
-		D096D10D1028946100A47EE6 /* UCFlashlessServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCFlashlessServices.h; path = Plugin/UCFlashlessServices.h; sourceTree = "<group>"; };
-		D096D10E1028946100A47EE6 /* UCFlashlessServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCFlashlessServices.m; path = Plugin/UCFlashlessServices.m; sourceTree = "<group>"; };
+		D096D10D1028946100A47EE6 /* UCFlashlessService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCFlashlessService.h; path = Plugin/UCFlashlessService.h; sourceTree = "<group>"; };
+		D096D10E1028946100A47EE6 /* UCFlashlessService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCFlashlessService.m; path = Plugin/UCFlashlessService.m; sourceTree = "<group>"; };
 		D0BDCC9110354D3800866394 /* PluginView+DOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PluginView+DOM.m"; path = "Plugin/PluginView+DOM.m"; sourceTree = "<group>"; };
 		D0BDCD4210355D2000866394 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -128,8 +128,8 @@
 				D0BDCC9110354D3800866394 /* PluginView+DOM.m */,
 				D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */,
 				D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */,
-				D096D10D1028946100A47EE6 /* UCFlashlessServices.h */,
-				D096D10E1028946100A47EE6 /* UCFlashlessServices.m */,
+				D096D10D1028946100A47EE6 /* UCFlashlessService.h */,
+				D096D10E1028946100A47EE6 /* UCFlashlessService.m */,
 				BF344CE40FF13D0D003F125D /* UCFlashTester.h */,
 				BF344CE60FF13D0D003F125D /* UCFlashTester.m */,
 				0259C57AFE90428111CA0C5A /* UCFlashlessView.h */,
@@ -234,7 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D1AC96B0486D14A00FE50C9 /* UCFlashlessView.m in Sources */,
-				D096D10F1028946100A47EE6 /* UCFlashlessServices.m in Sources */,
+				D096D10F1028946100A47EE6 /* UCFlashlessService.m in Sources */,
 				D03EDEE8102B0B19001AD28D /* UCBlackwhitelist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,7 +246,7 @@
 				BF344CE70FF13D0D003F125D /* main.m in Sources */,
 				BF344CEA0FF13D0D003F125D /* UCFlashTester.m in Sources */,
 				BF344D1B0FF14093003F125D /* UCFlashlessView.m in Sources */,
-				D096D1101028946100A47EE6 /* UCFlashlessServices.m in Sources */,
+				D096D1101028946100A47EE6 /* UCFlashlessService.m in Sources */,
 				D03EDEE7102B0B19001AD28D /* UCBlackwhitelist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
