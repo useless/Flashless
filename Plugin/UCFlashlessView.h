@@ -46,12 +46,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 	NSURL * _originalURL;
 
 	NSImage * _previewImage;
-	
+
 	NSBundle * _myBundle;
-	
+
 	NSURLConnection * _previewConnection;
 	NSMutableData * _previewBuf;
-	
+
+	BOOL _sheetOpen;
 	BOOL _mouseDown;
 	BOOL _mouseInside;
 	BOOL _alternateKeyDown;

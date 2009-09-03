@@ -81,6 +81,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		
 		_mouseDown=NO;
 		_mouseInside=NO;
+		_sheetOpen=NO;
 		}
     
     return self;
@@ -227,6 +228,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void) blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 {
 	[[alert window] orderOut:self];
+	_sheetOpen=NO;
 
 	if(returnCode==NSAlertFirstButtonReturn)
 		{
@@ -518,9 +520,8 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[alert setInformativeText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"All Flash from '%@' will be removed when loading a site, until you restart %@.", nil, _myBundle, @"Blacklist Explanation"), [_src host], [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey]]];
 	[alert addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Never Show", nil, _myBundle, @"Blacklist Confirmation Button")];
 	[alert addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", nil, _myBundle, @"Blacklist Cancel Button")];
-	// FIXME: Crashes on endSelector
-	// if we got removed by an remove all notification
 	[alert beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:@selector(blacklistConfirmDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	_sheetOpen=YES;
 	[alert autorelease];
 }
 
@@ -588,7 +589,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)allShouldShow:(NSNotification *)notification
 {
 	NSString * host = [[notification userInfo] objectForKey:sHostKey];
-	if([host isEqualToString:[_src host]])
+	if([host isEqualToString:[_src host]] && !_sheetOpen)
 		{
 		[self _convertTypesForContainer];
 		}
@@ -597,7 +598,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)allShouldRemove:(NSNotification *)notification
 {
 	NSString * host = [[notification userInfo] objectForKey:sHostKey];
-	if([host isEqualToString:[_src host]])
+	if([host isEqualToString:[_src host]] && !_sheetOpen)
 		{
 		[self performSelector:@selector(_removeFromContainer) withObject:nil afterDelay:0];
 		}
