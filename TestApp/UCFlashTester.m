@@ -74,6 +74,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[flashView setNeedsDisplay:YES];
 }
 
+- (IBAction)test:(id)sender
+{
+}
+
 - (void)windowWillClose:(NSNotification *)notification
 {
 	[NSApp terminate:self];

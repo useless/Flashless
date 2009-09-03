@@ -41,5 +41,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (IBAction)stopPlugin:(id)sender;
 - (IBAction)destroyPlugin:(id)sender;
 - (IBAction)refresh:(id)sender;
+- (IBAction)test:(id)sender;
 
 @end
