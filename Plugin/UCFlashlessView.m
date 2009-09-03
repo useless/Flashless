@@ -557,6 +557,9 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)showAbout:(id)sender
 {
 	NSAlert * about = [[NSAlert alloc] init];
+	NSImage * logo = [[NSImage alloc] initByReferencingFile:[_myBundle pathForResource:@"Logo" ofType:@"png"]];
+	[about setIcon:logo];
+	[logo release];
 	[about setMessageText:[_myBundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey]];
 	[about setInformativeText:[NSString stringWithFormat:@"%@\nVersion %@ (%@) (%@)\n\n%@",
 		NSLocalizedStringFromTableInBundle(@"A plug-in to block Flash.", nil, _myBundle, @"About Desription"),
@@ -567,9 +570,15 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		]];
 	[about addButtonWithTitle:@"OK"];
 	[about addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Product Site...", nil, _myBundle, @"Product Site Button")];
-	if([about runModal]==NSAlertSecondButtonReturn)
+	[about addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"License...", nil, _myBundle, @"License Button")];
+	NSInteger button = [about runModal];
+	if(button==NSAlertSecondButtonReturn)
 		{
 		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[_myBundle objectForInfoDictionaryKey:@"UCProductSite"]]];
+		}
+	else if(button==NSAlertThirdButtonReturn)
+		{
+		[[NSWorkspace sharedWorkspace] openFile:[_myBundle pathForResource:@"LICENSE" ofType:@""]];
 		}
 	[about release];
 }
