@@ -34,7 +34,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)awakeFromNib
 {
-/*	[flashView initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
+/*	[flashView _initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
 		[NSDictionary dictionaryWithObjectsAndKeys:
 			@"http://example.com/play.swf", @"src",
 			nil], WebPlugInAttributesKey,

@@ -49,9 +49,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 	NSString * host = [@"." stringByAppendingString:[src host]];
 	NSRange dot = [host rangeOfString:@"." options:NSBackwardsSearch range:NSMakeRange(0, [host rangeOfString:@"." options:NSBackwardsSearch].location)];
-	NSString * domain = [[host substringFromIndex:dot.location+1] copy];
-
-	return domain;
+	return [host substringFromIndex:dot.location+1];
 }
 
 - (id)initWithSrc:(NSURL *)aSrc andFlashVars:(NSDictionary *)theFlashVars

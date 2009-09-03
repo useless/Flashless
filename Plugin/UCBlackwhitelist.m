@@ -43,10 +43,10 @@ static UCBlackwhitelist * sharedInstance = nil;
 	return sharedInstance;
 }
 
-- (id) init
+- (id)init
 {
 	self = [super init];
-	if (self!=nil)
+	if(self!=nil)
 		{
 		isPersistent=NO;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(blackwhitelistDidChange:) name:@"UCBlackwhitelistDidChange" object:self];
@@ -58,7 +58,7 @@ static UCBlackwhitelist * sharedInstance = nil;
 - (id)initWithBundleIdentifier:(NSString *)newBundleIdentifier
 {
 	self = [self init];
-	if (self!=nil)
+	if(self!=nil)
 		{
 		[self setBundleIdentifier:newBundleIdentifier];
 		}
