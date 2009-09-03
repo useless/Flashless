@@ -17,9 +17,9 @@ FLASHVARS> user_id={USERID}
 	idx={IDX}
 	video_id={ID}
 	clip_id={CLIPID}
-	swfURL={URL}
+	swfURL={SERVER}
 
-HINT:	http://video2.xtube.com/find_video.php?sid=0&v_user_id={USERID}&idx={IDX}&from=&video_id={ID}&clip_id={CLIPID}&qid=&qidx=&qnum=
+HINT:	http://video2.xtube.com/find_video.php?sid=0&v_user_id={USERID}&idx={IDX}&video_id={ID}&clip_id={CLIPID}
 
 HINT> ... &filename={VIDEOFILE}& ...
 
@@ -27,7 +27,9 @@ VIDEOFILE> /videos{PREVIEWID}.flv
 
 PREVIEW: http://cdns.xtube.com/u/e10/video_thumb{PREVIEWID}_0000.jpg
 
-DOWNLOAD: {URL}{VIDEOFILE}
+DOWNLOAD: {SERVER}{VIDEOFILE}
+
+ORIGINAL: http://www.xtube.com/play_re.php?v={ID}
 
 
 Vimeo
@@ -37,12 +39,27 @@ FLASHVARS> clip_id={ID}
 
 HINT:	http://www.vimeo.com/moogaloop/load/clip:{ID}/embed
 
-HINT>	... <thumbnail>{PREVIEWID}</thumbnail> ...
+HINT>	... <thumbnail>{PREVIEW}</thumbnail> ...
 
-PREVIEW: {PREVIEWID}
+PREVIEW: {PREVIEW}
+
+DOWNLOAD: ???
+
+ORIGINAL: http://www.vimeo.com/{ID}
 
 
 blip.tv
+SRC>	... file={HINT(%)}%3F ...
+
+HINT>	<link>{ORIGINAL}</link>
+	<blip:thumbnail_src>{PREVIEWID}</blip:thumbnail_src>
+	<media:content url="{DOWNLOAD}"
+
+PREVIEW: http://a.images.blip.tv/{PREVIEWID}.jpg
+
+DOWNLOAD: {DOWNLOAD}
+
+ORIGINAL: {ORIGINAL}
 
 
 Viddler
@@ -54,8 +71,19 @@ FLASHVARS> key={ID}
 
 PREVIEW: http://cdn-thumbs.viddler.com/thumbnail_2_{ID}.jpg
 
+DOWNLOAD: ???
+
+ORIGINAL: ---
+
 
 USTREAM
+FLASHVARS> ?! vid={ID}
+
+PREVIEW: ?! http://static.ustream.tv/videos/{ID:0}/{ID:1}/{ID:2}/{ID:3}/{ID}/114x84.jpg
+
+DOWNLOAD: ???
+
+ORIGINAL: ???
 
 
 Flickr
@@ -63,11 +91,37 @@ FLASHVARS> photo_id={ID}
 
 HINT:	http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id={ID}&secret=null&olang=null&noBuffer=null&bitrate=700&target=_blank&show_info_box=1
 
-HINT>	<Item id="photo_server">{SERVER}</Item>
+HINT>	<Item id="photo_server">{SID}</Item>
 	<Item id="photo_secret">{SECRET}</Item>
+	<Item id="id">{NODE}</Item>
+	;url={ORIGINAL}&
 
-PREVIEW: http://farm3.static.flickr.com/{SERVER}/{ID}_{SECRET}.jpg?0
+PREVIEW: http://farm3.static.flickr.com/{SID}/{ID}_{SECRET}.jpg?0
+
+HINT2:	http://www.flickr.com/video_playlist.gne?node_id={NODE}&secret={SECRET}
+
+HINT2>	APP="{SERVER}"
+	FULLPATH="{URL}"
+
+DOWNLOAD: {SERVER}{URL}
+
+ORIGINAL: {ORIGINAL}
 
 
 Google Video
 SRC>	... videoUrl={DOWNLOAD}&thumbnailUrl={PREVIEW}& ...
+
+PREVIEW: {PREVIEW}
+
+DOWNLOAD: {DOWNLOAD}
+
+ORIGINAL: ???
+
+
+TwitVid
+
+PREVIEW: ???
+
+DOWNLOAD: ???
+
+ORIGINAL: ???
