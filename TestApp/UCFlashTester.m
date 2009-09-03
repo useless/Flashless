@@ -49,20 +49,34 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 }
 
-- (void)start:(id)sender
+- (IBAction)initializePlugin:(id)sender
 {
 	[flashView webPlugInInitialize];
 }
 
-- (void)stop:(id)sender
+- (IBAction)startPlugin:(id)sender
+{
+	[flashView webPlugInStart];
+}
+
+- (IBAction)stopPlugin:(id)sender
+{
+	[flashView webPlugInStop];
+}
+
+- (IBAction)destroyPlugin:(id)sender
 {
 	[flashView webPlugInDestroy];
 }
 
-- (void)refresh:(id)sender
+- (IBAction)refresh:(id)sender
 {
 	[flashView setNeedsDisplay:YES];
 }
 
+- (void)windowWillClose:(NSNotification *)notification
+{
+	[NSApp terminate:self];
+}
 
 @end

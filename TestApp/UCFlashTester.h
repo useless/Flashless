@@ -36,8 +36,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 	IBOutlet UCFlashlessView * flashView;
 }
 
-- (IBAction)start:(id)sender;
-- (IBAction)stop:(id)sender;
+- (IBAction)initializePlugin:(id)sender;
+- (IBAction)startPlugin:(id)sender;
+- (IBAction)stopPlugin:(id)sender;
+- (IBAction)destroyPlugin:(id)sender;
 - (IBAction)refresh:(id)sender;
 
 @end
