@@ -1,5 +1,5 @@
 //
-//  UCFlashlessServices.m
+//  UCFlashlessService.m
 //  Flashless
 //
 //  Created by Christoph on 04.08.09.
@@ -28,21 +28,66 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import "UCFlashlessService.h"
+#import "UCFlashlessYoutubeService.h"
+#import "UCFlashlessXtubeService.h"
+#import "UCFlashlessVimeoService.h"
+#import "UCFlashlessViddlerService.h"
+#import "UCFlashlessBliptvService.h"
+#import "UCFlashlessUstreamService.h"
+#import "UCFlashlessFlickrService.h"
+#import "UCFlashlessGoogleService.h"
 
-static NSString * sVideoIDKey = @"UCFlashlessVideoID";
-static NSString * sVideoFilenameKey = @"UCFlashlessVideoFilename";
-static NSString * sOriginalURLKey = @"UCFlashlessOriginalURL";
 
 @implementation UCFlashlessService
 
++ (NSString *)domainForSrc:(NSURL *)src
+{
+	if(src==nil)
+		{
+		return nil;
+		}
+
+	NSString * host = [@"." stringByAppendingString:[src host]];
+	NSRange dot = [host rangeOfString:@"." options:NSBackwardsSearch range:NSMakeRange(0, [host rangeOfString:@"." options:NSBackwardsSearch].location)];
+	NSString * domain = [[host substringFromIndex:dot.location+1] copy];
+
+	return domain;
+}
+
 - (id)initWithSrc:(NSURL *)aSrc andFlashVars:(NSDictionary *)theFlashVars
 {
-	self = [self init];
-	if(self!=nil)
+	if([self isMemberOfClass:[UCFlashlessService class]])
 		{
-		src = [aSrc retain];
-		flashVars = [theFlashVars mutableCopy];
-		domain = nil;
+		NSString * domain = [[self class] domainForSrc:aSrc];
+		[self release];
+		Class ConcreteSubclass = [[NSDictionary dictionaryWithObjectsAndKeys:
+			[UCFlashlessYoutubeService class], @"youtube.com",
+			[UCFlashlessYoutubeService class], @"ytimg.com",
+			[UCFlashlessYoutubeService class], @"youtube-nocookie.com",
+			[UCFlashlessXtubeService class], @"xtube.com",
+			[UCFlashlessVimeoService class], @"vimeo.com",
+			[UCFlashlessBliptvService class], @"blip.tv",
+			[UCFlashlessViddlerService class], @"viddler.com",
+			[UCFlashlessUstreamService class], @"ustream.tv",
+			[UCFlashlessFlickrService class], @"flickr.com",
+			[UCFlashlessGoogleService class], @"google.com",
+		nil] objectForKey:domain];
+
+		if(ConcreteSubclass==nil)
+			{
+			return nil;
+			}
+
+		self = [[ConcreteSubclass alloc] initWithSrc:aSrc andFlashVars:theFlashVars];
+		}
+	else
+		{
+		self = [self init];
+		if(self!=nil)
+			{
+			src = [aSrc retain];
+			flashVars = [theFlashVars mutableCopy];
+			}
 		}
 	return self;
 }
@@ -51,296 +96,41 @@ static NSString * sOriginalURLKey = @"UCFlashlessOriginalURL";
 {
 	[src release];
 	[flashVars release];
-	[domain release];
 
 	[super dealloc];
 }
 
-#pragma mark -
+@end
 
-- (NSString *)domain
+@implementation UCFlashlessService (AbstractMethods)
+
+- (NSString *)label
 {
-	if(src==nil)
-		{
-		return nil;
-		}
-	
-	if(domain==nil)
-		{
-		NSString * host = [@"." stringByAppendingString:[src host]];
-		NSRange dot = [host rangeOfString:@"." options:NSBackwardsSearch range:NSMakeRange(0, [host rangeOfString:@"." options:NSBackwardsSearch].location)];
-		domain = [[host substringFromIndex:dot.location+1] copy];
-		}
-	return domain;
-}
-
-- (NSString *)label;
-{
-	if(src==nil)
-		{
-		return @"???";
-		}
-
-	if([self domain]==nil)
-		{
-		return @"!!!";
-		}
-	
-	return [[NSDictionary dictionaryWithObjectsAndKeys:@"YouTube", @"youtube.com",
-			@"YouTube", @"ytimg.com",
-			@"YouTube", @"youtube-nocookie.com",
-			@"XTube", @"xtube.com",
-			@"Vimeo", @"vimeo.com",
-			@"blip.tv", @"blip.tv",
-			@"Viddler", @"viddler.com",
-			@"USTREAM", @"ustream.tv",
-			@"Flickr", @"flickr.com",
-			@"Google Video", @"google.com",
-		nil] objectForKey:[self domain]];
+	return nil;
 }
 
 - (NSURL *)previewURL
 {
-	if(src==nil) { return nil; }
-	
-	NSURL * previewURL = nil;
-	NSString * videoID = nil;
-	NSString * srcString = [[src absoluteString] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-	
-	if([[self domain] isEqualToString:@"youtube.com"] || [[self domain] isEqualToString:@"ytimg.com"] || [[self domain] isEqualToString:@"youtube-nocookie.com"])
-		{
-		videoID = [flashVars objectForKey:@"video_id"];
-		if(videoID==nil)
-			{
-			NSScanner * scan = [NSScanner scannerWithString:srcString];
-			[scan scanUpToString:@".com/v/" intoString:NULL];
-			if([scan scanString:@".com/v/" intoString:NULL])
-				{
-				[scan scanUpToString:@"&" intoString:&videoID];
-				}
-			if(videoID==nil)
-				{
-				[scan setScanLocation:0];
-				[scan scanUpToString:@"video_id=" intoString:NULL];
-				if([scan scanString:@"video_id=" intoString:NULL])
-					{
-					[scan scanUpToString:@"&" intoString:&videoID];
-					}
-				}
-			}
-		if(videoID==nil) { return nil; }
-		previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://i1.ytimg.com/vi/%@/hqdefault.jpg", videoID]];
-		}
-	else if([[self domain] isEqualToString:@"xtube.com"])
-		{
-		videoID = [flashVars objectForKey:@"video_id"];
-		if(videoID==nil) { return nil; }
-		NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://video2.xtube.com/find_video.php?sid=0&v_user_id=%@&idx=%@&video_id=%@&clip_id=%@",
-			[flashVars objectForKey:@"user_id"],
-			[flashVars objectForKey:@"idx"],
-			videoID,
-			[flashVars objectForKey:@"clip_id"]
-		]] encoding:NSUTF8StringEncoding error:NULL];
-		if(hint==nil) { return nil; }
-		NSString * filename = nil;
-		NSScanner * scan = [NSScanner scannerWithString:hint];
-		if([scan scanString:@"&filename=" intoString:NULL])
-			{
-			[scan scanUpToString:@"&" intoString:&filename];
-			}
-		if(filename==nil) { return nil; }
-		[flashVars setObject:filename forKey:sVideoFilenameKey];
-		scan = [NSScanner scannerWithString:filename];
-		if([scan scanString:@"/videos" intoString:NULL])
-			{
-			[scan scanUpToString:@".flv" intoString:&filename];
-			}
-		if(filename==nil) { return nil; }
-		previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://cdns.xtube.com/u/e10/video_thumb%@_0000.jpg", filename]];
-		}
-	else if([[self domain] isEqualToString:@"viddler.com"])
-		{
-		videoID = [flashVars objectForKey:@"key"];
-		if(videoID==nil)
-			{
-			NSScanner * scan = [NSScanner scannerWithString:srcString];
-			[scan scanUpToString:@"simple/" intoString:NULL];
-			if([scan scanString:@"simple/" intoString:NULL])
-				{
-				[scan scanUpToString:@"/" intoString:&videoID];
-				}
-			if(videoID==nil)
-				{
-				[scan setScanLocation:0];
-				[scan scanUpToString:@"simple_on_site/" intoString:NULL];
-				if([scan scanString:@"simple_on_site/" intoString:NULL])
-					{
-					[scan scanUpToString:@"/" intoString:&videoID];
-					}
-				}
-			if(videoID==nil)
-				{
-				[scan setScanLocation:0];
-				[scan scanUpToString:@"player/" intoString:NULL];
-				if([scan scanString:@"player/" intoString:NULL])
-					{
-					[scan scanUpToString:@"/" intoString:&videoID];
-					}
-				}
-			}
-		if(videoID==nil) { return nil; }
-		previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://cdn-thumbs.viddler.com/thumbnail_2_%@.jpg", videoID]];
-		}
-	else if([[self domain] isEqualToString:@"vimeo.com"])
-		{
-		videoID = [flashVars objectForKey:@"clip_id"];
-		NSScanner * scan;
-		if(videoID==nil)
-			{
-			scan = [NSScanner scannerWithString:srcString];
-			[scan scanUpToString:@"clip_id=" intoString:NULL];
-			if([scan scanString:@"clip_id=" intoString:NULL])
-				{
-				[scan scanUpToString:@"&" intoString:&videoID];
-				}
-			}
-		if(videoID==nil) { return nil; }
-		NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@/embed", videoID]] encoding:NSUTF8StringEncoding error:NULL];
-		if(hint==nil) { return nil; }
-		NSString * previewfile = nil;
-		scan = [NSScanner scannerWithString:hint];
-		[scan scanUpToString:@"<thumbnail>" intoString:NULL];
-		if([scan scanString:@"<thumbnail>" intoString:NULL])
-			{
-			[scan scanUpToString:@"</thumbnail>" intoString:&previewfile];
-			}
-		if(previewfile==nil) { return nil; }
-		previewURL = [NSURL URLWithString:previewfile];
-		}
-	else if([[self domain] isEqualToString:@"flickr.com"])
-		{
-		videoID = [flashVars objectForKey:@"photo_id"];
-		if(videoID==nil) { return nil; }
-		NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id=%@&secret=null&olang=null&noBuffer=null&bitrate=700&target=_blank&show_info_box=1", videoID]] encoding:NSUTF8StringEncoding error:NULL];
-		if(hint==nil) { return nil; }
-		NSString * server = nil;
-		NSString * secret = nil;
-		NSScanner * scan = [NSScanner scannerWithString:hint];
-		[scan scanUpToString:@"<Item id=\"photo_server\">" intoString:NULL];
-		if([scan scanString:@"<Item id=\"photo_server\">" intoString:NULL])
-			{
-			[scan scanUpToString:@"</Item>" intoString:&server];
-			}
-		[scan scanUpToString:@"<Item id=\"photo_secret\">" intoString:NULL];
-		if([scan scanString:@"<Item id=\"photo_secret\">" intoString:NULL])
-			{
-			[scan scanUpToString:@"</Item>" intoString:&secret];
-			}
-		NSString * original = nil;
-		[scan scanUpToString:@";url=" intoString:NULL];
-		if([scan scanString:@";url=" intoString:NULL])
-			{
-			[scan scanUpToString:@"&" intoString:&original];
-			}
-		if(original!=nil)
-			{
-			[flashVars setObject:original forKey:sOriginalURLKey];
-			}
-		if(server!=nil && secret!=nil)
-			{
-			previewURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://farm3.static.flickr.com/%@/%@_%@.jpg?0", server, videoID, secret]];
-			}
-		}
-	else if([[self domain] isEqualToString:@"google.com"])
-		{
-		NSString * filename;
-		NSString * thumbnail;
-		NSScanner * scan = [NSScanner scannerWithString:srcString];
-		[scan scanUpToString:@"videoURL=" intoString:NULL];
-		if([scan scanString:@"videoURL=" intoString:NULL])
-			{
-			[scan scanUpToString:@"&" intoString:&filename];
-			if(filename!=nil)
-				{
-				[flashVars setObject:[filename stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding] forKey:sVideoFilenameKey];
-				}
-			}
-		[scan setScanLocation:0];
-		[scan scanUpToString:@"thumbnailUrl=" intoString:NULL];
-		if([scan scanString:@"thumbnailUrl=" intoString:NULL])
-			{
-			[scan scanUpToString:@"&" intoString:&thumbnail];
-			if(thumbnail!=nil)
-				{
-				previewURL = [NSURL URLWithString:[thumbnail stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-				}
-			}
-		}
-
-	if(videoID!=nil) { [flashVars setObject:videoID forKey:sVideoIDKey]; }
-
-	return previewURL;
+	return nil;
 }
 
 - (NSURL *)downloadURL
 {
-	if(src==nil) { return nil; }
-
-	NSURL * downloadURL = nil;
-
-	if([[self domain] isEqualToString:@"youtube.com"] || [[self domain] isEqualToString:@"ytimg.com"])
-		{
-		NSString * videoHash = [flashVars objectForKey:@"t"];
-		if(videoHash==nil) { return nil; }
-		downloadURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video?fmt=18&video_id=%@&t=%@",
-			[flashVars objectForKey:sVideoIDKey],
-			videoHash
-		]];
-		}
-	else if([[self domain] isEqualToString:@"xtube.com"])
-		{
-		NSString * filename = [flashVars objectForKey:sVideoFilenameKey];
-		if(filename==nil) { return nil; }
-		downloadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [flashVars objectForKey:@"swfURL"], filename]];
-		}
-	else if([[self domain] isEqualToString:@"google.com"])
-		{
-		NSString * filename = [flashVars objectForKey:sVideoFilenameKey];
-		if(filename==nil) { return nil; }
-		downloadURL = [NSURL URLWithString:filename];
-		}
-	
-	return downloadURL;
+	return nil;
 }
 
 - (NSURL *)originalURL
 {
-	NSURL * originalURL = nil;
-	NSString * videoID = [flashVars objectForKey:sVideoIDKey];
+	return nil;
+}
 
-	if([[self domain] isEqualToString:@"youtube.com"])
-		{
-		if(videoID==nil) { return nil; }
-		originalURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@", videoID]];
-		}
-	else if([[self domain] isEqualToString:@"xtube.com"])
-		{
-		if(videoID==nil) { return nil; }
-		originalURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.xtube.com/play_re.php?v=%@", videoID]];
-		}
-	else if([[self domain] isEqualToString:@"vimeo.com"])
-		{
-		if(videoID==nil) { return nil; }
-		originalURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/%@", videoID]];
-		}
-	else if([[self domain] isEqualToString:@"flickr.com"])
-		{
-		videoID = [flashVars objectForKey:sOriginalURLKey];
-		if(videoID==nil) { return nil; }
-		originalURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@", videoID]];
-		}
+@end
 
-	return originalURL;
+@implementation UCFlashlessService (SubclassMethods)
+
+- (NSString *)srcString
+{
+	return [[src absoluteString] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 }
 
 @end

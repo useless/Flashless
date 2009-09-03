@@ -1,8 +1,8 @@
 //
-//  UCFlashlessService.h
+//  UCFlashlessGoogleService.m
 //  Flashless
 //
-//  Created by Christoph on 04.08.09.
+//  Created by Christoph on 04.09.09.
 //  Copyright Useless Coding 2009.
 /*
 Permission is hereby granted, free of charge, to any person
@@ -27,34 +27,41 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import <Cocoa/Cocoa.h>
+#import "UCFlashlessGoogleService.h"
 
-@interface UCFlashlessService : NSObject
-{
-	NSURL * src;
-	NSMutableDictionary * flashVars;
-
-	NSString * videoID;
-}
-
-+ (NSString *)domainForSrc:(NSURL *)src;
-
-- (id)initWithSrc:(NSURL *)src andFlashVars:(NSDictionary *)flashVars;
-
-@end
-
-@interface UCFlashlessService (AbstractMethods)
+@implementation UCFlashlessGoogleService
 
 - (NSString *)label;
+{
+	return @"Google Video";
+}
 
-- (NSURL *)previewURL;
-- (NSURL *)downloadURL;
-- (NSURL *)originalURL;
+- (NSURL *)previewURL
+{	
+	NSString * thumbnail;
+	NSScanner * scan = [NSScanner scannerWithString:[self srcString]];
+	[scan scanUpToString:@"videoURL=" intoString:NULL];
+	if([scan scanString:@"videoURL=" intoString:NULL])
+		{
+		[scan scanUpToString:@"&" intoString:&videoFile];
+		}
+	[scan setScanLocation:0];
+	[scan scanUpToString:@"thumbnailUrl=" intoString:NULL];
+	if([scan scanString:@"thumbnailUrl=" intoString:NULL])
+		{
+		[scan scanUpToString:@"&" intoString:&thumbnail];
+		if(thumbnail!=nil)
+			{
+			return [NSURL URLWithString:[thumbnail stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+			}
+		}
+	return nil;
+}
 
-@end
-
-@interface UCFlashlessService (SubclassMethods)
-
-- (NSString *)srcString;
+- (NSURL *)downloadURL
+{
+	if(videoFile==nil) { return nil; }
+	return [NSURL URLWithString:[videoFile stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+}
 
 @end

@@ -1,8 +1,8 @@
 //
-//  UCFlashlessService.h
+//  UCFlashlessYoutubeService.h
 //  Flashless
 //
-//  Created by Christoph on 04.08.09.
+//  Created by Christoph on 03.09.09.
 //  Copyright Useless Coding 2009.
 /*
 Permission is hereby granted, free of charge, to any person
@@ -28,33 +28,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import <Cocoa/Cocoa.h>
+#import "UCFlashlessService.h"
 
-@interface UCFlashlessService : NSObject
+
+@interface UCFlashlessYoutubeService : UCFlashlessService
 {
-	NSURL * src;
-	NSMutableDictionary * flashVars;
-
-	NSString * videoID;
 }
-
-+ (NSString *)domainForSrc:(NSURL *)src;
-
-- (id)initWithSrc:(NSURL *)src andFlashVars:(NSDictionary *)flashVars;
-
-@end
-
-@interface UCFlashlessService (AbstractMethods)
-
-- (NSString *)label;
-
-- (NSURL *)previewURL;
-- (NSURL *)downloadURL;
-- (NSURL *)originalURL;
-
-@end
-
-@interface UCFlashlessService (SubclassMethods)
-
-- (NSString *)srcString;
-
 @end
