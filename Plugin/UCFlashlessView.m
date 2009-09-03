@@ -42,6 +42,8 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (id)_initWithArguments:(NSDictionary *)arguments;
 
+- (void)_altChanged;
+
 - (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play;
 
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL;
@@ -223,6 +225,11 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
 }
 
+- (void)_altChanged
+{
+	[self setNeedsDisplay:YES];
+}
+
 #pragma mark URLConnection Delegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -319,6 +326,15 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
 }
 
+- (void)windowDidUpdate:(NSNotification *)aNotification
+{
+	if(_alternateKeyDown!=(([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)==NSAlternateKeyMask))
+		{
+		_alternateKeyDown=!_alternateKeyDown;
+		[self _altChanged];
+		}
+}
+
 #pragma mark WebPlugIn informal protocol
 
 - (void)webPlugInInitialize
@@ -363,6 +379,20 @@ static NSString * sHostKey = @"UCFlashlessHost";
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[_previewConnection cancel];
+}
+
+- (void)webPlugInStart
+{
+	_alternateKeyDown = (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)==NSAlternateKeyMask);
+	if(_downloadURL!=nil)
+		{
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidUpdate:) name:NSWindowDidUpdateNotification object:[self window]];
+		}
+}
+
+- (void)webPlugInStop
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidUpdateNotification object:[self window]];
 }
 
 #pragma mark Draw

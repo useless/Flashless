@@ -54,6 +54,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	
 	BOOL _mouseDown;
 	BOOL _mouseInside;
+	BOOL _alternateKeyDown;
 	NSTrackingArea * _tracking;
 }
 
@@ -69,6 +70,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (void)copyPreview:(id)sender;
 - (void)copyDownload:(id)sender;
 - (void)showAbout:(id)sender;
+
+- (void)windowDidUpdate:(NSNotification *)aNotification;
 
 - (void)allShouldRemove:(NSNotification *)notification;
 - (void)allShouldShow:(NSNotification *)notification;
