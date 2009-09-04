@@ -56,8 +56,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 	if([self isMemberOfClass:[UCFlashlessService class]])
 		{
-		NSString * domain = [[self class] domainForSrc:aSrc];
-		[self release];
 		Class ConcreteSubclass = [[NSDictionary dictionaryWithObjectsAndKeys:
 			[UCFlashlessYoutubeService class], @"youtube.com",
 			[UCFlashlessYoutubeService class], @"ytimg.com",
@@ -69,23 +67,22 @@ OTHER DEALINGS IN THE SOFTWARE.
 			[UCFlashlessUstreamService class], @"ustream.tv",
 			[UCFlashlessFlickrService class], @"flickr.com",
 			[UCFlashlessGoogleService class], @"google.com",
-		nil] objectForKey:domain];
+		nil] objectForKey:[[self class] domainForSrc:aSrc]];
 
-		if(ConcreteSubclass==nil)
+		if(ConcreteSubclass!=nil)
 			{
-			return nil;
+			[self release];
+			self = [[ConcreteSubclass alloc] initWithSrc:aSrc andFlashVars:theFlashVars];
+			return self;
 			}
-
-		self = [[ConcreteSubclass alloc] initWithSrc:aSrc andFlashVars:theFlashVars];
 		}
-	else
+
+	self = [self init];
+	if(self!=nil)
 		{
-		self = [self init];
-		if(self!=nil)
-			{
-			src = [aSrc retain];
-			flashVars = [theFlashVars retain];
-			}
+		src = [aSrc retain];
+		flashVars = [theFlashVars retain];
+		delegate = nil;
 		}
 	return self;
 }
@@ -98,9 +95,20 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[super dealloc];
 }
 
-@end
+#pragma mark -
 
-@implementation UCFlashlessService (AbstractMethods)
+- (id)delegate
+{
+	return delegate;
+}
+
+- (void)setDelegate:(id)newDelegate
+{
+	// Do not retain delegates.
+	delegate = newDelegate;
+}
+
+#pragma mark Service Info
 
 - (NSString *)label
 {
@@ -124,7 +132,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @end
 
-@implementation UCFlashlessService (SubclassMethods)
+@implementation UCFlashlessService (Private)
 
 - (NSString *)srcString
 {

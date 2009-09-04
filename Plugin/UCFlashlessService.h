@@ -35,15 +35,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 	NSDictionary * flashVars;
 
 	NSString * videoID;
+@private
+	id delegate;
 }
 
 + (NSString *)domainForSrc:(NSURL *)src;
 
-- (id)initWithSrc:(NSURL *)src andFlashVars:(NSDictionary *)flashVars;
-
-@end
-
-@interface UCFlashlessService (AbstractMethods)
+- (id)initWithSrc:(NSURL *)aSrc andFlashVars:(NSDictionary *)theFlashVars;
+- (id)delegate;
+- (void)setDelegate:(id)newDelegate;
 
 - (NSString *)label;
 
@@ -53,7 +53,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @end
 
-@interface UCFlashlessService (SubclassMethods)
+@interface UCFlashlessService (Private)
 
 - (NSString *)srcString;
 
