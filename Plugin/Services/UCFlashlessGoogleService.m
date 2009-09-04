@@ -31,6 +31,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @implementation UCFlashlessGoogleService
 
+- (void)dealloc
+{
+	[videoFile release];
+
+	[super dealloc];
+}
+
+#pragma mark -
+
 - (NSString *)label;
 {
 	return @"Google Video";
@@ -45,6 +54,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		{
 		[scan scanUpToString:@"&" intoString:&videoFile];
 		}
+	[videoFile retain];
 	[scan setScanLocation:0];
 	[scan scanUpToString:@"thumbnailUrl=" intoString:NULL];
 	if([scan scanString:@"thumbnailUrl=" intoString:NULL])

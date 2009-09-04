@@ -32,7 +32,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 @interface UCFlashlessService : NSObject
 {
 	NSURL * src;
-	NSMutableDictionary * flashVars;
+	NSDictionary * flashVars;
 
 	NSString * videoID;
 }

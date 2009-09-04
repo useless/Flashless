@@ -47,7 +47,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (NSURL *)previewURL
 {	
-	videoID = [flashVars objectForKey:@"video_id"];
+	videoID = [[flashVars objectForKey:@"video_id"] retain];
 	if(videoID==nil) { return nil; }
 	NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://video2.xtube.com/find_video.php?sid=0&v_user_id=%@&idx=%@&video_id=%@&clip_id=%@",
 		[flashVars objectForKey:@"user_id"],
@@ -62,6 +62,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		[scan scanUpToString:@"&" intoString:&videoFile];
 		}
 	if(videoFile==nil) { return nil; }
+	[videoFile retain];
 	NSString * filename = nil;
 	scan = [NSScanner scannerWithString:videoFile];
 	if([scan scanString:@"/videos" intoString:NULL])

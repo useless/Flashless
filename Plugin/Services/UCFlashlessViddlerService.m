@@ -67,6 +67,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			}
 		}
 	if(videoID==nil) { return nil; }
+	[videoID retain];
 	return [NSURL URLWithString:[NSString stringWithFormat:@"http://cdn-thumbs.viddler.com/thumbnail_2_%@.jpg", videoID]];
 }
 

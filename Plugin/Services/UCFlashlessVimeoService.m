@@ -50,6 +50,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			}
 		}
 	if(videoID==nil) { return nil; }
+	[videoID retain];
 	NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@/embed", videoID]] encoding:NSUTF8StringEncoding error:NULL];
 	if(hint==nil) { return nil; }
 	NSString * previewFile = nil;

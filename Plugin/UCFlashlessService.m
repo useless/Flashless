@@ -84,7 +84,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		if(self!=nil)
 			{
 			src = [aSrc retain];
-			flashVars = [theFlashVars mutableCopy];
+			flashVars = [theFlashVars retain];
 			}
 		}
 	return self;

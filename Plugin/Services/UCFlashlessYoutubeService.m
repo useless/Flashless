@@ -59,6 +59,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			}
 		}
 	if(videoID==nil) { return nil; }
+	[videoID retain];
 	return [NSURL URLWithString:[NSString stringWithFormat:@"http://i1.ytimg.com/vi/%@/hqdefault.jpg", videoID]];
 }
 

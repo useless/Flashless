@@ -31,6 +31,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @implementation UCFlashlessFlickrService
 
+- (void)dealloc
+{
+	[originalURLString release];
+
+	[super dealloc];
+}
+
+#pragma mark -
+
 - (NSString *)label;
 {
 	return @"Flickr";
@@ -38,7 +47,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (NSURL *)previewURL
 {	
-	videoID = [flashVars objectForKey:@"photo_id"];
+	videoID = [[flashVars objectForKey:@"photo_id"] retain];
 	if(videoID==nil) { return nil; }
 	NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id=%@", videoID]] encoding:NSUTF8StringEncoding error:NULL];
 	if(hint==nil) { return nil; }
@@ -60,6 +69,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		{
 		[scan scanUpToString:@"&" intoString:&originalURLString];
 		}
+	[originalURLString retain];
 	if(server==nil || secret==nil)
 		{
 		return nil;
