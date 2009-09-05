@@ -12,9 +12,11 @@
 			buildConfigurationList = BFF811C010526A9B003B72D3 /* Build configuration list for PBXAggregateTarget "Disk Image" */;
 			buildPhases = (
 				BFF811BB10526A99003B72D3 /* CopyFiles */,
-				BFF8120F10527553003B72D3 /* CopyFiles */,
-				BFF811DB10526CE6003B72D3 /* ShellScript */,
-				BFF8125C10529573003B72D3 /* ShellScript */,
+				BFF8120F10527553003B72D3 /* Copy Helper Files */,
+				BF9164031052D5CD0084EF4C /* Prepare Icon */,
+				BFF811DB10526CE6003B72D3 /* Setup Contents */,
+				BFF8125C10529573003B72D3 /* Create Disk Image */,
+				BF9163FB1052D3F10084EF4C /* Convert DMG */,
 			);
 			dependencies = (
 				BFF81261105297EE003B72D3 /* PBXTargetDependency */,
@@ -55,7 +57,7 @@
 		BF73BE7A10507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7610507C5A003D2309 /* UCFlashlessGoogleService.m */; };
 		BFE965A0104FCD5D00432F88 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE9659F104FCD5D00432F88 /* Logo.png */; };
 		BFE965A1104FCD5D00432F88 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE9659F104FCD5D00432F88 /* Logo.png */; };
-		BFF811D010526B49003B72D3 /* background.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFF811CF10526B49003B72D3 /* background.png */; };
+		BFF811D010526B49003B72D3 /* background.png in Copy Helper Files */ = {isa = PBXBuildFile; fileRef = BFF811CF10526B49003B72D3 /* background.png */; };
 		BFF811F510527334003B72D3 /* Flashless.webplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1AC9740486D14A00FE50C9 /* Flashless.webplugin */; };
 		BFF811F8105273C0003B72D3 /* Readme.rtf in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFF811F7105273C0003B72D3 /* Readme.rtf */; };
 		D03EDEE7102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
@@ -71,7 +73,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 0259C573FE90428111CA0C5A /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D1AC9600486D14A00FE50C9 /* Flashless */;
+			remoteGlobalIDString = 8D1AC9600486D14A00FE50C9;
 			remoteInfo = Flashless;
 		};
 /* End PBXContainerItemProxy section */
@@ -88,14 +90,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BFF8120F10527553003B72D3 /* CopyFiles */ = {
+		BFF8120F10527553003B72D3 /* Copy Helper Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = dmg/.helper;
 			dstSubfolderSpec = 16;
 			files = (
-				BFF811D010526B49003B72D3 /* background.png in CopyFiles */,
+				BFF811D010526B49003B72D3 /* background.png in Copy Helper Files */,
 			);
+			name = "Copy Helper Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -346,35 +349,72 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		BFF811DB10526CE6003B72D3 /* ShellScript */ = {
+		BF9163FB1052D3F10084EF4C /* Convert DMG */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"$(PROJECT_DIR)/Product/Minidoc.r",
+				"$(BUILT_PRODUCTS_DIR)/pre.dmg",
 			);
+			name = "Convert DMG";
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/dmg/Readme.rtf",
-				"$(BUILT_PRODUCTS_DIR)/dmg/Internet\\ Plug-Ins",
+				"$(BUILT_PRODUCTS_DIR)/$(PRODCUT_NAME).dmg",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd $BUILT_PRODUCTS_DIR/dmg\n\n$SYSTEM_DEVELOPER_TOOLS/Rez -append $PROJECT_DIR/Product/Minidoc.r -o Readme.rtf\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.rtf\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
+			shellScript = "cd $BUILT_PRODUCTS_DIR\nhdiutil convert -format UDZO -ov -o $PRODUCT_NAME.dmg pre.dmg\n";
 			showEnvVarsInLog = 0;
 		};
-		BFF8125C10529573003B72D3 /* ShellScript */ = {
+		BF9164031052D5CD0084EF4C /* Prepare Icon */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"$(PROJECT_DIR)/Product/Minidoc.icns",
 			);
+			name = "Prepare Icon";
 			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/minidoc.r",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd $BUILT_PRODUCTS_DIR\nhdiutil create -srcfolder dmg -volname $PRODUCT_NAME -nospotlight -format UDIF -attach -ov pre.dmg\n\nosascript $PROJECT_DIR/Product/DMG.scpt $PRODUCT_NAME:\n\nhdiutil detach /Volumes/$PRODUCT_NAME\nhdiutil convert -format UDZO -ov -o $PRODUCT_NAME.dmg pre.dmg\n";
+			shellScript = "cd $BUILT_PRODUCTS_DIR\nsips -i --out minidoci.icns $PROJECT_DIR/Product/Minidoc.icns\n$SYSTEM_DEVELOPER_TOOLS/DeRez -only icns minidoci.icns > minidoc.r\n";
+			showEnvVarsInLog = 0;
+		};
+		BFF811DB10526CE6003B72D3 /* Setup Contents */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Setup Contents";
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/dmg/.VolumeIcon.icns",
+				"$(BUILT_PRODUCTS_DIR)/dmg/Readme.rtf",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd $BUILT_PRODUCTS_DIR/dmg\n\n$SYSTEM_DEVELOPER_TOOLS/Rez -append ../minidoc.r -o Readme.rtf\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.rtf\n\n$CP $PROJECT_DIR/Product/Volume.icns $BUILT_PRODUCTS_DIR/dmg/.VolumeIcon.icns\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
+			showEnvVarsInLog = 0;
+		};
+		BFF8125C10529573003B72D3 /* Create Disk Image */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/dmg/*",
+			);
+			name = "Create Disk Image";
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/pre.dmg",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd $BUILT_PRODUCTS_DIR\nhdiutil create -srcfolder dmg -volname $PRODUCT_NAME -nospotlight -format UDIF -attach -ov pre.dmg\n\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a C /Volumes/$PRODUCT_NAME\nosascript $PROJECT_DIR/Product/DMG.scpt $PRODUCT_NAME:\n\nhdiutil detach /Volumes/$PRODUCT_NAME\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
