@@ -6,6 +6,24 @@
 	objectVersion = 45;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		BFF811BC10526A99003B72D3 /* Disk Image */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = BFF811C010526A9B003B72D3 /* Build configuration list for PBXAggregateTarget "Disk Image" */;
+			buildPhases = (
+				BFF811BB10526A99003B72D3 /* CopyFiles */,
+				BFF8120F10527553003B72D3 /* CopyFiles */,
+				BFF811DB10526CE6003B72D3 /* ShellScript */,
+				BFF8125C10529573003B72D3 /* ShellScript */,
+			);
+			dependencies = (
+				BFF81261105297EE003B72D3 /* PBXTargetDependency */,
+			);
+			name = "Disk Image";
+			productName = "Disk Image";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		224339580A6F05F3000348D4 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224339570A6F05F3000348D4 /* WebKit.framework */; };
 		8D1AC96B0486D14A00FE50C9 /* UCFlashlessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0259C576FE90428111CA0C5A /* UCFlashlessView.m */; settings = {ATTRIBUTES = (); }; };
@@ -37,6 +55,9 @@
 		BF73BE7A10507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7610507C5A003D2309 /* UCFlashlessGoogleService.m */; };
 		BFE965A0104FCD5D00432F88 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE9659F104FCD5D00432F88 /* Logo.png */; };
 		BFE965A1104FCD5D00432F88 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE9659F104FCD5D00432F88 /* Logo.png */; };
+		BFF811D010526B49003B72D3 /* background.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFF811CF10526B49003B72D3 /* background.png */; };
+		BFF811F510527334003B72D3 /* Flashless.webplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1AC9740486D14A00FE50C9 /* Flashless.webplugin */; };
+		BFF811F8105273C0003B72D3 /* Readme.rtf in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFF811F7105273C0003B72D3 /* Readme.rtf */; };
 		D03EDEE7102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
 		D03EDEE8102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
 		D096D10F1028946100A47EE6 /* UCFlashlessService.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessService.m */; };
@@ -44,6 +65,40 @@
 		D0BDCD4310355D2000866394 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D0BDCD4210355D2000866394 /* LICENSE */; };
 		D0BDCD4410355D2000866394 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D0BDCD4210355D2000866394 /* LICENSE */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BFF81260105297EE003B72D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0259C573FE90428111CA0C5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1AC9600486D14A00FE50C9 /* Flashless */;
+			remoteInfo = Flashless;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BFF811BB10526A99003B72D3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = dmg;
+			dstSubfolderSpec = 16;
+			files = (
+				BFF811F510527334003B72D3 /* Flashless.webplugin in CopyFiles */,
+				BFF811F8105273C0003B72D3 /* Readme.rtf in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFF8120F10527553003B72D3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = dmg/.helper;
+			dstSubfolderSpec = 16;
+			files = (
+				BFF811D010526B49003B72D3 /* background.png in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0259C576FE90428111CA0C5A /* UCFlashlessView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = UCFlashlessView.m; path = Plugin/UCFlashlessView.m; sourceTree = "<group>"; };
@@ -79,6 +134,8 @@
 		BF73BE7510507C5A003D2309 /* UCFlashlessGoogleService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessGoogleService.h; sourceTree = "<group>"; };
 		BF73BE7610507C5A003D2309 /* UCFlashlessGoogleService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessGoogleService.m; sourceTree = "<group>"; };
 		BFE9659F104FCD5D00432F88 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
+		BFF811CF10526B49003B72D3 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = Product/background.png; sourceTree = "<group>"; };
+		BFF811F7105273C0003B72D3 /* Readme.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Readme.rtf; path = Product/Readme.rtf; sourceTree = "<group>"; };
 		D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCBlackwhitelist.h; path = Plugin/UCBlackwhitelist.h; sourceTree = "<group>"; };
 		D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCBlackwhitelist.m; path = Plugin/UCBlackwhitelist.m; sourceTree = "<group>"; };
 		D096D10D1028946100A47EE6 /* UCFlashlessService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCFlashlessService.h; path = Plugin/UCFlashlessService.h; sourceTree = "<group>"; };
@@ -125,6 +182,8 @@
 		0259C582FE90428111CA0C5A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BFF811F7105273C0003B72D3 /* Readme.rtf */,
+				BFF811CF10526B49003B72D3 /* background.png */,
 				BFE9659F104FCD5D00432F88 /* Logo.png */,
 				D0BDCD4210355D2000866394 /* LICENSE */,
 				BF344D410FF14255003F125D /* Localizable.strings */,
@@ -256,6 +315,7 @@
 			targets = (
 				8D1AC9600486D14A00FE50C9 /* Flashless */,
 				BF344CD00FF13C24003F125D /* FlashTest */,
+				BFF811BC10526A99003B72D3 /* Disk Image */,
 			);
 		};
 /* End PBXProject section */
@@ -284,6 +344,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BFF811DB10526CE6003B72D3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(PROJECT_DIR)/Product/Minidoc.r",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/dmg/Readme.rtf",
+				"$(BUILT_PRODUCTS_DIR)/dmg/Internet\\ Plug-Ins",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd $BUILT_PRODUCTS_DIR/dmg\n\n$SYSTEM_DEVELOPER_TOOLS/Rez -append $PROJECT_DIR/Product/Minidoc.r -o Readme.rtf\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.rtf\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
+			showEnvVarsInLog = 0;
+		};
+		BFF8125C10529573003B72D3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd $BUILT_PRODUCTS_DIR\nhdiutil create -srcfolder dmg -volname $PRODUCT_NAME -nospotlight -format UDIF -attach -ov pre.dmg\n\nosascript $PROJECT_DIR/Product/DMG.scpt $PRODUCT_NAME:\n\nhdiutil detach /Volumes/$PRODUCT_NAME\nhdiutil convert -format UDZO -ov -o $PRODUCT_NAME.dmg pre.dmg\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D1AC96A0486D14A00FE50C9 /* Sources */ = {
@@ -325,6 +419,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BFF81261105297EE003B72D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1AC9600486D14A00FE50C9 /* Flashless */;
+			targetProxy = BFF81260105297EE003B72D3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8D1AC97F0486D23B00FE50C9 /* InfoPlist.strings */ = {
@@ -411,6 +513,25 @@
 			};
 			name = Release;
 		};
+		BFF811BE10526A9B003B72D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+			};
+			name = Debug;
+		};
+		BFF811BF10526A9B003B72D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C027D11A08A954E7001699E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -477,6 +598,15 @@
 			buildConfigurations = (
 				BF344CD40FF13C25003F125D /* Debug */,
 				BF344CD50FF13C25003F125D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFF811C010526A9B003B72D3 /* Build configuration list for PBXAggregateTarget "Disk Image" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFF811BE10526A9B003B72D3 /* Debug */,
+				BFF811BF10526A9B003B72D3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
