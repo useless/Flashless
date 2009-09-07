@@ -56,5 +56,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 @interface UCFlashlessService (Private)
 
 - (NSString *)srcString;
+- (NSString *)pathString;
 
 @end

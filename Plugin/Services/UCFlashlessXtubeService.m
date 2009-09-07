@@ -63,14 +63,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 		}
 	if(videoFile==nil) { return nil; }
 	[videoFile retain];
-	NSString * filename = nil;
+	NSString * thumbnail = nil;
 	scan = [NSScanner scannerWithString:videoFile];
 	if([scan scanString:@"/videos" intoString:NULL])
 		{
-		[scan scanUpToString:@".flv" intoString:&filename];
+		[scan scanUpToString:@".flv" intoString:&thumbnail];
 		}
-	if(filename==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://cdns.xtube.com/u/e10/video_thumb%@_0000.jpg", filename]];
+	if(thumbnail==nil) { return nil; }
+	return [NSURL URLWithString:[NSString stringWithFormat:@"http://cdns.xtube.com/u/e10/video_thumb%@_0000.jpg", thumbnail]];
 }
 
 - (NSURL *)downloadURL

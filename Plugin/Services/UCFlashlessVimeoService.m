@@ -42,7 +42,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	NSScanner * scan;
 	if(videoID==nil)
 		{
-		scan = [NSScanner scannerWithString:[self srcString]];
+		scan = [NSScanner scannerWithString:[self pathString]];
 		[scan scanUpToString:@"clip_id=" intoString:NULL];
 		if([scan scanString:@"clip_id=" intoString:NULL])
 			{

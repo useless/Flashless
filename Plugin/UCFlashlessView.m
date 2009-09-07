@@ -157,7 +157,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
 	else
 		{
-		return [NSURL URLWithString:[srcAttribute stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] relativeToURL:baseURL];
+		return [NSURL URLWithString:[srcAttribute stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:baseURL];
 		}
 }
 

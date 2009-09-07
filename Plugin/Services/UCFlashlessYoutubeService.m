@@ -42,9 +42,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 	videoID = [flashVars objectForKey:@"video_id"];
 	if(videoID==nil)
 		{
-		NSScanner * scan = [NSScanner scannerWithString:[self srcString]];
-		[scan scanUpToString:@".com/v/" intoString:NULL];
-		if([scan scanString:@".com/v/" intoString:NULL])
+		NSScanner * scan = [NSScanner scannerWithString:[self pathString]];
+		[scan scanUpToString:@"/v/" intoString:NULL];
+		if([scan scanString:@"/v/" intoString:NULL])
 			{
 			[scan scanUpToString:@"&" intoString:&videoID];
 			}

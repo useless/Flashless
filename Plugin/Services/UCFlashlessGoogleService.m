@@ -48,7 +48,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (NSURL *)previewURL
 {	
 	NSString * thumbnail;
-	NSScanner * scan = [NSScanner scannerWithString:[self srcString]];
+	NSScanner * scan = [NSScanner scannerWithString:[self pathString]];
 	[scan scanUpToString:@"videoURL=" intoString:NULL];
 	if([scan scanString:@"videoURL=" intoString:NULL])
 		{
@@ -62,7 +62,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		[scan scanUpToString:@"&" intoString:&thumbnail];
 		if(thumbnail!=nil)
 			{
-			return [NSURL URLWithString:[thumbnail stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+			return [NSURL URLWithString:[thumbnail stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 			}
 		}
 	return nil;
@@ -71,7 +71,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (NSURL *)downloadURL
 {
 	if(videoFile==nil) { return nil; }
-	return [NSURL URLWithString:[videoFile stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+	return [NSURL URLWithString:[videoFile stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
 @end

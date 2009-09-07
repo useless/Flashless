@@ -52,6 +52,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return [host substringFromIndex:dot.location+1];
 }
 
+#pragma mark -
+
 - (id)initWithSrc:(NSURL *)aSrc andFlashVars:(NSDictionary *)theFlashVars
 {
 	if([self isMemberOfClass:[UCFlashlessService class]])
@@ -136,7 +138,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (NSString *)srcString
 {
-	return [[src absoluteString] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	return [[src absoluteString] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
+- (NSString *)pathString
+{
+	return [[[src path] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
 @end
