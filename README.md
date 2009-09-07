@@ -1,0 +1,72 @@
+Flashless
+=========
+
+*This is the development site of Flashless. If you are interested in the product visit [github.com/flashless](http://useless.github.com/flashless/).*
+
+**Flashless** is a Cocoa WebKit plug-in to display preview images for Flash based video services and block the rest. Requires Mac OS X 10.5 Leopard or later.
+
+The plugin registers itself for Flash content (`application/x-shockwave-flash`) and is displayed by the browser when it encounters Flash embedded in a website. If the use clicks the plugin area the plugin converts the type of the embedded element to `application/futuresplash` which is handled by the original Flash plugin.
+
+*Note:* This idea is taken from the ClickToFlash project. (See bottom of this document.)
+
+Unlike existing Flash blockers we try to identify the blocked source and preview its content when supported. This works quite well for most video services. On some of them we can even download the video directly.
+
+For supported video services see `Services.txt`.
+
+Changelog
+=========
+
+Version 1.5 (In Development)
+-----------
+
+* Supports Mac OS X 10.6 Snow Leopard.
+
+* 32 and 64 bit universal binary for Intel and PowerPC.
+
+* Includes target for building a disk image for easier distribution.
+
+* Clearer usage of download feature by displaying the download indicator only when pressing the option key.
+
+* Use a class cluster for service support.
+
+Version 1.4 (Latest Release)
+-----------
+
+* Can open YouTube-Page for a video.
+
+* Allows showing or removing of all flash instances.
+
+* Allows automatic showing or removing from a source for the rest of the session.
+
+Version 1.3
+-----------
+
+* Uses new icon for unknown flash content.
+
+* Previews Flickr.
+
+* Previews and downloads Google Video.
+
+* Allows temporary removal of a Flash object from a site.
+
+* Corrects handling of URLs with spaces.
+
+
+Version 1.2
+-----------
+
+* Draws a circular play button for known video services.
+
+* Displays a Flash-Badge for unknown contents.
+
+* Previews Viddler and Vimeo.
+
+
+Version 1.1
+-----------
+
+Initial public release.
+
+***
+
+This project is somewhat based on **ClickToFlash** (<https://github.com/rentzsch/clicktoflash>).
