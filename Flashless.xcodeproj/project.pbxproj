@@ -84,8 +84,8 @@
 		BFF811BB10526A99003B72D3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = dmg;
-			dstSubfolderSpec = 16;
+			dstPath = $DERIVED_FILES_DIR/dmg;
+			dstSubfolderSpec = 0;
 			files = (
 				BFF811F510527334003B72D3 /* Flashless.webplugin in CopyFiles */,
 				BFF811F8105273C0003B72D3 /* Readme.rtf in CopyFiles */,
@@ -95,8 +95,8 @@
 		BFF8120F10527553003B72D3 /* Copy Helper Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = dmg/.helper;
-			dstSubfolderSpec = 16;
+			dstPath = $DERIVED_FILES_DIR/dmg/.helper;
+			dstSubfolderSpec = 0;
 			files = (
 				BFF811D010526B49003B72D3 /* background.png in Copy Helper Files */,
 			);
@@ -361,7 +361,7 @@
 			files = (
 			);
 			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/pre.dmg",
+				"$(DERIVED_FILES_DIR)/pre.dmg",
 			);
 			name = "Convert DMG";
 			outputPaths = (
@@ -369,7 +369,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd $BUILT_PRODUCTS_DIR\nhdiutil convert -format UDZO -ov -o $PRODUCT_NAME.dmg pre.dmg\n";
+			shellScript = "cd $BUILT_PRODUCTS_DIR\nhdiutil convert -format UDZO -ov -o $PRODUCT_NAME.dmg \"$DERIVED_FILES_DIR/pre.dmg\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BF9164031052D5CD0084EF4C /* Prepare Icon */ = {
@@ -382,11 +382,11 @@
 			);
 			name = "Prepare Icon";
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/minidoc.r",
+				"$(DERIVED_FILES_DIR)/minidoc.r",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd $BUILT_PRODUCTS_DIR\nsips -i --out minidoci.icns $PROJECT_DIR/Product/Minidoc.icns\n$SYSTEM_DEVELOPER_TOOLS/DeRez -only icns minidoci.icns > minidoc.r\n";
+			shellScript = "cd \"$DERIVED_FILES_DIR\"\nsips -i --out minidoci.icns $PROJECT_DIR/Product/Minidoc.icns\n$SYSTEM_DEVELOPER_TOOLS/DeRez -only icns minidoci.icns > minidoc.r\n";
 			showEnvVarsInLog = 0;
 		};
 		BFF811DB10526CE6003B72D3 /* Setup Contents */ = {
@@ -398,12 +398,12 @@
 			);
 			name = "Setup Contents";
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/dmg/.VolumeIcon.icns",
-				"$(BUILT_PRODUCTS_DIR)/dmg/Readme.rtf",
+				"$(DERIVED_FILES_DIR)/dmg/.VolumeIcon.icns",
+				"$(DERIVED_FILES_DIR)/dmg/Readme.rtf",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd $BUILT_PRODUCTS_DIR/dmg\n\n$SYSTEM_DEVELOPER_TOOLS/Rez -append ../minidoc.r -o Readme.rtf\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.rtf\n\n$CP $PROJECT_DIR/Product/Volume.icns $BUILT_PRODUCTS_DIR/dmg/.VolumeIcon.icns\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
+			shellScript = "cd \"$DERIVED_FILES_DIR/dmg\"\n\n$SYSTEM_DEVELOPER_TOOLS/Rez -append ../minidoc.r -o Readme.rtf\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.rtf\n\n$CP $PROJECT_DIR/Product/Volume.icns .VolumeIcon.icns\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
 			showEnvVarsInLog = 0;
 		};
 		BFF8125C10529573003B72D3 /* Create Disk Image */ = {
@@ -416,11 +416,11 @@
 			);
 			name = "Create Disk Image";
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/pre.dmg",
+				"$(DERIVED_FILES_DIR)/pre.dmg",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd $BUILT_PRODUCTS_DIR\nhdiutil create -srcfolder dmg -volname $PRODUCT_NAME -nospotlight -format UDIF -attach -ov pre.dmg\n\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a C /Volumes/$PRODUCT_NAME\nosascript $PROJECT_DIR/Product/DMG.scpt $PRODUCT_NAME:\n\nhdiutil detach /Volumes/$PRODUCT_NAME\n";
+			shellScript = "cd \"$DERIVED_FILES_DIR\"\nhdiutil create -srcfolder dmg -volname $PRODUCT_NAME -nospotlight -format UDIF -attach -ov pre.dmg\n\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a C /Volumes/$PRODUCT_NAME\nosascript $PROJECT_DIR/Product/DMG.scpt $PRODUCT_NAME:\n\nhdiutil detach /Volumes/$PRODUCT_NAME\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
