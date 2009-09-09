@@ -16,8 +16,9 @@ For supported video services see `Services.txt`.
 Changelog
 =========
 
-Version 1.5 (In Development)
+Version 1.5 (Latest Release)
 -----------
+_Clusterimage_
 
 * Supports Mac OS X 10.6 Snow Leopard.
 
@@ -29,8 +30,9 @@ Version 1.5 (In Development)
 
 * Use a class cluster for service support.
 
-Version 1.4 (Latest Release)
+Version 1.4
 -----------
+_Blackwhite_
 
 * Can open YouTube-Page for a video.
 
