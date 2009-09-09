@@ -5,7 +5,7 @@ Flashless
 
 **Flashless** is a Cocoa WebKit plug-in to display preview images for Flash based video services and block the rest. Requires Mac OS X 10.5 Leopard or later.
 
-The plugin registers itself for Flash content (`application/x-shockwave-flash`) and is displayed by the browser when it encounters Flash embedded in a website. If the use clicks the plugin area the plugin converts the type of the embedded element to `application/futuresplash` which is handled by the original Flash plugin.
+The plugin registers itself for Flash content (`application/x-shockwave-flash`) and is displayed by the browser when it encounters Flash embedded in a website. If the user clicks the plugin area the plugin converts the type of the embedded element to `application/futuresplash` which is handled by the original Flash plugin.
 
 *Note:* This idea is taken from the ClickToFlash project. (See bottom of this document.)
 
