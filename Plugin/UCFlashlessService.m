@@ -36,6 +36,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #import "UCFlashlessUstreamService.h"
 #import "UCFlashlessFlickrService.h"
 #import "UCFlashlessGoogleService.h"
+#import "UCFlashlessTwitvidService.h"
 
 
 @implementation UCFlashlessService
@@ -69,6 +70,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			[UCFlashlessUstreamService class], @"ustream.tv",
 			[UCFlashlessFlickrService class], @"flickr.com",
 			[UCFlashlessGoogleService class], @"google.com",
+			[UCFlashlessTwitvidService class], @"twitvid.com",
 		nil] objectForKey:[[self class] domainForSrc:aSrc]];
 
 		if(ConcreteSubclass!=nil)
@@ -144,6 +146,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (NSString *)pathString
 {
 	return [[[src path] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
+- (NSString *)queryString
+{
+	return [[src query] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
 @end

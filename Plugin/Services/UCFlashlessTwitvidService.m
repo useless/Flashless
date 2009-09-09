@@ -1,8 +1,8 @@
 //
-//  UCFlashlessYoutubeService.m
+//  UCFlashlessTwitvidService.m
 //  Flashless
 //
-//  Created by Christoph on 03.09.09.
+//  Created by Christoph on 09.09.09.
 //  Copyright Useless Coding 2009.
 /*
 Permission is hereby granted, free of charge, to any person
@@ -27,55 +27,41 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import "UCFlashlessYoutubeService.h"
+#import "UCFlashlessTwitvidService.h"
 
-@implementation UCFlashlessYoutubeService
+@implementation UCFlashlessTwitvidService
 
 
 - (NSString *)label;
 {
-	return @"YouTube";
+	return @"TwitVid";
 }
 
 - (NSURL *)previewURL
-{	
-	videoID = [flashVars objectForKey:@"video_id"];
-	if(videoID==nil)
+{
+	NSString * hint = [flashVars objectForKey:@"file"];
+	if(hint==nil) { return nil; }
+	NSScanner * scan = [NSScanner scannerWithString:[hint stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	[scan scanUpToString:@"/playVideo_" intoString:NULL];
+	if([scan scanString:@"/playVideo_" intoString:NULL])
 		{
-		NSScanner * scan;
-		scan = [NSScanner scannerWithString:[self pathString]];
-		[scan scanUpToString:@"/v/" intoString:NULL];
-		if([scan scanString:@"/v/" intoString:NULL])
-			{
-			[scan scanUpToString:@"&" intoString:&videoID];
-			}
-		if(videoID==nil)
-			{
-			scan = [NSScanner scannerWithString:[self queryString]];
-			[scan scanUpToString:@"video_id=" intoString:NULL];
-			if([scan scanString:@"video_id=" intoString:NULL])
-				{
-				[scan scanUpToString:@"&" intoString:&videoID];
-				}
-			}
+		[scan scanUpToString:@"/" intoString:&videoID];
 		}
 	if(videoID==nil) { return nil; }
 	[videoID retain];
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://i1.ytimg.com/vi/%@/hqdefault.jpg", videoID]];
+	return [NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.twitvid.com/thumbnails/%@.jpg", videoID]];
 }
 
 - (NSURL *)downloadURL
 {
 	if(videoID==nil) { return nil; }
-	NSString * videoHash = [flashVars objectForKey:@"t"];
-	if(videoHash==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video?fmt=18&video_id=%@&t=%@", videoID, videoHash]];
+	return [NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.twitvid.com/%@.mp4", videoID]];
 }
 
 - (NSURL *)originalURL
 {
 	if(videoID==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@", videoID]];
+	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.twitvid.com/%@", videoID]];
 }
 
 @end

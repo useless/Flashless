@@ -42,7 +42,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		nil]];
 */	[flashView _initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
 		[NSDictionary dictionaryWithObjectsAndKeys:
-			@"http://www.youtube.com/v/0ciPntuvX0c&hl=en&fs=1&rel=0&hd=1", @"src",
+			@"http://vimeo.com/moogaloop.swf?clip_id=6450292&server=vimeo.com&show_title=1&show_byline=0&show_portrait=0&color=00ADEF&fullscreen=1", @"src",
 			nil], WebPlugInAttributesKey,
 		[NSURL URLWithString:@"http://www.fscklog.com/"], WebPlugInBaseURLKey,
 		nil]];

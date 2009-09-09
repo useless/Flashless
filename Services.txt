@@ -43,7 +43,7 @@ HINT>	... <thumbnail>{PREVIEW}</thumbnail> ...
 
 PREVIEW: {PREVIEW}
 
-DOWNLOAD: ???
+DOWNLOAD: http://bitcast.vimeo.com/vimeo/v/{?VID:0-2}/{?VID:3-5}/{?VID}.mp4?e={TIMESTAMP}&h={?HASH}
 
 ORIGINAL: http://www.vimeo.com/{ID}
 
@@ -109,19 +109,19 @@ ORIGINAL: {ORIGINAL}
 
 
 Google Video
-SRC>	... videoUrl={DOWNLOAD}&thumbnailUrl={PREVIEW}& ...
+SRC>	... videoUrl={DOWNLOAD}&thumbnailUrl={PREVIEW}&docid={ID}& ...
 
 PREVIEW: {PREVIEW}
 
 DOWNLOAD: {DOWNLOAD}
 
-ORIGINAL: ???
+ORIGINAL: http://video.google.com/videoplay?docid={ID}
 
 
 TwitVid
+FLASHVARS> file=http://www.twitvid.com/playVideo_{ID}/token_{TOKEN}
+PREVIEW: http://cdn.twitvid.com/thumbnails/{ID}.jpg
 
-PREVIEW: ???
+DOWNLOAD: http://cdn.twitvid.com/{ID}.mp4
 
-DOWNLOAD: ???
-
-ORIGINAL: ???
+ORIGINAL: http://www.twitvid.com/{ID}

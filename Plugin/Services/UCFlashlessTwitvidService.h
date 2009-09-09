@@ -1,8 +1,8 @@
 //
-//  UCFlashlessService.h
+//  UCFlashlessTwitvidService.h
 //  Flashless
 //
-//  Created by Christoph on 04.08.09.
+//  Created by Christoph on 09.09.09.
 //  Copyright Useless Coding 2009.
 /*
 Permission is hereby granted, free of charge, to any person
@@ -28,35 +28,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import <Cocoa/Cocoa.h>
+#import "UCFlashlessService.h"
 
-@interface UCFlashlessService : NSObject
+
+@interface UCFlashlessTwitvidService : UCFlashlessService
 {
-	NSURL * src;
-	NSDictionary * flashVars;
-
-	NSString * videoID;
-@private
-	id delegate;
 }
-
-+ (NSString *)domainForSrc:(NSURL *)src;
-
-- (id)initWithSrc:(NSURL *)aSrc andFlashVars:(NSDictionary *)theFlashVars;
-- (id)delegate;
-- (void)setDelegate:(id)newDelegate;
-
-- (NSString *)label;
-
-- (NSURL *)previewURL;
-- (NSURL *)downloadURL;
-- (NSURL *)originalURL;
-
-@end
-
-@interface UCFlashlessService (Private)
-
-- (NSString *)srcString;
-- (NSString *)pathString;
-- (NSString *)queryString;
-
 @end

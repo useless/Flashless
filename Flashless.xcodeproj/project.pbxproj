@@ -55,6 +55,8 @@
 		BF73BE7810507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7610507C5A003D2309 /* UCFlashlessGoogleService.m */; };
 		BF73BE7910507C5A003D2309 /* UCFlashlessFlickrService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7410507C5A003D2309 /* UCFlashlessFlickrService.m */; };
 		BF73BE7A10507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7610507C5A003D2309 /* UCFlashlessGoogleService.m */; };
+		BFC883BC1057C509002F1A9C /* UCFlashlessTwitvidService.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC883BA1057C509002F1A9C /* UCFlashlessTwitvidService.m */; };
+		BFC883BD1057C509002F1A9C /* UCFlashlessTwitvidService.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC883BA1057C509002F1A9C /* UCFlashlessTwitvidService.m */; };
 		BFE965A0104FCD5D00432F88 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE9659F104FCD5D00432F88 /* Logo.png */; };
 		BFE965A1104FCD5D00432F88 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE9659F104FCD5D00432F88 /* Logo.png */; };
 		BFF811D010526B49003B72D3 /* background.png in Copy Helper Files */ = {isa = PBXBuildFile; fileRef = BFF811CF10526B49003B72D3 /* background.png */; };
@@ -136,6 +138,8 @@
 		BF73BE7410507C5A003D2309 /* UCFlashlessFlickrService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessFlickrService.m; sourceTree = "<group>"; };
 		BF73BE7510507C5A003D2309 /* UCFlashlessGoogleService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessGoogleService.h; sourceTree = "<group>"; };
 		BF73BE7610507C5A003D2309 /* UCFlashlessGoogleService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessGoogleService.m; sourceTree = "<group>"; };
+		BFC883BA1057C509002F1A9C /* UCFlashlessTwitvidService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessTwitvidService.m; sourceTree = "<group>"; };
+		BFC883BB1057C509002F1A9C /* UCFlashlessTwitvidService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessTwitvidService.h; sourceTree = "<group>"; };
 		BFE9659F104FCD5D00432F88 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		BFF811CF10526B49003B72D3 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = Product/background.png; sourceTree = "<group>"; };
 		BFF811F7105273C0003B72D3 /* Readme.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Readme.rtf; path = Product/Readme.rtf; sourceTree = "<group>"; };
@@ -245,6 +249,8 @@
 		BF73BCC5105053E4003D2309 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				BFC883BA1057C509002F1A9C /* UCFlashlessTwitvidService.m */,
+				BFC883BB1057C509002F1A9C /* UCFlashlessTwitvidService.h */,
 				BF73BE7310507C5A003D2309 /* UCFlashlessFlickrService.h */,
 				BF73BE7410507C5A003D2309 /* UCFlashlessFlickrService.m */,
 				BF73BE7510507C5A003D2309 /* UCFlashlessGoogleService.h */,
@@ -435,6 +441,7 @@
 				BF73BE6A10507BBB003D2309 /* UCFlashlessUstreamService.m in Sources */,
 				BF73BE7910507C5A003D2309 /* UCFlashlessFlickrService.m in Sources */,
 				BF73BE7A10507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */,
+				BFC883BD1057C509002F1A9C /* UCFlashlessTwitvidService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,6 +462,7 @@
 				BF73BE6910507BBB003D2309 /* UCFlashlessUstreamService.m in Sources */,
 				BF73BE7710507C5A003D2309 /* UCFlashlessFlickrService.m in Sources */,
 				BF73BE7810507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */,
+				BFC883BC1057C509002F1A9C /* UCFlashlessTwitvidService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,7 +590,7 @@
 				GCC_PREFIX_HEADER = Plugin/Flashless_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = PLUGIN_DEBUG;
 				INFOPLIST_FILE = Plugin/Info.plist;
-				PRODUCT_VERSION = 1.5b;
+				PRODUCT_VERSION = 1.5;
 			};
 			name = Debug;
 		};
@@ -592,7 +600,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_PREFIX_HEADER = Plugin/Flashless_Prefix.pch;
 				INFOPLIST_FILE = Plugin/Info.plist;
-				PRODUCT_VERSION = 1.5b;
+				PRODUCT_VERSION = 1.5;
 			};
 			name = Release;
 		};

@@ -48,7 +48,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (NSURL *)previewURL
 {	
 	NSString * thumbnail;
-	NSScanner * scan = [NSScanner scannerWithString:[self pathString]];
+	NSScanner * scan = [NSScanner scannerWithString:[self queryString]];
+	[scan scanUpToString:@"docid=" intoString:NULL];
+	if([scan scanString:@"docid=" intoString:NULL])
+		{
+		[scan scanUpToString:@"&" intoString:&videoID];
+		}
+	if(videoID==nil) { return nil; }
+	[videoID retain];
+	[scan setScanLocation:0];
 	[scan scanUpToString:@"videoURL=" intoString:NULL];
 	if([scan scanString:@"videoURL=" intoString:NULL])
 		{
@@ -72,6 +80,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 	if(videoFile==nil) { return nil; }
 	return [NSURL URLWithString:[videoFile stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+}
+
+- (NSURL *)originalURL
+{
+	if(videoID==nil) { return nil; }
+	return [NSURL URLWithString:[NSString stringWithFormat:@"http://video.google.com/videoplay?docid=%@", videoID]];
 }
 
 @end
