@@ -31,8 +31,9 @@ static NSString * sFlashOldMIMEType = @"application/x-shockwave-flash";
 static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 @interface UCFlashlessView (DOM)
-- (void)_convertTypesForContainer;
+- (void)_convertToFlash;
 - (void)_convertTypesForElement:(DOMElement *)element;
+- (void)_convertToVideo;
 - (void)_removeFromContainer;
 @end
 
@@ -48,31 +49,49 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
     }
 }
 
-- (void)_convertTypesForContainer
+- (void)_convertToFlash
 {
 	DOMElement * newElement = (DOMElement *)[_element cloneNode:YES];
 	DOMNodeList * nodeList;
-	
-	unsigned i;
-	
+
+	NSUInteger i;
+
 	[self _convertTypesForElement:newElement];
-	
+
 	nodeList = [newElement getElementsByTagName:@"object"];
-	for (i=0; i<nodeList.length; i++)
+	for(i=0; i<nodeList.length; i++)
 		{
 		[self _convertTypesForElement:(DOMElement *)[nodeList item:i]];
 		}
 
 	nodeList = [newElement getElementsByTagName:@"embed"];
-	for (i=0; i<nodeList.length; i++)
+	for(i=0; i<nodeList.length; i++)
 		{
 		[self _convertTypesForElement:(DOMElement *)[nodeList item:i]];
 		}
-	
+
 	[[self retain] autorelease];
-	
+
 	[_element.parentNode replaceChild:newElement oldChild:_element];
-	
+
+	[_element release];
+	_element = nil;
+}
+
+- (void)_convertToVideo
+{
+	DOMElement * videoElement = [[_element ownerDocument] createElement:@"video"];
+
+	[videoElement setAttribute:@"src" value:[_downloadURL absoluteString]];
+	[videoElement setAttribute:@"autobuffer" value:@"autobuffer"];
+	[videoElement setAttribute:@"controls" value:@"controls"];
+	[videoElement setAttribute:@"width" value:[_element getAttribute:@"width"]];
+	[videoElement setAttribute:@"height" value:[_element getAttribute:@"height"]];
+
+	[[self retain] autorelease];
+
+	[_element.parentNode replaceChild:videoElement oldChild:_element];
+
 	[_element release];
 	_element = nil;
 }
@@ -80,9 +99,9 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 - (void)_removeFromContainer
 {	
 	[[self retain] autorelease];
-	
+
 	[_element.parentNode removeChild:_element];
-	
+
 	[_element release];
 	_element = nil;
 }

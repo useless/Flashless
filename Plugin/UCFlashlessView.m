@@ -294,7 +294,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		return UCOriginalFlashIcon;
 		}
-	if(_originalURL && _videoMIME && (_modifierFlags&UCDirectPlayModifiers)==UCDirectPlayModifiers)
+	if(_downloadURL && _canPlayDirectly && (_modifierFlags&UCDirectPlayModifiers)==UCDirectPlayModifiers)
 		{
 		return UCDirectPlayFlashIcon;
 		}
@@ -437,7 +437,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	// if whitelisted show directly
 	if([[UCBlackwhitelist sharedBlackwhitelist] isWhiteHost:[_src host]])
 		{
-		[self _convertTypesForContainer];
+		[self _convertToFlash];
 		return;
 		}
 	
@@ -452,12 +452,11 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 	_siteLabel = [[service label] retain];
 	_canDownload = [service canDownload];
+	_canPlayDirectly = [service canPlayDirectly];
 
 	[self setMenu:[self _prepareMenu]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldRemove:) name:sRemoveAllNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldPlay:) name:sPlayAllNotification object:nil];
-
-	_videoMIME = [[service videoMIME] retain];
 
 	_previewURL = [[service previewURL] retain];
 	_downloadURL = [[service downloadURL] retain];
@@ -573,11 +572,12 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)playFlash:(id)sender
 {
-	[self _convertTypesForContainer];
+	[self _convertToFlash];
 }
 
 - (void)playDirectly:(id)sender
 {
+	[self _convertToVideo];
 }
 
 - (void)openOriginal:(id)sender
@@ -696,7 +696,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	NSString * host = [[notification userInfo] objectForKey:sHostKey];
 	if([host isEqualToString:[_src host]] && !_sheetOpen)
 		{
-		[self _convertTypesForContainer];
+		[self _convertToFlash];
 		}
 }
 

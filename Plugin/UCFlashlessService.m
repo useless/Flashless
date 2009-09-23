@@ -124,9 +124,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return NO;
 }
 
-- (NSString *)videoMIME
+- (BOOL)canPlayDirectly
 {
-	return nil;
+	return NO;
 }
 
 - (NSURL *)previewURL

@@ -56,8 +56,8 @@ enum {
 	NSMutableDictionary * _flashVars;
 	NSString * _siteLabel;
 	BOOL _canDownload;
+	BOOL _canPlayDirectly;
 
-	NSString * _videoMIME;
 	NSURL * _previewURL;
 	NSURL * _downloadURL;
 	NSURL * _originalURL;
