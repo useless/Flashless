@@ -30,6 +30,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 
+typedef enum {
+	UCDefaultFlashIcon,
+	UCPlayFlashIcon,
+	UCDownloadFlashIcon,
+	UCTryDownloadFlashIcon,
+	UCOriginalFlashIcon,
+	UCDirectPlayFlashIcon
+} UCFlashIconType;
 
 @interface UCFlashlessView : NSView <WebPlugInViewFactory>
 {
@@ -55,7 +63,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	BOOL _sheetOpen;
 	BOOL _mouseDown;
 	BOOL _mouseInside;
-	BOOL _alternateKeyDown;
+	NSUInteger _modifierFlags;
 	NSTrackingArea * _tracking;
 }
 

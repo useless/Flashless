@@ -42,9 +42,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (id)_initWithArguments:(NSDictionary *)arguments;
 
-- (void)_altChanged;
+- (void)_modifiersChanged;
+- (UCFlashIconType)_playIcon;
 
-- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play withArrow:(BOOL)arrow;
+- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asIcon:(UCFlashIconType)icon;
 
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL;
 - (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes;
@@ -87,11 +88,11 @@ static NSString * sHostKey = @"UCFlashlessHost";
     return self;
 }
 
-- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asPlay:(BOOL)play withArrow:(BOOL)arrow;
+- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asIcon:(UCFlashIconType)icon
 {
 	const float kMar = 3;
 
-	NSSize size = play?NSMakeSize(48, 48):NSMakeSize(32, 32);
+	NSSize size = (icon==UCDefaultFlashIcon)?NSMakeSize(32, 32):NSMakeSize(48, 48);
 
 	if(bounds.size.width>size.width+3*kMar && bounds.size.height>size.height+3*kMar)
 		{
@@ -102,40 +103,71 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		[shape fill];
 
 		[tint set];
-		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2, (bounds.size.height-size.height)/1.8, size.width, size.height)];
-		[shape setLineWidth:3];
-		[shape stroke];
-
 		shape = [NSBezierPath bezierPath];
 
-		if(arrow)
+		switch(icon)
 			{
-			[shape moveToPoint:NSMakePoint(bounds.size.width/2-size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.8)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.3, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2, (bounds.size.height-size.height)/1.8+size.height*0.15)];						
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.3, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.8)];						
-			}
-		else if(play)
-			{
-			[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width/3, (bounds.size.height-size.height)/1.8+size.height/2)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.8)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.2)];
-			}
-		else
-			{
-			[shape moveToPoint:NSMakePoint(bounds.size.width/2-size.width*0.13, (bounds.size.height-size.height)/1.8+size.height*0.1)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.03, (bounds.size.height-size.height)/1.8+size.height*0.49)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.21, (bounds.size.height-size.height)/1.8+size.height*0.45)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.09, (bounds.size.height-size.height)/1.8+size.height)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.2, (bounds.size.height-size.height)/1.8+size.height)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.05, (bounds.size.height-size.height)/1.8+size.height*0.61)];
-			[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width/4, (bounds.size.height-size.height)/1.8+size.height*0.65)];
+			case UCPlayFlashIcon:
+				[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width/3, (bounds.size.height-size.height)/1.8+size.height/2)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.8)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.2)];
+				[shape fill];
+				break;
+			case UCDirectPlayFlashIcon:
+				shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2, (bounds.size.height-size.height)/1.8, size.width, size.height)];
+				[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width/3, (bounds.size.height-size.height)/1.8+size.height/2)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.2)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.2, (bounds.size.height-size.height)/1.8+size.height*0.8)];
+				[shape fill];
+				break;
+			case UCDownloadFlashIcon:
+				[shape moveToPoint:NSMakePoint(bounds.size.width/2-size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.8)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.3, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2, (bounds.size.height-size.height)/1.8+size.height*0.15)];						
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.3, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.8)];						
+				[shape fill];
+				break;
+			case UCTryDownloadFlashIcon:
+				[shape moveToPoint:NSMakePoint(bounds.size.width/2-size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.8)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.3, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2, (bounds.size.height-size.height)/1.8+size.height*0.15)];						
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.3, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.45)];						
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.15, (bounds.size.height-size.height)/1.8+size.height*0.8)];						
+				[shape closePath];
+				[shape setLineWidth:kMar];
+				[shape stroke];
+				break;
+			case UCOriginalFlashIcon:
+				shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2, (bounds.size.height-size.height)/1.8, size.width, size.height)];
+				[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width*0.4, (bounds.size.height-size.height)/1.8+size.height/2)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2, (bounds.size.height-size.height)/1.8+size.height*0.2)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2, (bounds.size.height-size.height)/1.8+size.height*0.4)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width/3, (bounds.size.height-size.height)/1.8+size.height*0.4)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width/3, (bounds.size.height-size.height)/1.8+size.height*0.6)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2, (bounds.size.height-size.height)/1.8+size.height*0.6)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2, (bounds.size.height-size.height)/1.8+size.height*0.8)];
+				[shape fill];
+				break;
+			default:
+				[shape moveToPoint:NSMakePoint(bounds.size.width/2-size.width*0.13, (bounds.size.height-size.height)/1.8+size.height*0.1)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.03, (bounds.size.height-size.height)/1.8+size.height*0.49)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.21, (bounds.size.height-size.height)/1.8+size.height*0.45)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.09, (bounds.size.height-size.height)/1.8+size.height)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.2, (bounds.size.height-size.height)/1.8+size.height)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.05, (bounds.size.height-size.height)/1.8+size.height*0.61)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width/4, (bounds.size.height-size.height)/1.8+size.height*0.65)];
+				[shape fill];
+				break;
 			}
 
-		[shape fill];
+		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2, (bounds.size.height-size.height)/1.8, size.width, size.height)];
+		[shape setLineWidth:kMar];
+		[shape stroke];
 		}
 }
 
@@ -245,9 +277,26 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
 }
 
-- (void)_altChanged
+- (void)_modifiersChanged
 {
 	[self setNeedsDisplay:YES];
+}
+
+- (UCFlashIconType)_playIcon
+{
+	if(_originalURL && (_modifierFlags&NSCommandKeyMask)==NSCommandKeyMask)
+		{
+		return UCOriginalFlashIcon;
+		}
+	if(_downloadURL && (_modifierFlags&NSAlternateKeyMask)==NSAlternateKeyMask)
+		{
+		return UCDownloadFlashIcon;
+		}
+	if(_siteLabel)
+		{
+		return UCPlayFlashIcon;
+		}
+	return UCDefaultFlashIcon;
 }
 
 #pragma mark URLConnection Delegate
@@ -335,6 +384,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		
 	if(_mouseInside)
 		{
+		if(([event modifierFlags]&NSCommandKeyMask)==NSCommandKeyMask)
+			{
+			[self openOriginal:self];
+			}
 		if(([event modifierFlags]&NSAlternateKeyMask)==NSAlternateKeyMask)
 			{
 			[self download:self];
@@ -348,10 +401,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)windowDidUpdate:(NSNotification *)aNotification
 {
-	if(_alternateKeyDown!=(([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)==NSAlternateKeyMask))
+	if(_modifierFlags!=[[NSApp currentEvent] modifierFlags])
 		{
-		_alternateKeyDown=!_alternateKeyDown;
-		[self _altChanged];
+		_modifierFlags=[[NSApp currentEvent] modifierFlags];
+		[self _modifiersChanged];
 		}
 }
 
@@ -403,8 +456,8 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)webPlugInStart
 {
-	_alternateKeyDown = (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)==NSAlternateKeyMask);
-	if(_downloadURL!=nil)
+	_modifierFlags = [[NSApp currentEvent] modifierFlags];
+	if(_downloadURL!=nil || _originalURL!=nil)
 		{
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidUpdate:) name:NSWindowDidUpdateNotification object:[self window]];
 		}
@@ -482,7 +535,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[[NSColor colorWithCalibratedWhite:0.0 alpha:0.5] set];
 	[shape stroke];
 
-	[self _drawWithTint:tint andHalo:halo inRect:bounds asPlay:(_siteLabel!=nil) withArrow:(_downloadURL!=nil)&&_alternateKeyDown];
+	[self _drawWithTint:tint andHalo:halo inRect:bounds asIcon:[self _playIcon]];
 }
 
 #pragma mark Actions
