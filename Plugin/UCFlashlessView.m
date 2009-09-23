@@ -366,13 +366,21 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)mouseEntered:(NSEvent *)event
 {
     _mouseInside=YES;
-    [self setNeedsDisplay:YES];
+	if(_mouseDown || [event modifierFlags])
+		{
+		_modifierFlags = [event modifierFlags];
+		[self setNeedsDisplay:YES];
+		}
 }
 
 - (void)mouseExited:(NSEvent *)event
 {
     _mouseInside=NO;
-    [self setNeedsDisplay:YES];
+    if(_mouseDown || _modifierFlags)
+		{
+		_modifierFlags=0;
+		[self setNeedsDisplay:YES];
+		}
 }
 
 - (void)mouseDown:(NSEvent *)event
@@ -381,21 +389,13 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	_mouseInside=YES;
 	
 	[self setNeedsDisplay:YES];
-	
-	// Not supported in 10.4. Workaround?
-	_tracking = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow | NSTrackingEnabledDuringMouseDrag owner:self userInfo:nil];
-	[self addTrackingArea:_tracking];
 }
 
 - (void)mouseUp:(NSEvent *)event
 {
 	_mouseDown=NO;
 	[self display];
-	
-	[self removeTrackingArea:_tracking];
-	[_tracking release];
-	_tracking=nil;
-		
+
 	if(_mouseInside)
 		{
 		if(([event modifierFlags]&UCOriginalModifiers)==UCOriginalModifiers)
@@ -423,7 +423,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)windowDidUpdate:(NSNotification *)aNotification
 {
-	if(_modifierFlags!=[[NSApp currentEvent] modifierFlags])
+	if(_mouseInside && _modifierFlags!=[[NSApp currentEvent] modifierFlags])
 		{
 		_modifierFlags=[[NSApp currentEvent] modifierFlags];
 		[self _modifiersChanged];
@@ -470,6 +470,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		_previewConnection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:_previewURL] delegate:self];
 		_previewBuf = [[NSMutableData alloc] init];
 		}
+
+	_tracking = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingEnabledDuringMouseDrag|NSTrackingInVisibleRect owner:self userInfo:nil];
+	[self addTrackingArea:_tracking];
+
 	[self setNeedsDisplay:YES];
 }
 
@@ -477,6 +481,8 @@ static NSString * sHostKey = @"UCFlashlessHost";
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[_previewConnection cancel];
+	[self removeTrackingArea:_tracking];
+	[_tracking release];
 }
 
 - (void)webPlugInStart
