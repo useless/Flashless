@@ -119,6 +119,16 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return nil;
 }
 
+- (BOOL)canDownload
+{
+	return NO;
+}
+
+- (NSString *)videoMIME
+{
+	return nil;
+}
+
 - (NSURL *)previewURL
 {
 	return nil;

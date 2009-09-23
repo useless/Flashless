@@ -47,6 +47,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (NSString *)label;
 
+- (BOOL)canDownload;
+
+- (NSString *)videoMIME;
+
 - (NSURL *)previewURL;
 - (NSURL *)downloadURL;
 - (NSURL *)originalURL;
