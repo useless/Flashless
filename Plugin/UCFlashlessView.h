@@ -40,10 +40,9 @@ typedef enum {
 } UCFlashIconType;
 
 enum {
-	UCOriginalModifiers = NSCommandKeyMask | NSShiftKeyMask,
+	UCOriginalModifiers = NSShiftKeyMask,
 	UCDirectPlayModifiers = NSCommandKeyMask,
-	UCDownloadModifiers = NSAlternateKeyMask,
-	UCTryDownloadModifiers = NSAlternateKeyMask | NSShiftKeyMask
+	UCDownloadModifiers = NSAlternateKeyMask
 };
 
 @interface UCFlashlessView : NSView <WebPlugInViewFactory>
@@ -80,7 +79,6 @@ enum {
 - (void)playDirectly:(id)sender;
 - (void)openOriginal:(id)sender;
 - (void)download:(id)sender;
-- (void)tryDownload:(id)sender;
 - (void)whitelistFlash:(id)sender;
 - (void)blacklistFlash:(id)sender;
 - (void)remove:(id)sender;

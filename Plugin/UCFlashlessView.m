@@ -240,7 +240,9 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (NSMenu *)_prepareMenu
 {
 	NSMenu * menu = [[NSMenu alloc] init];
+	NSMenuItem * lastItem;
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Play", nil, _myBundle, @"Play Menu Title") action:@selector(playFlash:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Play Video", nil, _myBundle, @"Play Video Menu Title") action:@selector(playDirectly:) keyEquivalent:@""];
 	if(_siteLabel!=nil)
 		{
 		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Show At '%@'", nil, _myBundle, @"Original Menu Title"), _siteLabel] action:@selector(openOriginal:) keyEquivalent:@""];
@@ -249,11 +251,11 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show Original", nil, _myBundle, @"Original Nil Menu Title") action:@selector(openOriginal:) keyEquivalent:@""];
 		}
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Download Video", nil, _myBundle, @"Download Menu Title") action:@selector(download:) keyEquivalent:@""];
+	[menu addItemWithTitle:@"Video" action:@selector(download:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
-	NSMenuItem * allItem = [menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Source", nil, _myBundle, @"Blackwhitelist Submenu Title") action:NULL keyEquivalent:@""];
+	lastItem = [menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Source", nil, _myBundle, @"Blackwhitelist Submenu Title") action:NULL keyEquivalent:@""];
 	if([_src host]!=nil)
 		{
 		NSMenu * smenu = [[NSMenu alloc] initWithTitle:@"Source"];
@@ -264,7 +266,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		[smenu addItem:[NSMenuItem separatorItem]];
 		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Auto-Play", nil, _myBundle, @"Whitelist Menu Title") action:@selector(whitelistFlash:) keyEquivalent:@""];
 		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Auto-Remove...", nil, _myBundle, @"Blacklist Menu Title") action:@selector(blacklistFlash:) keyEquivalent:@""];
-		[menu setSubmenu:smenu forItem:allItem];
+		[menu setSubmenu:smenu forItem:lastItem];
 		[smenu release];
 		}
 	[menu addItem:[NSMenuItem separatorItem]];
@@ -316,7 +318,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		return UCDownloadFlashIcon;
 		}
-	if(_canDownload && (_modifierFlags&UCTryDownloadModifiers)==UCTryDownloadModifiers)
+	if(_canDownload && (_modifierFlags&UCDownloadModifiers)==UCDownloadModifiers)
 		{
 		return UCTryDownloadFlashIcon;
 		}
@@ -423,10 +425,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		else if(([event modifierFlags]&UCDownloadModifiers)==UCDownloadModifiers)
 			{
 			[self download:self];
-			}
-		else if(([event modifierFlags]&UCTryDownloadModifiers)==UCTryDownloadModifiers)
-			{
-			[self tryDownload:self];
 			}
 		else
 			{
@@ -592,7 +590,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)playDirectly:(id)sender
 {
-	[self _convertToVideo];
+	if(_canPlayDirectly && (_downloadURL!=nil))
+		{
+		[self _convertToVideo];
+		}
 }
 
 - (void)openOriginal:(id)sender
@@ -616,10 +617,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			[[NSWorkspace sharedWorkspace] openURL:_downloadURL];
 			}
 		}
-}
-
-- (void)tryDownload:(id)sender
-{
+	else if(_canDownload)
+		{
+		// TODO: look for download
+		}
 }
 
 - (void)whitelistFlash:(id)sender
@@ -732,13 +733,29 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		return _originalURL!=nil;
 		}
-	else if([anItem action]==@selector(download:) || [anItem action]==@selector(copyDownload:))
+	else if([anItem action]==@selector(copyDownload:))
 		{
 		return _downloadURL!=nil;
 		}
 	else if([anItem action]==@selector(copyPreview:))
 		{
 		return _previewURL!=nil;
+		}
+	else if([anItem action]==@selector(playDirectly:))
+		{
+		return _canPlayDirectly && (_downloadURL!=nil);
+		}
+	else if([anItem action]==@selector(download:))
+		{
+		if(_canDownload && _downloadURL==nil)
+			{
+			[(NSMenuItem *)anItem setTitle:NSLocalizedStringFromTableInBundle(@"Try Download Video", nil, _myBundle, @"Try Download Menu Title")];
+			}
+		else
+			{
+			[(NSMenuItem *)anItem setTitle:NSLocalizedStringFromTableInBundle(@"Download Video", nil, _myBundle, @"Download Menu Title")];
+			return _downloadURL!=nil;
+			}
 		}
 	
 	return YES;
