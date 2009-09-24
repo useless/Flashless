@@ -29,7 +29,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #import "UCFlashlessView.h"
 #import "UCBlackwhitelist.h"
-#import "UCFlashlessService.h"
 
 #import "PluginView+DOM.m"
 
@@ -55,9 +54,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
+- (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview;
+- (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download;
+- (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original;
+- (void)service:(UCFlashlessService *)service didReceivePreviewData:(NSData *)data;
 
 @end
 
@@ -83,6 +83,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		_mouseDown=NO;
 		_mouseInside=NO;
 		_sheetOpen=NO;
+		_shouldDownloadNow=NO;
 		}
     
     return self;
@@ -329,21 +330,34 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	return UCDefaultFlashIcon;
 }
 
-#pragma mark URLConnection Delegate
+#pragma mark Service Delegate
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+- (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview
 {
-	[_previewBuf appendData:data];
+	[_previewURL release];
+	_previewURL = [preview retain];
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+- (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download
 {
-	_previewImage = [[NSImage alloc] initWithData:_previewBuf];
+	[_downloadURL release];
+	_downloadURL = [download retain];
+	if(_shouldDownloadNow)
+		{
+		[self download:self];
+		}
+}
+
+- (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original
+{
+	[_originalURL release];
+	_originalURL = [original retain];
+}
+
+- (void)service:(UCFlashlessService *)service didReceivePreviewData:(NSData *)data
+{
+	_previewImage = [[NSImage alloc] initWithData:data];
 	[self setNeedsDisplay:YES];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
 }
 
 @end
@@ -360,6 +374,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void) dealloc
 {
+	[self webPlugInDestroy];
 	[_container release];
 	[_element release];
 
@@ -368,11 +383,11 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[_downloadURL release];
 	[_siteLabel release];
 	[_src release];
+	[_service release];
 
 	[_myBundle release];
 	[_previewImage release];
-	[_previewBuf release];
-	[_previewConnection release];
+	[_tracking release];
 
 	[super dealloc];
 }
@@ -460,27 +475,16 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		return;
 		}
 
-	UCFlashlessService * service = [[UCFlashlessService alloc] initWithSrc:_src andFlashVars:_flashVars];
+	_service = [[UCFlashlessService alloc] initWithSrc:_src andFlashVars:_flashVars];
+	[_service startWithDelegate:self];
 
-	_siteLabel = [[service label] retain];
-	_canDownload = [service canDownload];
-	_canPlayDirectly = [service canPlayDirectly];
+	_siteLabel = [[_service label] retain];
+	_canDownload = [_service canDownload];
+	_canPlayDirectly = [_service canPlayDirectly];
 
 	[self setMenu:[self _prepareMenu]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldRemove:) name:sRemoveAllNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldPlay:) name:sPlayAllNotification object:nil];
-
-	_previewURL = [[service previewURL] retain];
-	_downloadURL = [[service downloadURL] retain];
-	_originalURL = [[service originalURL] retain];
-
-	[service release];
-	
-	if(_previewURL)
-		{
-		_previewConnection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:_previewURL] delegate:self];
-		_previewBuf = [[NSMutableData alloc] init];
-		}
 
 	_mouseInside=YES;
 	_tracking = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingEnabledDuringMouseDrag|NSTrackingInVisibleRect|NSTrackingAssumeInside owner:self userInfo:nil];
@@ -492,9 +496,8 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)webPlugInDestroy
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[_previewConnection cancel];
+	[_service cancel];
 	[self removeTrackingArea:_tracking];
-	[_tracking release];
 }
 
 - (void)webPlugInStart
@@ -619,7 +622,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
 	else if(_canDownload)
 		{
-		// TODO: look for download
+		[_service findDownloadURL];
 		}
 }
 

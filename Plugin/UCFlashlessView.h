@@ -29,6 +29,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
+#import "UCFlashlessService.h"
 
 typedef enum {
 	UCDefaultFlashIcon,
@@ -53,6 +54,7 @@ enum {
 
 	NSURL * _src;
 	NSMutableDictionary * _flashVars;
+	UCFlashlessService * _service;
 	NSString * _siteLabel;
 	BOOL _canDownload;
 	BOOL _canPlayDirectly;
@@ -65,10 +67,8 @@ enum {
 
 	NSBundle * _myBundle;
 
-	NSURLConnection * _previewConnection;
-	NSMutableData * _previewBuf;
-
 	BOOL _sheetOpen;
+	BOOL _shouldDownloadNow;
 	BOOL _mouseDown;
 	BOOL _mouseInside;
 	NSUInteger _modifierFlags;

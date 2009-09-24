@@ -37,6 +37,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 	NSString * videoID;
 @private
 	id delegate;
+	NSURLConnection * previewConnection;
+	NSMutableData * previewBuffer;
 }
 
 + (NSString *)domainForSrc:(NSURL *)src;
@@ -44,6 +46,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (id)initWithSrc:(NSURL *)aSrc andFlashVars:(NSDictionary *)theFlashVars;
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
+- (void)startWithDelegate:(id)newDelegate;
+- (void)cancel;
 
 - (NSString *)label;
 
@@ -58,8 +62,26 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @interface UCFlashlessService (Private)
 
+- (void)findURLs;
+- (void)findDownloadURL;
+- (void)stopFinding;
+
+- (void)foundPreview:(NSURL *)previewURL;
+- (void)foundDownload:(NSURL *)downloadURL;
+- (void)foundOriginal:(NSURL *)originalURL;
+- (void)receivedPreviewData:(NSData *)previewData;
+
 - (NSString *)srcString;
 - (NSString *)pathString;
 - (NSString *)queryString;
+
+@end
+
+@interface NSObject (UCFlashlessServiceDelegate)
+
+- (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview;
+- (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download;
+- (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original;
+- (void)service:(UCFlashlessService *)service didReceivePreviewData:(NSData *)data;
 
 @end

@@ -95,6 +95,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 	[src release];
 	[flashVars release];
+	[previewBuffer release];
+	[previewConnection release];
 
 	[super dealloc];
 }
@@ -110,6 +112,19 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 	// Do not retain delegates.
 	delegate = newDelegate;
+}
+
+- (void)startWithDelegate:(id)newDelegate
+{
+	[self setDelegate:newDelegate];
+	[self findURLs];
+}
+
+- (void)cancel
+{
+	[previewConnection cancel];
+	[self stopFinding];
+	delegate = nil;
 }
 
 #pragma mark Service Info
@@ -148,6 +163,82 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @implementation UCFlashlessService (Private)
 
+- (void)findURLs
+{
+	NSURL * url;
+	url = [self previewURL];
+	if(url!=nil)
+		{
+		[self foundPreview:url];
+		}
+	url = [self downloadURL];
+	if(url!=nil)
+		{
+		[self foundDownload:url];
+		}
+	url = [self originalURL];
+	if(url!=nil)
+		{
+		[self foundOriginal:url];
+		}
+}
+
+- (void)findDownloadURL
+{
+}
+
+- (void)stopFinding
+{
+}
+
+- (void)foundPreview:(NSURL *)previewURL
+{
+	[delegate service:self didFindPreview:previewURL];
+	previewConnection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:previewURL] delegate:self];
+	previewBuffer = [[NSMutableData alloc] init];
+}
+
+- (void)foundDownload:(NSURL *)downloadURL
+{
+	[delegate service:self didFindDownload:downloadURL];
+}
+
+- (void)foundOriginal:(NSURL *)originalURL
+{
+	[delegate service:self didFindOriginal:originalURL];
+}
+
+- (void)receivedPreviewData:(NSData *)previewData
+{
+	[delegate service:self didReceivePreviewData:previewData];
+}
+
+#pragma mark URLConnection Delegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+	if(connection==previewConnection)
+		{
+		[previewBuffer appendData:data];
+		}
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+	if(connection==previewConnection)
+		{
+		[self receivedPreviewData:previewBuffer];
+		[previewBuffer autorelease];
+		previewBuffer = nil;
+		}
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+}
+
+#pragma mark URL Helper
+
 - (NSString *)srcString
 {
 	return [[src absoluteString] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -161,6 +252,26 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (NSString *)queryString
 {
 	return [[src query] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
+@end
+
+@implementation NSObject (UCFlashlessServiceDelegate)
+
+- (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview
+{
+}
+
+- (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download
+{
+}
+
+- (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original
+{
+}
+
+- (void)service:(UCFlashlessService *)service didReceivePreviewData:(NSData *)data
+{
 }
 
 @end
