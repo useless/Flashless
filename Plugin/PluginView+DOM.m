@@ -84,6 +84,7 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 	[videoElement setAttribute:@"src" value:[_downloadURL absoluteString]];
 	[videoElement setAttribute:@"autobuffer" value:@"autobuffer"];
+	[videoElement setAttribute:@"autoplay" value:@"autoplay"];
 	[videoElement setAttribute:@"controls" value:@"controls"];
 	[videoElement setAttribute:@"width" value:[_element getAttribute:@"width"]];
 	[videoElement setAttribute:@"height" value:[_element getAttribute:@"height"]];
