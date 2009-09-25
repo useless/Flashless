@@ -49,13 +49,13 @@ ORIGINAL: http://www.vimeo.com/{ID}
 
 
 blip.tv
-SRC>	... file={HINT(%)}%3F ...
+SRC>	... file={HINT}& ...
 
 HINT>	<link>{ORIGINAL}</link>
 	<blip:thumbnail_src>{PREVIEWID}</blip:thumbnail_src>
 	<media:content url="{DOWNLOAD}"
 
-PREVIEW: http://a.images.blip.tv/{PREVIEWID}.jpg
+PREVIEW: http://a.images.blip.tv/{PREVIEWID}
 
 DOWNLOAD: {DOWNLOAD}
 
@@ -89,7 +89,7 @@ ORIGINAL: ???
 Flickr
 FLASHVARS> photo_id={ID}
 
-HINT:	http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id={ID}&secret=null&olang=null&noBuffer=null&bitrate=700&target=_blank&show_info_box=1
+HINT:	http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id={ID}
 
 HINT>	<Item id="photo_server">{SID}</Item>
 	<Item id="photo_secret">{SECRET}</Item>
@@ -119,6 +119,8 @@ ORIGINAL: http://video.google.com/videoplay?docid={ID}
 
 
 TwitVid
+SRC>	http://twitvid.com/player/{ID}
+
 FLASHVARS> file=http://www.twitvid.com/playVideo_{ID}/token_{TOKEN}
 PREVIEW: http://cdn.twitvid.com/thumbnails/{ID}.jpg
 

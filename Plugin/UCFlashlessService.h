@@ -46,6 +46,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 + (NSString *)domainForSrc:(NSURL *)src;
 
 - (id)initWithSrc:(NSURL *)aSrc andFlashVars:(NSDictionary *)theFlashVars;
+- (void)setSrc:(NSURL *)aSrc;
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
 - (void)startWithDelegate:(id)newDelegate;
@@ -53,7 +54,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (NSString *)label;
 
-- (BOOL)canDownload;
+- (BOOL)canFindDownload;
 - (BOOL)canPlayDirectly;
 
 @end
@@ -62,8 +63,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)findURLs;
 - (void)findDownloadURL;
-- (void)retreiveHint:(NSURL *)hintURL;
-- (void)stopFinding;
+- (void)retrieveHint:(NSURL *)hintURL;
 
 - (void)receivedHint:(NSString *)hint;
 - (void)foundPreview:(NSURL *)previewURL;

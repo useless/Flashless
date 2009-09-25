@@ -105,6 +105,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma mark -
 
+- (void)setSrc:(NSURL *)aSrc
+{
+	[src release];
+	src = [aSrc retain];
+}
+
 - (id)delegate
 {
 	return delegate;
@@ -126,7 +132,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 	[hintConnection cancel];
 	[previewConnection cancel];
-	[self stopFinding];
 	delegate = nil;
 }
 
@@ -137,14 +142,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return nil;
 }
 
-- (BOOL)canDownload
+- (BOOL)canFindDownload
 {
 	return NO;
 }
 
 - (BOOL)canPlayDirectly
 {
-	return NO;
+	return YES;
 }
 
 @end
@@ -159,14 +164,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 }
 
-- (void)retreiveHint:(NSURL *)hintURL
+- (void)retrieveHint:(NSURL *)hintURL
 {
 	hintConnection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:hintURL] delegate:self];
 	hintBuffer = [[NSMutableData alloc] init];
-}
-
-- (void)stopFinding
-{
 }
 
 - (void)receivedHint:(NSString *)hint

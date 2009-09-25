@@ -33,6 +33,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)dealloc
 {
+	[secret release];
+	[node release];
+
 	[super dealloc];
 }
 
@@ -43,7 +46,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"Flickr";
 }
 
-- (BOOL)canDownload
+- (BOOL)canFindDownload
 {
 	return YES;
 }
@@ -52,40 +55,80 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 	videoID = [[flashVars objectForKey:@"photo_id"] retain];
 	if(videoID==nil) { return; }
-	[self retreiveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id=%@", videoID]]];
+	findDownload=NO;
+	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id=%@", videoID]]];
+}
+
+- (void)findDownloadURL
+{
+	if(secret==nil || node==nil)
+		{
+		return;
+		}
+	findDownload=YES;
+	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/video_playlist.gne?node_id=%@&secret=%@", node, secret]]];
 }
 
 - (void)receivedHint:(NSString *)hint
 {
 	if(hint==nil) { return; }
 	NSString * server = nil;
-	NSString * secret = nil;
-	NSString * originalURLString = nil;
-
+	NSString * URLString = nil;
 	NSScanner * scan = [NSScanner scannerWithString:hint];
-	[scan scanUpToString:@"<Item id=\"photo_server\">" intoString:NULL];
-	if([scan scanString:@"<Item id=\"photo_server\">" intoString:NULL])
+	if(findDownload)
 		{
-		[scan scanUpToString:@"</Item>" intoString:&server];
-		}
-	[scan scanUpToString:@"<Item id=\"photo_secret\">" intoString:NULL];
-	if([scan scanString:@"<Item id=\"photo_secret\">" intoString:NULL])
-		{
-		[scan scanUpToString:@"</Item>" intoString:&secret];
-		}
-	if(server!=nil && secret!=nil)
-		{
-		[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://farm3.static.flickr.com/%@/%@_%@.jpg?0", server, videoID, secret]]];
-		}
+		[scan scanUpToString:@"APP=\"" intoString:NULL];
+		if([scan scanString:@"APP=\"" intoString:NULL])
+			{
+			[scan scanUpToString:@"\"" intoString:&server];
+			}
+		[scan scanUpToString:@"FULLPATH=\"" intoString:NULL];
+		if([scan scanString:@"FULLPATH=\"" intoString:NULL])
+			{
+			[scan scanUpToString:@"\"" intoString:&URLString];
+			}
 
-	[scan scanUpToString:@";url=" intoString:NULL];
-	if([scan scanString:@";url=" intoString:NULL])
-		{
-		[scan scanUpToString:@"&" intoString:&originalURLString];
+		if(server!=nil && URLString!=nil)
+			{
+			[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", server, [URLString stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"]]]];
+			}
 		}
-	if(originalURLString!=nil)
+	else
 		{
-		[self foundOriginal:[NSURL URLWithString:originalURLString]];
+		[scan scanUpToString:@"<Item id=\"photo_server\">" intoString:NULL];
+		if([scan scanString:@"<Item id=\"photo_server\">" intoString:NULL])
+			{
+			[scan scanUpToString:@"</Item>" intoString:&server];
+			}
+		[scan scanUpToString:@"<Item id=\"photo_secret\">" intoString:NULL];
+		if([scan scanString:@"<Item id=\"photo_secret\">" intoString:NULL])
+			{
+			[scan scanUpToString:@"</Item>" intoString:&secret];
+			}
+		[secret retain];
+		if(server!=nil && secret!=nil)
+			{
+			[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://farm3.static.flickr.com/%@/%@_%@.jpg?0", server, videoID, secret]]];
+			}
+
+		[scan setScanLocation:0];
+		[scan scanUpToString:@"<Item id=\"id\">" intoString:NULL];
+		if([scan scanString:@"<Item id=\"id\">" intoString:NULL])
+			{
+			[scan scanUpToString:@"</Item>" intoString:&node];
+			}
+		[node retain];
+
+		[scan setScanLocation:0];
+		[scan scanUpToString:@";url=" intoString:NULL];
+		if([scan scanString:@";url=" intoString:NULL])
+			{
+			[scan scanUpToString:@"&" intoString:&URLString];
+			}
+		if(URLString!=nil)
+			{
+			[self foundOriginal:[NSURL URLWithString:URLString]];
+			}
 		}
 }
 

@@ -31,7 +31,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @implementation UCFlashlessUstreamService
 
-- (NSString *)label;
+- (NSString *)label
 {
 	return @"USTREAM";
 }

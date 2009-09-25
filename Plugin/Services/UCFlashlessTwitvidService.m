@@ -36,11 +36,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"TwitVid";
 }
 
-- (BOOL)canPlayDirectly
-{
-	return YES;
-}
-
 - (void)findURLs
 {
 	NSString * hint = [flashVars objectForKey:@"file"];

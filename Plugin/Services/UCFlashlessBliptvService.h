@@ -33,5 +33,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @interface UCFlashlessBliptvService : UCFlashlessService
 {
+	NSURLConnection * redirectConnection;
 }
+
+- (void)redirectedTo:(NSURL *)redirectedURL;
+
 @end

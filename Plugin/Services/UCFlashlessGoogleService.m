@@ -43,11 +43,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"Google Video";
 }
 
-- (BOOL)canPlayDirectly
-{
-	return YES;
-}
-
 - (void)findURLs
 {
 	NSString * videoFile = nil;

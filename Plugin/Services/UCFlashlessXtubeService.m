@@ -43,17 +43,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"XTube";
 }
 
-- (BOOL)canPlayDirectly
-{
-	return YES;
-}
-
 - (void)findURLs
 {
 	videoID = [[flashVars objectForKey:@"video_id"] retain];
 	if(videoID==nil) { return; }
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.xtube.com/play_re.php?v=%@", videoID]]];
-	[self retreiveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://video2.xtube.com/find_video.php?sid=0&v_user_id=%@&idx=%@&video_id=%@&clip_id=%@",
+	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://video2.xtube.com/find_video.php?sid=0&v_user_id=%@&idx=%@&video_id=%@&clip_id=%@",
 		[flashVars objectForKey:@"user_id"],
 		[flashVars objectForKey:@"idx"],
 		videoID,

@@ -52,7 +52,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	if(videoID==nil) { return; }
 	[videoID retain];
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/%@", videoID]]];
-	[self retreiveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@/embed", videoID]]];
+	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@/embed", videoID]]];
 }
 
 - (void)receivedHint:(NSString *)hint

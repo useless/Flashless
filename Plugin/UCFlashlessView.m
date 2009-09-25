@@ -319,7 +319,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		return UCDownloadFlashIcon;
 		}
-	if(_canDownload && (_modifierFlags&UCDownloadModifiers)==UCDownloadModifiers)
+	if(_canFindDownload && (_modifierFlags&UCDownloadModifiers)==UCDownloadModifiers)
 		{
 		return UCTryDownloadFlashIcon;
 		}
@@ -479,7 +479,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[_service startWithDelegate:self];
 
 	_siteLabel = [[_service label] retain];
-	_canDownload = [_service canDownload];
+	_canFindDownload = [_service canFindDownload];
 	_canPlayDirectly = [_service canPlayDirectly];
 
 	[self setMenu:[self _prepareMenu]];
@@ -617,8 +617,9 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			[[NSWorkspace sharedWorkspace] openURL:_downloadURL];
 			}
 		}
-	else if(_canDownload)
+	else if(_canFindDownload)
 		{
+		_shouldDownloadNow=YES;
 		[_service findDownloadURL];
 		}
 }
@@ -747,7 +748,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
 	else if([anItem action]==@selector(download:))
 		{
-		if(_canDownload && _downloadURL==nil)
+		if(_canFindDownload && _downloadURL==nil)
 			{
 			[(NSMenuItem *)anItem setTitle:NSLocalizedStringFromTableInBundle(@"Try Download Video", nil, _myBundle, @"Try Download Menu Title")];
 			}

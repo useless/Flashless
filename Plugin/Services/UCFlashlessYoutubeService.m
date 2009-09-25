@@ -36,11 +36,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"YouTube";
 }
 
-- (BOOL)canPlayDirectly
-{
-	return YES;
-}
-
 - (void)findURLs
 {
 	videoID = [flashVars objectForKey:@"video_id"];
