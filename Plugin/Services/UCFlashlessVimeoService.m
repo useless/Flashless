@@ -31,12 +31,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @implementation UCFlashlessVimeoService
 
-- (NSString *)label;
+- (NSString *)label
 {
 	return @"Vimeo";
 }
 
-- (NSURL *)previewURL
+- (void)findURLs
 {
 	videoID = [flashVars objectForKey:@"clip_id"];
 	NSScanner * scan;
@@ -49,25 +49,26 @@ OTHER DEALINGS IN THE SOFTWARE.
 			[scan scanUpToString:@"&" intoString:&videoID];
 			}
 		}
-	if(videoID==nil) { return nil; }
+	if(videoID==nil) { return; }
 	[videoID retain];
-	NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@/embed", videoID]] encoding:NSUTF8StringEncoding error:NULL];
-	if(hint==nil) { return nil; }
+	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/%@", videoID]]];
+	[self retreiveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@/embed", videoID]]];
+}
+
+- (void)receivedHint:(NSString *)hint
+{
+	if(hint==nil) { return; }
 	NSString * previewFile = nil;
-	scan = [NSScanner scannerWithString:hint];
+	NSScanner * scan = [NSScanner scannerWithString:hint];
 	[scan scanUpToString:@"<thumbnail>" intoString:NULL];
 	if([scan scanString:@"<thumbnail>" intoString:NULL])
 		{
 		[scan scanUpToString:@"</thumbnail>" intoString:&previewFile];
 		}
-	if(previewFile==nil) { return nil; }
-	return [NSURL URLWithString:previewFile];
-}
-
-- (NSURL *)originalURL
-{
-	if(videoID==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/%@", videoID]];
+	if(previewFile!=nil)
+		{
+		[self foundPreview:[NSURL URLWithString:previewFile]];
+		}
 }
 
 @end

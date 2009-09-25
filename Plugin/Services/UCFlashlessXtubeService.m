@@ -33,56 +33,53 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)dealloc
 {
-	[videoFile release];
-
 	[super dealloc];
 }
 
 #pragma mark -
 
-- (NSString *)label;
+- (NSString *)label
 {
 	return @"XTube";
 }
 
-- (NSURL *)previewURL
-{	
+- (BOOL)canPlayDirectly
+{
+	return YES;
+}
+
+- (void)findURLs
+{
 	videoID = [[flashVars objectForKey:@"video_id"] retain];
-	if(videoID==nil) { return nil; }
-	NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://video2.xtube.com/find_video.php?sid=0&v_user_id=%@&idx=%@&video_id=%@&clip_id=%@",
+	if(videoID==nil) { return; }
+	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.xtube.com/play_re.php?v=%@", videoID]]];
+	[self retreiveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://video2.xtube.com/find_video.php?sid=0&v_user_id=%@&idx=%@&video_id=%@&clip_id=%@",
 		[flashVars objectForKey:@"user_id"],
 		[flashVars objectForKey:@"idx"],
 		videoID,
 		[flashVars objectForKey:@"clip_id"]
-	]] encoding:NSUTF8StringEncoding error:NULL];
-	if(hint==nil) { return nil; }
+	]]];
+}
+
+- (void)receivedHint:(NSString *)hint
+{
+	if(hint==nil) { return; }
 	NSScanner * scan = [NSScanner scannerWithString:hint];
+	NSString * videoFile = nil;
 	if([scan scanString:@"&filename=" intoString:NULL])
 		{
 		[scan scanUpToString:@"&" intoString:&videoFile];
 		}
-	if(videoFile==nil) { return nil; }
-	[videoFile retain];
+	if(videoFile==nil) { return; }
+	[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [flashVars objectForKey:@"swfURL"], videoFile]]];
 	NSString * thumbnail = nil;
 	scan = [NSScanner scannerWithString:videoFile];
 	if([scan scanString:@"/videos" intoString:NULL])
 		{
 		[scan scanUpToString:@".flv" intoString:&thumbnail];
 		}
-	if(thumbnail==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://cdns.xtube.com/u/e10/video_thumb%@_0000.jpg", thumbnail]];
-}
-
-- (NSURL *)downloadURL
-{
-	if(videoFile==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [flashVars objectForKey:@"swfURL"], videoFile]];
-}
-
-- (NSURL *)originalURL
-{
-	if(videoID==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.xtube.com/play_re.php?v=%@", videoID]];
+	if(thumbnail==nil) { return; }
+	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdns.xtube.com/u/e10/video_thumb%@_0000.jpg", thumbnail]]];
 }
 
 @end

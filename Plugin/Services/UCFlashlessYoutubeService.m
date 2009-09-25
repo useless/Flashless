@@ -31,14 +31,18 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @implementation UCFlashlessYoutubeService
 
-
-- (NSString *)label;
+- (NSString *)label
 {
 	return @"YouTube";
 }
 
-- (NSURL *)previewURL
-{	
+- (BOOL)canPlayDirectly
+{
+	return YES;
+}
+
+- (void)findURLs
+{
 	videoID = [flashVars objectForKey:@"video_id"];
 	if(videoID==nil)
 		{
@@ -59,23 +63,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 				}
 			}
 		}
-	if(videoID==nil) { return nil; }
+	if(videoID==nil) { return; }
 	[videoID retain];
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://i1.ytimg.com/vi/%@/hqdefault.jpg", videoID]];
-}
-
-- (NSURL *)downloadURL
-{
-	if(videoID==nil) { return nil; }
+	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@", videoID]]];
+	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://i1.ytimg.com/vi/%@/hqdefault.jpg", videoID]]];
 	NSString * videoHash = [flashVars objectForKey:@"t"];
-	if(videoHash==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video?fmt=18&video_id=%@&t=%@", videoID, videoHash]];
-}
-
-- (NSURL *)originalURL
-{
-	if(videoID==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@", videoID]];
+	if(videoHash!=nil)
+		{
+		[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video?fmt=18&video_id=%@&t=%@", videoID, videoHash]]];
+		}
 }
 
 @end

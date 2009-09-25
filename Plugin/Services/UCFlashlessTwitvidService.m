@@ -31,37 +31,32 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @implementation UCFlashlessTwitvidService
 
-
-- (NSString *)label;
+- (NSString *)label
 {
 	return @"TwitVid";
 }
 
-- (NSURL *)previewURL
+- (BOOL)canPlayDirectly
+{
+	return YES;
+}
+
+- (void)findURLs
 {
 	NSString * hint = [flashVars objectForKey:@"file"];
-	if(hint==nil) { return nil; }
+	if(hint==nil) { return; }
 	NSScanner * scan = [NSScanner scannerWithString:[hint stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	[scan scanUpToString:@"/playVideo_" intoString:NULL];
 	if([scan scanString:@"/playVideo_" intoString:NULL])
 		{
 		[scan scanUpToString:@"/" intoString:&videoID];
 		}
-	if(videoID==nil) { return nil; }
+	if(videoID==nil) { return; }
 	[videoID retain];
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.twitvid.com/thumbnails/%@.jpg", videoID]];
-}
+	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.twitvid.com/thumbnails/%@.jpg", videoID]]];
+	[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.twitvid.com/%@.mp4", videoID]]];
+	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.twitvid.com/%@", videoID]]];
 
-- (NSURL *)downloadURL
-{
-	if(videoID==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.twitvid.com/%@.mp4", videoID]];
-}
-
-- (NSURL *)originalURL
-{
-	if(videoID==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.twitvid.com/%@", videoID]];
 }
 
 @end

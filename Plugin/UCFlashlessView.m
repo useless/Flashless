@@ -79,7 +79,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		
 		_src = [[self _srcFromAttributes:attributes withBaseURL:[newArguments objectForKey:WebPlugInBaseURLKey]] copy];
 		_flashVars = [[self _flashVarsFromAttributes:attributes] retain];
-		
+
 		_mouseDown=NO;
 		_mouseInside=NO;
 		_sheetOpen=NO;
@@ -307,15 +307,15 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (UCFlashIconType)_playIcon
 {
-	if(_originalURL && (_modifierFlags&UCOriginalModifiers)==UCOriginalModifiers)
+	if(_originalURL!=nil && (_modifierFlags&UCOriginalModifiers)==UCOriginalModifiers)
 		{
 		return UCOriginalFlashIcon;
 		}
-	if(_downloadURL && _canPlayDirectly && (_modifierFlags&UCDirectPlayModifiers)==UCDirectPlayModifiers)
+	if(_downloadURL!=nil && _canPlayDirectly && (_modifierFlags&UCDirectPlayModifiers)==UCDirectPlayModifiers)
 		{
 		return UCDirectPlayFlashIcon;
 		}
-	if(_downloadURL && (_modifierFlags&UCDownloadModifiers)==UCDownloadModifiers)
+	if(_downloadURL!=nil && (_modifierFlags&UCDownloadModifiers)==UCDownloadModifiers)
 		{
 		return UCDownloadFlashIcon;
 		}
@@ -323,7 +323,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		return UCTryDownloadFlashIcon;
 		}
-	if(_siteLabel)
+	if(_siteLabel!=nil)
 		{
 		return UCPlayFlashIcon;
 		}
@@ -503,10 +503,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)webPlugInStart
 {
 	_modifierFlags = [[NSApp currentEvent] modifierFlags];
-	if(_downloadURL!=nil || _originalURL!=nil)
-		{
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidUpdate:) name:NSWindowDidUpdateNotification object:[self window]];
-		}
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidUpdate:) name:NSWindowDidUpdateNotification object:[self window]];
 }
 
 - (void)webPlugInStop

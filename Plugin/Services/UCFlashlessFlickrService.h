@@ -33,6 +33,5 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @interface UCFlashlessFlickrService : UCFlashlessService
 {
-	NSString * originalURLString;
 }
 @end

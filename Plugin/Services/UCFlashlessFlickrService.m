@@ -33,26 +33,35 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)dealloc
 {
-	[originalURLString release];
-
 	[super dealloc];
 }
 
 #pragma mark -
 
-- (NSString *)label;
+- (NSString *)label
 {
 	return @"Flickr";
 }
 
-- (NSURL *)previewURL
-{	
+- (BOOL)canDownload
+{
+	return YES;
+}
+
+- (void)findURLs
+{
 	videoID = [[flashVars objectForKey:@"photo_id"] retain];
-	if(videoID==nil) { return nil; }
-	NSString * hint = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id=%@", videoID]] encoding:NSUTF8StringEncoding error:NULL];
-	if(hint==nil) { return nil; }
+	if(videoID==nil) { return; }
+	[self retreiveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id=%@", videoID]]];
+}
+
+- (void)receivedHint:(NSString *)hint
+{
+	if(hint==nil) { return; }
 	NSString * server = nil;
 	NSString * secret = nil;
+	NSString * originalURLString = nil;
+
 	NSScanner * scan = [NSScanner scannerWithString:hint];
 	[scan scanUpToString:@"<Item id=\"photo_server\">" intoString:NULL];
 	if([scan scanString:@"<Item id=\"photo_server\">" intoString:NULL])
@@ -64,23 +73,20 @@ OTHER DEALINGS IN THE SOFTWARE.
 		{
 		[scan scanUpToString:@"</Item>" intoString:&secret];
 		}
+	if(server!=nil && secret!=nil)
+		{
+		[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://farm3.static.flickr.com/%@/%@_%@.jpg?0", server, videoID, secret]]];
+		}
+
 	[scan scanUpToString:@";url=" intoString:NULL];
 	if([scan scanString:@";url=" intoString:NULL])
 		{
 		[scan scanUpToString:@"&" intoString:&originalURLString];
 		}
-	[originalURLString retain];
-	if(server==nil || secret==nil)
+	if(originalURLString!=nil)
 		{
-		return nil;
+		[self foundOriginal:[NSURL URLWithString:originalURLString]];
 		}
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://farm3.static.flickr.com/%@/%@_%@.jpg?0", server, videoID, secret]];
-}
-
-- (NSURL *)originalURL
-{
-	if(originalURLString==nil) { return nil; }
-	return [NSURL URLWithString:originalURLString];
 }
 
 @end

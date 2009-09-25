@@ -33,59 +33,59 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)dealloc
 {
-	[videoFile release];
-
 	[super dealloc];
 }
 
 #pragma mark -
 
-- (NSString *)label;
+- (NSString *)label
 {
 	return @"Google Video";
 }
 
-- (NSURL *)previewURL
-{	
-	NSString * thumbnail;
+- (BOOL)canPlayDirectly
+{
+	return YES;
+}
+
+- (void)findURLs
+{
+	NSString * videoFile = nil;
+	NSString * thumbnail = nil;
+
 	NSScanner * scan = [NSScanner scannerWithString:[self queryString]];
 	[scan scanUpToString:@"docid=" intoString:NULL];
 	if([scan scanString:@"docid=" intoString:NULL])
 		{
 		[scan scanUpToString:@"&" intoString:&videoID];
 		}
-	if(videoID==nil) { return nil; }
 	[videoID retain];
+	if(videoID!=nil)
+		{
+		[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://video.google.com/videoplay?docid=%@", videoID]]];
+		}
+
 	[scan setScanLocation:0];
 	[scan scanUpToString:@"videoURL=" intoString:NULL];
 	if([scan scanString:@"videoURL=" intoString:NULL])
 		{
 		[scan scanUpToString:@"&" intoString:&videoFile];
 		}
-	[videoFile retain];
+	if(videoFile!=nil)
+		{
+		[self foundDownload:[NSURL URLWithString:[videoFile stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+		}
+
 	[scan setScanLocation:0];
 	[scan scanUpToString:@"thumbnailUrl=" intoString:NULL];
 	if([scan scanString:@"thumbnailUrl=" intoString:NULL])
 		{
 		[scan scanUpToString:@"&" intoString:&thumbnail];
-		if(thumbnail!=nil)
-			{
-			return [NSURL URLWithString:[thumbnail stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-			}
 		}
-	return nil;
-}
-
-- (NSURL *)downloadURL
-{
-	if(videoFile==nil) { return nil; }
-	return [NSURL URLWithString:[videoFile stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-}
-
-- (NSURL *)originalURL
-{
-	if(videoID==nil) { return nil; }
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://video.google.com/videoplay?docid=%@", videoID]];
+	if(thumbnail!=nil)
+		{
+		[self foundPreview:[NSURL URLWithString:[thumbnail stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+		}
 }
 
 @end

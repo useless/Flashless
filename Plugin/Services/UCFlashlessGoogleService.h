@@ -33,6 +33,5 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @interface UCFlashlessGoogleService : UCFlashlessService
 {
-	NSString * videoFile;
 }
 @end

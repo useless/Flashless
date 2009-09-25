@@ -31,12 +31,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @implementation UCFlashlessViddlerService
 
-- (NSString *)label;
+- (NSString *)label
 {
 	return @"Viddler";
 }
 
-- (NSURL *)previewURL
+- (void)findURLs
 {	
 	videoID = [flashVars objectForKey:@"key"];
 	if(videoID==nil)
@@ -66,9 +66,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 				}
 			}
 		}
-	if(videoID==nil) { return nil; }
+	if(videoID==nil) { return; }
 	[videoID retain];
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://cdn-thumbs.viddler.com/thumbnail_2_%@.jpg", videoID]];
+	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn-thumbs.viddler.com/thumbnail_2_%@.jpg", videoID]]];
 }
 
 @end

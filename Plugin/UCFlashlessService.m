@@ -95,7 +95,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 	[src release];
 	[flashVars release];
+	[hintBuffer release];
 	[previewBuffer release];
+	[hintConnection release];
 	[previewConnection release];
 
 	[super dealloc];
@@ -122,6 +124,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)cancel
 {
+	[hintConnection cancel];
 	[previewConnection cancel];
 	[self stopFinding];
 	delegate = nil;
@@ -144,50 +147,29 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return NO;
 }
 
-- (NSURL *)previewURL
-{
-	return nil;
-}
-
-- (NSURL *)downloadURL
-{
-	return nil;
-}
-
-- (NSURL *)originalURL
-{
-	return nil;
-}
-
 @end
 
 @implementation UCFlashlessService (Private)
 
 - (void)findURLs
 {
-	NSURL * url;
-	url = [self previewURL];
-	if(url!=nil)
-		{
-		[self foundPreview:url];
-		}
-	url = [self downloadURL];
-	if(url!=nil)
-		{
-		[self foundDownload:url];
-		}
-	url = [self originalURL];
-	if(url!=nil)
-		{
-		[self foundOriginal:url];
-		}
 }
 
 - (void)findDownloadURL
 {
 }
 
+- (void)retreiveHint:(NSURL *)hintURL
+{
+	hintConnection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:hintURL] delegate:self];
+	hintBuffer = [[NSMutableData alloc] init];
+}
+
 - (void)stopFinding
+{
+}
+
+- (void)receivedHint:(NSString *)hint
 {
 }
 
@@ -221,6 +203,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 		{
 		[previewBuffer appendData:data];
 		}
+	else if(connection==hintConnection)
+		{
+		[hintBuffer appendData:data];
+		}
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -230,6 +216,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 		[self receivedPreviewData:previewBuffer];
 		[previewBuffer autorelease];
 		previewBuffer = nil;
+		}
+	else if(connection==hintConnection)
+		{
+		NSString * hint = [[NSString alloc] initWithData:hintBuffer encoding:NSUTF8StringEncoding];
+		[self receivedHint:hint];
+		[hint release];
 		}
 }
 

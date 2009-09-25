@@ -37,7 +37,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 	NSString * videoID;
 @private
 	id delegate;
+	NSURLConnection * hintConnection;
 	NSURLConnection * previewConnection;
+	NSMutableData * hintBuffer;
 	NSMutableData * previewBuffer;
 }
 
@@ -54,18 +56,16 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (BOOL)canDownload;
 - (BOOL)canPlayDirectly;
 
-- (NSURL *)previewURL;
-- (NSURL *)downloadURL;
-- (NSURL *)originalURL;
-
 @end
 
 @interface UCFlashlessService (Private)
 
 - (void)findURLs;
 - (void)findDownloadURL;
+- (void)retreiveHint:(NSURL *)hintURL;
 - (void)stopFinding;
 
+- (void)receivedHint:(NSString *)hint;
 - (void)foundPreview:(NSURL *)previewURL;
 - (void)foundDownload:(NSURL *)downloadURL;
 - (void)foundOriginal:(NSURL *)originalURL;

@@ -33,6 +33,5 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @interface UCFlashlessXtubeService : UCFlashlessService
 {
-	NSString * videoFile;
 }
 @end
