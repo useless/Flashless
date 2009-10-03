@@ -169,13 +169,13 @@ static NSString * sHostKey = @"UCFlashlessHost";
 				[shape stroke];
 				break;
 			case UCOriginalFlashIcon:
-				[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width*0.4, (bounds.size.height-size.height)/1.8+size.height/2)];
-				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.1, (bounds.size.height-size.height)/1.8+size.height*0.2)];
-				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.1, (bounds.size.height-size.height)/1.8+size.height*0.4)];
-				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width/3, (bounds.size.height-size.height)/1.8+size.height*0.4)];
-				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width/3, (bounds.size.height-size.height)/1.8+size.height*0.6)];
-				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.1, (bounds.size.height-size.height)/1.8+size.height*0.6)];
-				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0.1, (bounds.size.height-size.height)/1.8+size.height*0.8)];
+				[shape moveToPoint:NSMakePoint(bounds.size.width/2+size.width*0, (bounds.size.height-size.height)/1.8+size.height*0.15)];
+				[shape curveToPoint:NSMakePoint(bounds.size.width/2+size.width*0+0, (bounds.size.height-size.height)/1.8+size.height*0.77) controlPoint1:NSMakePoint(bounds.size.width/2+size.width*0.45, (bounds.size.height-size.height)/1.8+size.height*0.15) controlPoint2:NSMakePoint(bounds.size.width/2+size.width*0.45, (bounds.size.height-size.height)/1.8+size.height*0.77)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0+0, (bounds.size.height-size.height)/1.8+size.height*0.9)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2-size.width*0.3, (bounds.size.height-size.height)/1.8+size.height*0.65)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0+0, (bounds.size.height-size.height)/1.8+size.height*0.4)];
+				[shape lineToPoint:NSMakePoint(bounds.size.width/2+size.width*0+0, (bounds.size.height-size.height)/1.8+size.height*0.55)];
+				[shape curveToPoint:NSMakePoint(bounds.size.width/2+size.width*0, (bounds.size.height-size.height)/1.8+size.height*0.15) controlPoint1:NSMakePoint(bounds.size.width/2+size.width*0.33, (bounds.size.height-size.height)/1.8+size.height*0.55) controlPoint2:NSMakePoint(bounds.size.width/2+size.width*0.33, (bounds.size.height-size.height)/1.8+size.height*0.15)];
 				[shape fill];
 				break;
 			default:
@@ -247,6 +247,9 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	if(_siteLabel!=nil)
 		{
 		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Show At '%@'", nil, _myBundle, @"Original Menu Title"), _siteLabel] action:@selector(openOriginal:) keyEquivalent:@""];
+		lastItem = [menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Show At '%@' in New Window", nil, _myBundle, @"Original In New Window Menu Title"), _siteLabel] action:@selector(openOriginalWindow:) keyEquivalent:@""];
+		[lastItem setKeyEquivalentModifierMask:UCNewWindowModifiers];
+		[lastItem setAlternate:YES];
 		}
 	else
 		{
@@ -431,7 +434,14 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		if(([event modifierFlags]&UCOriginalModifiers)==UCOriginalModifiers)
 			{
-			[self openOriginal:self];
+			if(([event modifierFlags]&UCNewWindowModifiers)==UCNewWindowModifiers)
+				{
+				[self openOriginalWindow:self];
+				}
+			else
+				{
+				[self openOriginal:self];
+				}
 			}
 		else if(([event modifierFlags]&UCDirectPlayModifiers)==UCDirectPlayModifiers)
 			{
@@ -532,12 +542,12 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	if(_mouseDown && _mouseInside)
 		{
 		tint = [NSColor colorWithCalibratedWhite:0.75 alpha:1.0];
-		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.5];
+		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.6];
 		}
 	else
 		{
 		tint = [NSColor whiteColor];
-		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.25];
+		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.4];
 		[[NSColor colorWithCalibratedWhite:1.0 alpha:0.25] set];
 		[shape fill];
 		}
@@ -600,7 +610,29 @@ static NSString * sHostKey = @"UCFlashlessHost";
 {
 	if(_originalURL)
 		{
-		[[NSWorkspace sharedWorkspace] openURL:_originalURL];
+		if([_container respondsToSelector:@selector(webPlugInContainerLoadRequest:inFrame:)])
+			{
+			[_container webPlugInContainerLoadRequest:[NSURLRequest requestWithURL:_originalURL] inFrame:nil];
+			}
+		else
+			{
+			[[NSWorkspace sharedWorkspace] openURL:_originalURL];
+			}
+		}
+}
+
+- (void)openOriginalWindow:(id)sender
+{
+	if(_originalURL)
+		{
+		if([_container respondsToSelector:@selector(webPlugInContainerLoadRequest:inFrame:)])
+			{
+			[_container webPlugInContainerLoadRequest:[NSURLRequest requestWithURL:_originalURL] inFrame:@"_blank"];
+			}
+		else
+			{
+			[[NSWorkspace sharedWorkspace] openURL:_originalURL];
+			}
 		}
 }
 

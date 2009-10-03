@@ -43,7 +43,8 @@ typedef enum {
 enum {
 	UCOriginalModifiers = NSShiftKeyMask,
 	UCDirectPlayModifiers = NSCommandKeyMask,
-	UCDownloadModifiers = NSAlternateKeyMask
+	UCDownloadModifiers = NSAlternateKeyMask,
+	UCNewWindowModifiers = NSAlternateKeyMask
 };
 
 @interface UCFlashlessView : NSView <WebPlugInViewFactory>
@@ -78,6 +79,7 @@ enum {
 - (void)playFlash:(id)sender;
 - (void)playDirectly:(id)sender;
 - (void)openOriginal:(id)sender;
+- (void)openOriginalWindow:(id)sender;
 - (void)download:(id)sender;
 - (void)whitelistFlash:(id)sender;
 - (void)blacklistFlash:(id)sender;
