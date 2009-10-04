@@ -400,7 +400,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)mouseEntered:(NSEvent *)event
 {
     _mouseInside=YES;
-	if(_mouseDown || [event modifierFlags])
+	if(_mouseDown || !MODIFIERS_EQUAL([event modifierFlags],_modifierFlags))
 		{
 		_modifierFlags = [event modifierFlags];
 		[self setNeedsDisplay:YES];
@@ -410,7 +410,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)mouseExited:(NSEvent *)event
 {
     _mouseInside=NO;
-    if(_mouseDown || _modifierFlags)
+    if(_mouseDown || !MODIFIERS_EQUAL(_modifierFlags,0))
 		{
 		_modifierFlags=0;
 		[self setNeedsDisplay:YES];
@@ -460,7 +460,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)windowDidUpdate:(NSNotification *)aNotification
 {
-	if(_mouseInside && _modifierFlags!=[[NSApp currentEvent] modifierFlags])
+	if(_mouseInside && !MODIFIERS_EQUAL(_modifierFlags, [[NSApp currentEvent] modifierFlags]))
 		{
 		_modifierFlags=[[NSApp currentEvent] modifierFlags];
 		[self _modifiersChanged];

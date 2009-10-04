@@ -47,6 +47,8 @@ enum {
 	UCNewWindowModifiers = NSAlternateKeyMask
 };
 
+#define MODIFIERS_EQUAL(a,b)	((a&(~(NSUInteger)0xFFFF))==(b&(~(NSUInteger)0xFFFF)))
+
 @interface UCFlashlessView : NSView <WebPlugInViewFactory>
 {
 @private
