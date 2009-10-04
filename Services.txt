@@ -7,7 +7,7 @@ FLASHVARS> video_id={ID}
 
 PREVIEW: http://i1.ytimg.com/vi/{ID}/hqdefault.jpg
 
-DOWNLOAD: http://www.youtube.com/get_video?fmt=18&video_id={ID}&t={HASH}
+DOWNLOAD: http://www.youtube.com/get_video?fmt=22&video_id={ID}&t={HASH}
 
 ORIGINAL: http://youtube.com/watch?v={ID}
 
@@ -37,13 +37,16 @@ SRC>	http://www.vimeo.com/moogaloop.swf?clip_id={ID}&...
 
 FLASHVARS> clip_id={ID}
 
-HINT:	http://www.vimeo.com/moogaloop/load/clip:{ID}/embed
+HINT:	http://www.vimeo.com/moogaloop/load/clip:{ID}
 
 HINT>	... <thumbnail>{PREVIEW}</thumbnail> ...
+	... <request_signature>{SECRET}</request_signature> ...
+	... <request_signature_expires>{EXP}</request_signature_expires> ...
 
 PREVIEW: {PREVIEW}
 
-DOWNLOAD: http://bitcast.vimeo.com/vimeo/v/{?VID:0-2}/{?VID:3-5}/{?VID}.mp4?e={TIMESTAMP}&h={?HASH}
+DOWNLOAD: http://vimeo.com/moogaloop/play/clip:{ID}/{SECRET}/{EXP}/?q=hd
+(Credit: http://rentzsch.github.com/clicktoflash/killers.html)
 
 ORIGINAL: http://www.vimeo.com/{ID}
 

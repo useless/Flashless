@@ -52,13 +52,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 	if(videoID==nil) { return; }
 	[videoID retain];
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/%@", videoID]]];
-	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@/embed", videoID]]];
+	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@", videoID]]];
 }
 
 - (void)receivedHint:(NSString *)hint
 {
 	if(hint==nil) { return; }
 	NSString * previewFile = nil;
+	NSString * secret = nil;
+	NSString * expires = nil;
 	NSScanner * scan = [NSScanner scannerWithString:hint];
 	[scan scanUpToString:@"<thumbnail>" intoString:NULL];
 	if([scan scanString:@"<thumbnail>" intoString:NULL])
@@ -68,6 +70,20 @@ OTHER DEALINGS IN THE SOFTWARE.
 	if(previewFile!=nil)
 		{
 		[self foundPreview:[NSURL URLWithString:previewFile]];
+		}
+	[scan scanUpToString:@"<request_signature>" intoString:NULL];
+	if([scan scanString:@"<request_signature>" intoString:NULL])
+		{
+		[scan scanUpToString:@"</request_signature>" intoString:&secret];
+		}
+	[scan scanUpToString:@"<request_signature_expires>" intoString:NULL];
+	if([scan scanString:@"<request_signature_expires>" intoString:NULL])
+		{
+		[scan scanUpToString:@"</request_signature_expires>" intoString:&expires];
+		}
+	if(secret!=nil && expires!=nil)
+		{
+		[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"http://vimeo.com/moogaloop/play/clip:%@/%@/%@/?q=hd", videoID, secret, expires]]];
 		}
 }
 
