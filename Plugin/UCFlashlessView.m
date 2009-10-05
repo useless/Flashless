@@ -539,15 +539,11 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	
 	shape = [NSBezierPath bezierPathWithRect:bounds];
 
-	if(_mouseDown && _mouseInside)
+	tint = [NSColor whiteColor];
+	halo = [NSColor colorWithCalibratedWhite:0.0 alpha:0.25];
+
+	if(!_mouseDown || !_mouseInside)
 		{
-		tint = [NSColor colorWithCalibratedWhite:0.75 alpha:1.0];
-		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.6];
-		}
-	else
-		{
-		tint = [NSColor whiteColor];
-		halo = [NSColor colorWithCalibratedWhite:0.25 alpha:0.4];
 		[[NSColor colorWithCalibratedWhite:1.0 alpha:0.25] set];
 		[shape fill];
 		}
@@ -579,16 +575,16 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		[_siteLabel drawAtPoint:loc withAttributes:atts];
 		}
 
+	[self _drawWithTint:tint andHalo:halo inRect:bounds asIcon:[self _playIcon]];
+
 	if(_mouseDown && _mouseInside)
 		{
-		[[NSColor colorWithCalibratedWhite:0.25 alpha:0.25] set];
+		[[NSColor colorWithCalibratedWhite:0.15 alpha:0.3] set];
 		[shape fill];
 		}
 	
 	[[NSColor colorWithCalibratedWhite:0.0 alpha:0.5] set];
 	[shape stroke];
-
-	[self _drawWithTint:tint andHalo:halo inRect:bounds asIcon:[self _playIcon]];
 }
 
 #pragma mark Actions

@@ -41,8 +41,8 @@ typedef enum {
 } UCFlashIconType;
 
 enum {
-	UCOriginalModifiers = NSShiftKeyMask,
-	UCDirectPlayModifiers = NSCommandKeyMask,
+	UCOriginalModifiers = NSCommandKeyMask,
+	UCDirectPlayModifiers = NSShiftKeyMask,
 	UCDownloadModifiers = NSAlternateKeyMask,
 	UCNewWindowModifiers = NSAlternateKeyMask
 };
