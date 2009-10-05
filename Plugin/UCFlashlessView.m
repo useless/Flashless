@@ -529,6 +529,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	const float kYOff = 5;
 
 	NSRect bounds = [self bounds];
+	if(bounds.size.width<=1 || bounds.size.height<=1)
+		{
+		return;
+		}
 	
 	NSBezierPath * shape;
 	NSColor * tint;
@@ -550,7 +554,24 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	
 	if(_previewImage)
 		{
-		[_previewImage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+		NSSize imageSize = [_previewImage size];
+		if(imageSize.height>0 && imageSize.width>0)
+			{
+			NSRect frame = NSZeroRect;
+			if(bounds.size.width/imageSize.width >= bounds.size.height/imageSize.height)
+				{
+				frame.size.width = imageSize.width;
+				frame.size.height = bounds.size.height*imageSize.width/bounds.size.width;
+				frame.origin.y = (imageSize.height-frame.size.height)/2;
+				}
+			else
+				{
+				frame.size.width = bounds.size.width*imageSize.height/bounds.size.height;
+				frame.size.height = imageSize.height;
+				frame.origin.x = (imageSize.width-frame.size.width)/2;
+				}
+			[_previewImage drawInRect:bounds fromRect:frame operation:NSCompositeCopy fraction:1.0];
+			}
 		}
 
 	if(_siteLabel!=nil)
@@ -564,15 +585,18 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		nil];
 		
 		size = [_siteLabel sizeWithAttributes:atts];
-		loc = NSMakePoint(bounds.size.width - size.width - kXOff, kYOff);
-		[_siteLabel drawAtPoint:loc withAttributes:atts];
+		if(size.width+2*kXOff<bounds.size.width && size.height+2*kYOff<bounds.size.height)
+			{
+			loc = NSMakePoint(bounds.size.width - size.width - kXOff, kYOff);
+			[_siteLabel drawAtPoint:loc withAttributes:atts];
 
-		atts = [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont systemFontOfSize:16], NSFontAttributeName,
-			[NSNumber numberWithFloat:-0.5], NSKernAttributeName,
-			tint, NSForegroundColorAttributeName,
-		nil];
-		[_siteLabel drawAtPoint:loc withAttributes:atts];
+			atts = [NSDictionary dictionaryWithObjectsAndKeys:
+				[NSFont systemFontOfSize:16], NSFontAttributeName,
+				[NSNumber numberWithFloat:-0.5], NSKernAttributeName,
+				tint, NSForegroundColorAttributeName,
+			nil];
+			[_siteLabel drawAtPoint:loc withAttributes:atts];
+			}
 		}
 
 	[self _drawWithTint:tint andHalo:halo inRect:bounds asIcon:[self _playIcon]];
