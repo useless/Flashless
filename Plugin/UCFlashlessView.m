@@ -403,7 +403,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	if(_mouseDown || !MODIFIERS_EQUAL([event modifierFlags],_modifierFlags))
 		{
 		_modifierFlags = [event modifierFlags];
-		[self setNeedsDisplay:YES];
+		[self _modifiersChanged];
 		}
 }
 
@@ -413,7 +413,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
     if(_mouseDown || !MODIFIERS_EQUAL(_modifierFlags,0))
 		{
 		_modifierFlags=0;
-		[self setNeedsDisplay:YES];
+		[self _modifiersChanged];
 		}
 }
 
@@ -496,6 +496,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldRemove:) name:sRemoveAllNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldPlay:) name:sPlayAllNotification object:nil];
 
+	_modifierFlags = [[NSApp currentEvent] modifierFlags];
 	_mouseInside=YES;
 	_tracking = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingEnabledDuringMouseDrag|NSTrackingInVisibleRect|NSTrackingAssumeInside owner:self userInfo:nil];
 	[self addTrackingArea:_tracking];
@@ -512,7 +513,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)webPlugInStart
 {
-	_modifierFlags = [[NSApp currentEvent] modifierFlags];
+	_mouseInside=YES;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidUpdate:) name:NSWindowDidUpdateNotification object:[self window]];
 }
 
