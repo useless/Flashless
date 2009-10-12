@@ -16,6 +16,18 @@ For supported video services see `Services.txt`.
 Changelog
 =========
 
+Version 2.0 (In Development)
+-----------
+_Deleagation_
+
+* Use delegate messages for retrieval of preview/download/original URLs.
+
+* Support for Blip.tv, Flickr and Vimeo downloads.
+
+* Keep preview image aspect ratio.
+
+* Improved icons, redrawing and tracking behaviour.
+
 Version 1.5 (Latest Release)
 -----------
 _Clusterimage_
