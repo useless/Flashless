@@ -24,6 +24,8 @@ _Deleagation_
 
 * Support for Blip.tv, Flickr and Vimeo downloads.
 
+* Use video tag for direct play without Flash.
+
 * Keep preview image aspect ratio.
 
 * Improved icons, redrawing and tracking behaviour.
