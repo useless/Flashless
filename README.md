@@ -18,7 +18,7 @@ Changelog
 
 Version 2.0 (In Development)
 -----------
-_Deleagation_
+_Delegation_
 
 * Use delegate messages for retrieval of preview/download/original URLs.
 
@@ -29,6 +29,8 @@ _Deleagation_
 * Keep preview image aspect ratio.
 
 * Improved icons, redrawing and tracking behaviour.
+
+* Display icons also in small elements.
 
 Version 1.5 (Latest Release)
 -----------
