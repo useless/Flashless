@@ -55,6 +55,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 	videoID = [[flashVars objectForKey:@"photo_id"] retain];
 	if(videoID==nil) { return; }
+	[self foundAVideo:YES];
 	findDownload=NO;
 	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/apps/video/video_mtl_xml.gne?v=x&photo_id=%@", videoID]]];
 }

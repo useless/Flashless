@@ -51,6 +51,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		}
 	if(videoID==nil) { return; }
 	[videoID retain];
+	[self foundAVideo:YES];
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/%@", videoID]]];
 	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@", videoID]]];
 }

@@ -66,6 +66,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (void)retrieveHint:(NSURL *)hintURL;
 
 - (void)receivedHint:(NSString *)hint;
+- (void)foundAVideo:(BOOL)hasVideo;
 - (void)foundPreview:(NSURL *)previewURL;
 - (void)foundDownload:(NSURL *)downloadURL;
 - (void)foundOriginal:(NSURL *)originalURL;
@@ -79,6 +80,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @interface NSObject (UCFlashlessServiceDelegate)
 
+- (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo;
 - (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview;
 - (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download;
 - (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original;

@@ -54,6 +54,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
+- (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo;
 - (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview;
 - (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download;
 - (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original;
@@ -84,6 +85,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		_mouseInside=NO;
 		_sheetOpen=NO;
 		_shouldDownloadNow=NO;
+		_hasVideo=NO;
 		}
 
 	return self;
@@ -347,7 +349,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		return UCTryDownloadFlashIcon;
 		}
-	if(_siteLabel!=nil)
+	if(_hasVideo)
 		{
 		return UCPlayFlashIcon;
 		}
@@ -355,6 +357,12 @@ static NSString * sHostKey = @"UCFlashlessHost";
 }
 
 #pragma mark Service Delegate
+
+- (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo
+{
+	_hasVideo=hasVideo;
+	[self setNeedsDisplay:YES];
+}
 
 - (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview
 {
@@ -521,8 +529,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	_mouseInside=YES;
 	_tracking = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingEnabledDuringMouseDrag|NSTrackingInVisibleRect|NSTrackingAssumeInside owner:self userInfo:nil];
 	[self addTrackingArea:_tracking];
-
-	[self setNeedsDisplay:YES];
 }
 
 - (void)webPlugInDestroy

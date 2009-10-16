@@ -48,6 +48,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		}
 	if(videoID==nil) { return; }
 	[videoID retain];
+	[self foundAVideo:YES];
 	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.twitvid.com/thumbnails/%@.jpg", videoID]]];
 	[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdn.twitvid.com/%@.mp4", videoID]]];
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.twitvid.com/%@", videoID]]];

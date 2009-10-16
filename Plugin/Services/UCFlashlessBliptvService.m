@@ -90,6 +90,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (void)receivedHint:(NSString *)hint
 {
 	if(hint==nil) { return; }
+	[self foundAVideo:YES];
 	NSString * originalURLString = nil;
 	NSString * preview = nil;
 	NSString * downloadURLString = nil;

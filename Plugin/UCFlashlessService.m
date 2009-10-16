@@ -174,6 +174,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 }
 
+- (void)foundAVideo:(BOOL)hasVideo
+{
+	[delegate service:self didFindAVideo:hasVideo];
+}
+
 - (void)foundPreview:(NSURL *)previewURL
 {
 	[delegate service:self didFindPreview:previewURL];
@@ -250,6 +255,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 @end
 
 @implementation NSObject (UCFlashlessServiceDelegate)
+
+- (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo
+{
+}
 
 - (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview
 {

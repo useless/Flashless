@@ -59,6 +59,7 @@ enum {
 	NSMutableDictionary * _flashVars;
 	UCFlashlessService * _service;
 	NSString * _siteLabel;
+	BOOL _hasVideo;
 	BOOL _canFindDownload;
 	BOOL _canPlayDirectly;
 

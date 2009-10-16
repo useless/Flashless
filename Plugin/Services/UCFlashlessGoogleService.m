@@ -57,6 +57,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[videoID retain];
 	if(videoID!=nil)
 		{
+		[self foundAVideo:YES];
 		[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://video.google.com/videoplay?docid=%@", videoID]]];
 		}
 

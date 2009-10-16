@@ -60,6 +60,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		}
 	if(videoID==nil) { return; }
 	[videoID retain];
+	[self foundAVideo:YES];
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@", videoID]]];
 	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://i1.ytimg.com/vi/%@/hqdefault.jpg", videoID]]];
 	NSString * videoHash = [flashVars objectForKey:@"t"];

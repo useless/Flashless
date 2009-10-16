@@ -47,6 +47,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 	videoID = [[flashVars objectForKey:@"video_id"] retain];
 	if(videoID==nil) { return; }
+	[self foundAVideo:YES];
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.xtube.com/play_re.php?v=%@", videoID]]];
 	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://video2.xtube.com/find_video.php?sid=0&v_user_id=%@&idx=%@&video_id=%@&clip_id=%@",
 		[flashVars objectForKey:@"user_id"],
