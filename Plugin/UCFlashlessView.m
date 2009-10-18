@@ -94,38 +94,39 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asIcon:(UCFlashIconType)icon
 {
 	const float kMar = 3;
+	BOOL circled = YES;
 
 	NSSize size = (icon==UCDefaultFlashIcon)?NSMakeSize(32, 32):NSMakeSize(48, 48);
 
 	NSBezierPath * shape;
 	NSPoint center = NSMakePoint(bounds.size.width/2, (bounds.size.height-size.height)/1.8);
+	[halo setFill];
+	[tint setStroke];
 
 	if(bounds.size.width>size.width+3*kMar && bounds.size.height>size.height+3*kMar)
 		{
-		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2-kMar, (bounds.size.height-size.height)/1.8-kMar, size.width+2*kMar, size.height+2*kMar)];
-		[halo set];
+		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(center.x-size.width/2-kMar, center.y-kMar, size.width+2*kMar, size.height+2*kMar)];
 		[shape fill];
 
-		[tint set];
-		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect((bounds.size.width-size.width)/2, (bounds.size.height-size.height)/1.8, size.width, size.height)];
+		shape = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(center.x-size.width/2, center.y, size.width, size.height)];
 		[shape setLineWidth:kMar];
 		[shape stroke];
 		}
 	else if(bounds.size.width>2*kMar && bounds.size.height>2*kMar)
 		{
+		circled=NO;
 		if(bounds.size.height>bounds.size.width)
 			{
-			size.width = bounds.size.width-kMar;
-			size.height = bounds.size.width-kMar;
+			size.width = bounds.size.width*0.8;
+			size.height = bounds.size.width*0.8;
 			}
 		else
 			{
-			size.width = bounds.size.height-kMar/2;
-			size.height = bounds.size.height-kMar/2;
+			size.width = bounds.size.height*0.7;
+			size.height = bounds.size.height*0.7;
 			}
-		center.x = size.width/2+kMar/2;
-		center.y = bounds.size.height-size.height;
-		[halo set];
+		center.x = bounds.size.width/2;
+		center.y = (bounds.size.height-size.height)/1.8;
 		}
 	else
 		{
@@ -140,7 +141,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			[shape moveToPoint:NSMakePoint(center.x+size.width/3, center.y+size.height/2)];
 			[shape lineToPoint:NSMakePoint(center.x-size.width*0.2, center.y+size.height*0.8)];
 			[shape lineToPoint:NSMakePoint(center.x-size.width*0.2, center.y+size.height*0.2)];
-			[shape fill];
 			break;
 		case UCDirectPlayFlashIcon:
 			[NSGraphicsContext saveGraphicsState];
@@ -163,7 +163,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			[shape closePath];
 			[shape setLineWidth:kMar];
 			[shape stroke];
-			break;
+			return;
 		case UCDownloadFlashIcon:
 			[shape moveToPoint:NSMakePoint(center.x-size.width*0.15, center.y+size.height*0.8)];
 			[shape lineToPoint:NSMakePoint(center.x-size.width*0.15, center.y+size.height*0.45)];
@@ -172,7 +172,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			[shape lineToPoint:NSMakePoint(center.x+size.width*0.3, center.y+size.height*0.45)];
 			[shape lineToPoint:NSMakePoint(center.x+size.width*0.15, center.y+size.height*0.45)];
 			[shape lineToPoint:NSMakePoint(center.x+size.width*0.15, center.y+size.height*0.8)];
-			[shape fill];
 			break;
 		case UCTryDownloadFlashIcon:
 			[shape moveToPoint:NSMakePoint(center.x, center.y+size.height*0.15)];
@@ -191,7 +190,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 				[shape setLineDash:pattern count:2 phase:1.0];
 				}
 			[shape stroke];
-			break;
+			return;
 		case UCOriginalFlashIcon:
 			[shape moveToPoint:NSMakePoint(center.x+size.width*0, center.y+size.height*0.15)];
 			[shape curveToPoint:NSMakePoint(center.x+size.width*0+0, center.y+size.height*0.77) controlPoint1:NSMakePoint(center.x+size.width*0.45, center.y+size.height*0.15) controlPoint2:NSMakePoint(center.x+size.width*0.45, center.y+size.height*0.77)];
@@ -200,7 +199,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			[shape lineToPoint:NSMakePoint(center.x+size.width*0+0, center.y+size.height*0.4)];
 			[shape lineToPoint:NSMakePoint(center.x+size.width*0+0, center.y+size.height*0.55)];
 			[shape curveToPoint:NSMakePoint(center.x+size.width*0, center.y+size.height*0.15) controlPoint1:NSMakePoint(center.x+size.width*0.33, center.y+size.height*0.55) controlPoint2:NSMakePoint(center.x+size.width*0.33, center.y+size.height*0.15)];
-			[shape fill];
 			break;
 		default:
 			[shape moveToPoint:NSMakePoint(center.x-size.width*0.13, center.y+size.height*0.1)];
@@ -210,9 +208,18 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			[shape lineToPoint:NSMakePoint(center.x+size.width*0.2, center.y+size.height)];
 			[shape lineToPoint:NSMakePoint(center.x+size.width*0.05, center.y+size.height*0.61)];
 			[shape lineToPoint:NSMakePoint(center.x+size.width/4, center.y+size.height*0.65)];
-			[shape fill];
 			break;
 		}
+	[tint setFill];
+	if(!circled)
+		{
+		[halo setStroke];
+
+		[shape setLineWidth:size.width/8];
+		[shape closePath];
+		[shape stroke];
+		}
+	[shape fill];
 }
 
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL
