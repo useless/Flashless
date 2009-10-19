@@ -191,6 +191,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[delegate service:self didFindDownload:downloadURL];
 }
 
+- (void)foundNoDownload
+{
+	[delegate findDownloadFailedForService:self];
+}
+
 - (void)foundOriginal:(NSURL *)originalURL
 {
 	[delegate service:self didFindOriginal:originalURL];
@@ -265,6 +270,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 }
 
 - (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download
+{
+}
+
+- (void)findDownloadFailedForService:(UCFlashlessService *)service
 {
 }
 

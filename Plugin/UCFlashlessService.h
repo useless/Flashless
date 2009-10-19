@@ -69,6 +69,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (void)foundAVideo:(BOOL)hasVideo;
 - (void)foundPreview:(NSURL *)previewURL;
 - (void)foundDownload:(NSURL *)downloadURL;
+- (void)foundNoDownload;
 - (void)foundOriginal:(NSURL *)originalURL;
 - (void)receivedPreviewData:(NSData *)previewData;
 
@@ -83,6 +84,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo;
 - (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview;
 - (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download;
+- (void)findDownloadFailedForService:(UCFlashlessService *)service;
 - (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original;
 - (void)service:(UCFlashlessService *)service didReceivePreviewData:(NSData *)data;
 

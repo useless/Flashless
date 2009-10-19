@@ -57,6 +57,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo;
 - (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview;
 - (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download;
+- (void)findDownloadFailedForService:(UCFlashlessService *)service;
 - (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original;
 - (void)service:(UCFlashlessService *)service didReceivePreviewData:(NSData *)data;
 
@@ -84,7 +85,8 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		_mouseDown=NO;
 		_mouseInside=NO;
 		_sheetOpen=NO;
-		_shouldDownloadNow=NO;
+		_status = UCDefaultStatus;
+		_should = UCShouldNothing;
 		_hasVideo=NO;
 		}
 
@@ -344,7 +346,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		return UCOriginalFlashIcon;
 		}
-	if(_downloadURL!=nil && _canPlayDirectly && (_modifierFlags&UCDirectPlayModifiers)==UCDirectPlayModifiers)
+	if((_downloadURL!=nil || _canFindDownload) && _canPlayDirectly && (_modifierFlags&UCDirectPlayModifiers)==UCDirectPlayModifiers)
 		{
 		return UCDirectPlayFlashIcon;
 		}
@@ -381,10 +383,26 @@ static NSString * sHostKey = @"UCFlashlessHost";
 {
 	[_downloadURL release];
 	_downloadURL = [download retain];
-	if(_shouldDownloadNow)
+	_status = UCDefaultStatus;
+	[self setNeedsDisplay:YES];
+	switch(_should)
 		{
-		[self download:self];
+		case UCShouldDownloadNow:
+			[self download:self];
+			break;
+		case UCShouldPlayNow:
+			[self _convertToVideo];
+			break;
+		default: break;
 		}
+}
+
+- (void)findDownloadFailedForService:(UCFlashlessService *)service
+{
+	_canFindDownload=NO;
+	_should = UCShouldNothing;
+	_status = UCErrorStatus;
+	[self setNeedsDisplay:YES];
 }
 
 - (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original
@@ -573,7 +591,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	NSColor * tint;
 	NSColor * halo;
 	NSPoint loc;
-	NSDictionary * atts = nil;
 	NSSize size;
 	
 	shape = [NSBezierPath bezierPathWithRect:bounds];
@@ -609,9 +626,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			}
 		}
 
+	size = NSZeroSize;
 	if(_siteLabel!=nil)
 		{
-		atts = [NSDictionary dictionaryWithObjectsAndKeys:
+		NSDictionary * atts = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont systemFontOfSize:16], NSFontAttributeName,
 			[NSNumber numberWithFloat:17], NSStrokeWidthAttributeName,
 			[NSNumber numberWithFloat:-0.5], NSKernAttributeName,
@@ -631,6 +649,34 @@ static NSString * sHostKey = @"UCFlashlessHost";
 				tint, NSForegroundColorAttributeName,
 			nil];
 			[_siteLabel drawAtPoint:loc withAttributes:atts];
+			}
+		}
+
+	if(_status==UCWaitingStatus || _status==UCErrorStatus)
+		{
+		NSString * status = _status==UCErrorStatus ? @"?!" : @"\u2026";
+
+		NSDictionary * atts = [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSFont systemFontOfSize:16], NSFontAttributeName,
+			[NSNumber numberWithFloat:17], NSStrokeWidthAttributeName,
+			[NSNumber numberWithFloat:-0.5], NSKernAttributeName,
+			halo, NSStrokeColorAttributeName,
+			halo, NSForegroundColorAttributeName,
+		nil];
+
+		NSSize statusSize = [status sizeWithAttributes:atts];
+
+		if(statusSize.width+size.width+3*kXOff<bounds.size.width && statusSize.height+2*kYOff<bounds.size.height)
+			{
+			loc = NSMakePoint(kXOff, kYOff);
+			[status drawAtPoint:loc withAttributes:atts];
+
+			atts = [NSDictionary dictionaryWithObjectsAndKeys:
+				[NSFont systemFontOfSize:16], NSFontAttributeName,
+				[NSNumber numberWithFloat:-0.5], NSKernAttributeName,
+				tint, NSForegroundColorAttributeName,
+			nil];
+			[status drawAtPoint:loc withAttributes:atts];
 			}
 		}
 
@@ -658,6 +704,13 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	if(_canPlayDirectly && (_downloadURL!=nil))
 		{
 		[self _convertToVideo];
+		}
+	else if(_canPlayDirectly && _canFindDownload)
+		{
+		_should = UCShouldPlayNow;
+		_status = UCWaitingStatus;
+		[self setNeedsDisplay:YES];
+		[_service findDownloadURL];
 		}
 }
 
@@ -706,7 +759,9 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
 	else if(_canFindDownload)
 		{
-		_shouldDownloadNow=YES;
+		_should = UCShouldDownloadNow;
+		_status = UCWaitingStatus;
+		[self setNeedsDisplay:YES];
 		[_service findDownloadURL];
 		}
 }
@@ -831,7 +886,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
 	else if([anItem action]==@selector(playDirectly:))
 		{
-		return _canPlayDirectly && (_downloadURL!=nil);
+		return _canPlayDirectly && (_canFindDownload || (_downloadURL!=nil));
 		}
 	else if([anItem action]==@selector(download:))
 		{

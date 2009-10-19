@@ -40,6 +40,19 @@ typedef enum {
 	UCDirectPlayFlashIcon
 } UCFlashIconType;
 
+typedef enum {
+	UCDefaultStatus,
+	UCWaitingStatus,
+	UCWarningStatus,
+	UCErrorStatus
+} UCStatusType;
+
+typedef enum {
+	UCShouldNothing,
+	UCShouldDownloadNow,
+	UCShouldPlayNow
+} UCShouldType;
+
 enum {
 	UCOriginalModifiers = NSCommandKeyMask,
 	UCDirectPlayModifiers = NSShiftKeyMask,
@@ -72,7 +85,8 @@ enum {
 	NSBundle * _myBundle;
 
 	BOOL _sheetOpen;
-	BOOL _shouldDownloadNow;
+	UCShouldType _should;
+	UCStatusType _status;
 	BOOL _mouseDown;
 	BOOL _mouseInside;
 	NSUInteger _modifierFlags;

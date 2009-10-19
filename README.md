@@ -24,7 +24,7 @@ _Delegation_
 
 * Support for Blip.tv, Flickr and Vimeo downloads.
 
-* Use video tag for direct play without Flash.
+* Use video tag with poster for direct play without Flash.
 
 * Keep preview image aspect ratio.
 

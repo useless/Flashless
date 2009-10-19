@@ -64,6 +64,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 	if(secret==nil || node==nil)
 		{
+		[self foundNoDownload];
 		return;
 		}
 	findDownload=YES;
@@ -72,7 +73,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)receivedHint:(NSString *)hint
 {
-	if(hint==nil) { return; }
+	if(hint==nil)
+		{
+		[self foundNoDownload];
+		return;
+		}
 	NSString * server = nil;
 	NSString * URLString = nil;
 	NSScanner * scan = [NSScanner scannerWithString:hint];
@@ -92,6 +97,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 		if(server!=nil && URLString!=nil)
 			{
 			[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", server, [URLString stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"]]]];
+			}
+		else
+			{
+			[self foundNoDownload];
 			}
 		}
 	else
