@@ -22,7 +22,7 @@ _Delegation_
 
 * Use delegate messages for retrieval of preview/download/original URLs.
 
-* Support for Blip.tv, Flickr and Vimeo downloads.
+* Support for Blip.tv, Flickr, Vimeo, and universal YouTube downloads.
 
 * Use video tag with poster for direct play without Flash.
 

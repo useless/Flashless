@@ -36,6 +36,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"YouTube";
 }
 
+- (BOOL)canFindDownload
+{
+	return YES;
+}
+
 - (void)findURLs
 {
 	videoID = [flashVars objectForKey:@"video_id"];
@@ -65,6 +70,47 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://i1.ytimg.com/vi/%@/hqdefault.jpg", videoID]]];
 	NSString * videoHash = [flashVars objectForKey:@"t"];
 	if(videoHash!=nil)
+		{
+		[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video?fmt=18&video_id=%@&t=%@", videoID, videoHash]]];
+		}
+}
+
+- (void)findDownloadURL
+{
+	if(videoID==nil)
+		{
+		[self foundNoDownload];
+		return;
+		}
+	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@", videoID]]];
+}
+
+- (void)receivedHint:(NSString *)hint
+{
+	if(hint==nil)
+		{
+		[self foundNoDownload];
+		return;
+		}
+	NSScanner * scan = [NSScanner scannerWithString:hint];
+	[scan scanUpToString:@"var swfArgs" intoString:NULL];
+	[scan scanUpToString:@"\"t\":" intoString:NULL];
+	if(![scan scanString:@"\"t\":" intoString:NULL])
+		{
+		[self foundNoDownload];
+		return;
+		}
+	[scan scanUpToString:@"\"" intoString:NULL];
+	NSString * videoHash = nil;
+	if([scan scanString:@"\"" intoString:NULL])
+		{
+		[scan scanUpToString:@"\"" intoString:&videoHash];
+		}
+	if(videoHash==nil)
+		{
+		[self foundNoDownload];
+		}
+	else
 		{
 		[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video?fmt=18&video_id=%@&t=%@", videoID, videoHash]]];
 		}
