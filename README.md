@@ -16,7 +16,7 @@ For supported video services see `Services.txt`.
 Changelog
 =========
 
-Version 2.0 (In Development)
+Version 2.0 (Latest Release)
 -----------
 _Delegation_
 
@@ -32,7 +32,7 @@ _Delegation_
 
 * Display icons also in small elements.
 
-Version 1.5 (Latest Release)
+Version 1.5
 -----------
 _Clusterimage_
 
