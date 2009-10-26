@@ -93,7 +93,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		return;
 		}
 	NSScanner * scan = [NSScanner scannerWithString:hint];
-	[scan scanUpToString:@"var swfArgs" intoString:NULL];
+	[scan scanUpToString:@"SWF_ARGS" intoString:NULL];
 	[scan scanUpToString:@"\"t\":" intoString:NULL];
 	if(![scan scanString:@"\"t\":" intoString:NULL])
 		{
