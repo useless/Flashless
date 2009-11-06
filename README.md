@@ -16,7 +16,16 @@ For supported video services see `Services.txt`.
 Changelog
 =========
 
-Version 2.0 (Latest Release)
+Version 2.0.1 (Latest Release)
+-------------
+_Panic_
+
+* Adjust YouTube download on other sites.
+
+* Remove TwitVid download due to site changes.
+
+
+Version 2.0
 -----------
 _Delegation_
 
@@ -32,6 +41,7 @@ _Delegation_
 
 * Display icons also in small elements.
 
+
 Version 1.5
 -----------
 _Clusterimage_
@@ -46,6 +56,7 @@ _Clusterimage_
 
 * Use a class cluster for service support.
 
+
 Version 1.4
 -----------
 _Blackwhite_
@@ -55,6 +66,7 @@ _Blackwhite_
 * Allows showing or removing of all flash instances.
 
 * Allows automatic showing or removing from a source for the rest of the session.
+
 
 Version 1.3
 -----------
@@ -87,4 +99,4 @@ Initial public release.
 
 ***
 
-This project is somewhat based on **ClickToFlash** (<https://github.com/rentzsch/clicktoflash>).
+This project is somewhat based on **ClickToFlash** (<http://github.com/rentzsch/clicktoflash>).
