@@ -54,13 +54,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)findURLs
 {
-	if([[src host] isEqualToString:@"e.blip.tv"])
+	if([[src host] isEqualToString:@"blip.tv"])
 		{
-		[self redirectedTo:nil];
+		redirectConnection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:src] delegate:self];
 		}
 	else
 		{
-		redirectConnection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:src] delegate:self];
+		[self redirectedTo:nil];
 		}
 }
 
@@ -132,7 +132,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
 {
-	if(connection==redirectConnection && [[[request URL] host] isEqualToString:@"e.blip.tv"])
+	if(connection==redirectConnection && redirectResponse!=nil)
 		{
 		[connection cancel];
 		[self redirectedTo:[request URL]];
@@ -143,5 +143,19 @@ OTHER DEALINGS IN THE SOFTWARE.
 		return request;
 		}
 }
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+	if(connection==redirectConnection)
+		{
+		// We waited for a redirection that didn't happen
+		[self redirectedTo:nil];
+		}
+	else
+		{
+		[super connectionDidFinishLoading:connection];
+		}
+}
+
 
 @end
