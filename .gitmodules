@@ -1,0 +1,3 @@
+[submodule "Product/UC"]
+	path = Product/UC
+	url = code@Kubrick.local.:git/Useless.git

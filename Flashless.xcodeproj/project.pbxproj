@@ -61,7 +61,7 @@
 		BFE965A1104FCD5D00432F88 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE9659F104FCD5D00432F88 /* Logo.png */; };
 		BFF811D010526B49003B72D3 /* background.png in Copy Helper Files */ = {isa = PBXBuildFile; fileRef = BFF811CF10526B49003B72D3 /* background.png */; };
 		BFF811F510527334003B72D3 /* Flashless.webplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1AC9740486D14A00FE50C9 /* Flashless.webplugin */; };
-		BFF811F8105273C0003B72D3 /* Readme.rtf in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFF811F7105273C0003B72D3 /* Readme.rtf */; };
+		BFF811F8105273C0003B72D3 /* Readme.pdf in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFF811F7105273C0003B72D3 /* Readme.pdf */; };
 		D03EDEE7102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
 		D03EDEE8102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
 		D096D10F1028946100A47EE6 /* UCFlashlessService.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessService.m */; };
@@ -88,7 +88,7 @@
 			dstSubfolderSpec = 0;
 			files = (
 				BFF811F510527334003B72D3 /* Flashless.webplugin in CopyFiles */,
-				BFF811F8105273C0003B72D3 /* Readme.rtf in CopyFiles */,
+				BFF811F8105273C0003B72D3 /* Readme.pdf in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,7 +142,7 @@
 		BFC883BB1057C509002F1A9C /* UCFlashlessTwitvidService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessTwitvidService.h; sourceTree = "<group>"; };
 		BFE9659F104FCD5D00432F88 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		BFF811CF10526B49003B72D3 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = Product/background.png; sourceTree = "<group>"; };
-		BFF811F7105273C0003B72D3 /* Readme.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Readme.rtf; path = Product/Readme.rtf; sourceTree = "<group>"; };
+		BFF811F7105273C0003B72D3 /* Readme.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = Readme.pdf; path = Product/Readme.pdf; sourceTree = "<group>"; };
 		D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCBlackwhitelist.h; path = Plugin/UCBlackwhitelist.h; sourceTree = "<group>"; };
 		D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCBlackwhitelist.m; path = Plugin/UCBlackwhitelist.m; sourceTree = "<group>"; };
 		D096D10D1028946100A47EE6 /* UCFlashlessService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCFlashlessService.h; path = Plugin/UCFlashlessService.h; sourceTree = "<group>"; };
@@ -189,7 +189,7 @@
 		0259C582FE90428111CA0C5A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BFF811F7105273C0003B72D3 /* Readme.rtf */,
+				BFF811F7105273C0003B72D3 /* Readme.pdf */,
 				BFF811CF10526B49003B72D3 /* background.png */,
 				BFE9659F104FCD5D00432F88 /* Logo.png */,
 				D0BDCD4210355D2000866394 /* LICENSE */,
@@ -399,11 +399,11 @@
 			name = "Setup Contents";
 			outputPaths = (
 				"$(DERIVED_FILES_DIR)/dmg/.VolumeIcon.icns",
-				"$(DERIVED_FILES_DIR)/dmg/Readme.rtf",
+				"$(DERIVED_FILES_DIR)/dmg/Readme.pdf",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$DERIVED_FILES_DIR/dmg\"\n\n$SYSTEM_DEVELOPER_TOOLS/Rez -append ../minidoc.r -o Readme.rtf\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.rtf\n\n$CP $PROJECT_DIR/Product/Volume.icns .VolumeIcon.icns\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
+			shellScript = "cd \"$DERIVED_FILES_DIR/dmg\"\n\n$SYSTEM_DEVELOPER_TOOLS/Rez -append ../minidoc.r -o Readme.pdf\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.pdf\n\n$CP $PROJECT_DIR/Product/Volume.icns .VolumeIcon.icns\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
 			showEnvVarsInLog = 0;
 		};
 		BFF8125C10529573003B72D3 /* Create Disk Image */ = {
@@ -420,7 +420,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$DERIVED_FILES_DIR\"\nhdiutil create -srcfolder dmg -volname $PRODUCT_NAME -nospotlight -format UDIF -attach -ov pre.dmg\n\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a C /Volumes/$PRODUCT_NAME\nosascript $PROJECT_DIR/Product/DMG.scpt $PRODUCT_NAME:\n\nhdiutil detach /Volumes/$PRODUCT_NAME\n";
+			shellScript = "cd \"$DERIVED_FILES_DIR\"\nhdiutil create -srcfolder dmg -volname $PRODUCT_NAME -nospotlight -format UDIF -attach -ov pre.dmg\n\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a C /Volumes/$PRODUCT_NAME\nif [ -f $PROJECT_DIR/Product/UC/DMG.scpt ]; then\nosascript $PROJECT_DIR/Product/UC/DMG.scpt $PRODUCT_NAME: \"$PRODUCT_NAME.$WRAPPER_EXTENSION\" \"Internet Plug-Ins\" \"Readme.pdf\"\nfi\n\nhdiutil detach /Volumes/$PRODUCT_NAME\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
