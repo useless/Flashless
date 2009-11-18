@@ -16,6 +16,14 @@ For supported video services see `Services.txt`.
 Changelog
 =========
 
+Version 2.0.2 (In Development)
+-------------
+
+* Disable Direct Play and Download for missing video IDs.
+
+* Fix Blip.tv redirection.
+
+
 Version 2.0.1 (Latest Release)
 -------------
 _Panic_

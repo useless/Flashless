@@ -48,7 +48,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (BOOL)canFindDownload
 {
-	return YES;
+	return (secret!=nil && node!=nil);
 }
 
 - (void)findURLs

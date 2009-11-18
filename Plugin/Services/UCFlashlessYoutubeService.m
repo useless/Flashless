@@ -38,7 +38,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (BOOL)canFindDownload
 {
-	return YES;
+	return videoID!=nil;
 }
 
 - (void)findURLs
