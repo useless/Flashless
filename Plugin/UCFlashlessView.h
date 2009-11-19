@@ -30,6 +30,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 #import "UCFlashlessService.h"
+#import "UCSpinView.h"
 
 typedef enum {
 	UCDefaultFlashIcon,
@@ -81,6 +82,7 @@ enum {
 	NSURL * _originalURL;
 
 	NSImage * _previewImage;
+	UCSpinView * _spinner;
 
 	NSBundle * _myBundle;
 

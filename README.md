@@ -23,6 +23,8 @@ Version 2.0.2 (In Development)
 
 * Fix Blip.tv redirection.
 
+* Use custom spinner to show activity.
+
 
 Version 2.0.1 (Latest Release)
 -------------

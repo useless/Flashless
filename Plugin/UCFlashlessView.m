@@ -54,6 +54,8 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
+- (void)setStatus:(UCStatusType)status;
+
 - (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo;
 - (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview;
 - (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download;
@@ -342,6 +344,29 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[self setNeedsDisplay:YES];
 }
 
+#pragma mark -
+
+- (void)setStatus:(UCStatusType)status
+{
+	_status = status;
+	if(_status==UCWaitingStatus)
+		{
+		if(_spinner==nil)
+			{
+			_spinner = [[UCSpinView alloc] initWithFrame:NSMakeRect(10,7, 16,16)];
+			[_spinner setTint:[NSColor whiteColor]];
+			[_spinner setHalo:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]];
+			[self addSubview:_spinner];
+			}
+		[_spinner startAnimation:self];
+		}
+	else
+		{
+		[_spinner stopAnimation:self];
+		}
+	[self setNeedsDisplay:YES];
+}
+
 - (UCFlashIconType)_playIcon
 {
 	if(_originalURL!=nil && (_modifierFlags&UCOriginalModifiers)==UCOriginalModifiers)
@@ -386,8 +411,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 {
 	[_downloadURL release];
 	_downloadURL = [download retain];
-	_status = UCDefaultStatus;
-	[self setNeedsDisplay:YES];
+	[self setStatus:UCDefaultStatus];
 	switch(_should)
 		{
 		case UCShouldDownloadNow:
@@ -404,8 +428,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 {
 	_canFindDownload=NO;
 	_should = UCShouldNothing;
-	_status = UCErrorStatus;
-	[self setNeedsDisplay:YES];
+	[self setStatus:UCErrorStatus];
 }
 
 - (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original
@@ -447,6 +470,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 	[_myBundle release];
 	[_previewImage release];
+	[_spinner release];
 	[_tracking release];
 
 	[super dealloc];
@@ -654,9 +678,9 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			}
 		}
 
-	if(_status==UCWaitingStatus || _status==UCErrorStatus)
+	if(_status==UCErrorStatus)
 		{
-		NSString * status = _status==UCErrorStatus ? @"?!" : @"\u2026";
+		NSString * status = @"?!";
 
 		NSDictionary * atts = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont systemFontOfSize:16], NSFontAttributeName,
@@ -710,8 +734,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	else if(_canPlayDirectly && _canFindDownload)
 		{
 		_should = UCShouldPlayNow;
-		_status = UCWaitingStatus;
-		[self setNeedsDisplay:YES];
+		[self setStatus:UCWaitingStatus];
 		[_service findDownloadURL];
 		}
 }
@@ -762,8 +785,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	else if(_canFindDownload)
 		{
 		_should = UCShouldDownloadNow;
-		_status = UCWaitingStatus;
-		[self setNeedsDisplay:YES];
+		[self setStatus:UCWaitingStatus];
 		[_service findDownloadURL];
 		}
 }

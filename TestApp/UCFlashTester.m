@@ -78,6 +78,23 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 }
 
+- (IBAction)setDefaultStatus:(id)sender
+{
+	[flashView setStatus:UCDefaultStatus];
+}
+
+- (IBAction)setWaitingStatus:(id)sender
+{
+	[flashView setStatus:UCWaitingStatus];
+}
+
+- (IBAction)setErrorStatus:(id)sender
+{
+	[flashView setStatus:UCErrorStatus];
+}
+
+#pragma mark -
+
 - (void)windowWillClose:(NSNotification *)notification
 {
 	[NSApp terminate:self];

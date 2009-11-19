@@ -1,8 +1,8 @@
 //
-//  UCFlashTester.h
-//  Flashless TestApp
+//  UCSpinner.h
+//  Flashless
 //
-//  Created by Christoph on 13.06.09.
+//  Created by Christoph on 19.11.09.
 //  Copyright Useless Coding 2009.
 /*
 Permission is hereby granted, free of charge, to any person
@@ -28,23 +28,23 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import <Cocoa/Cocoa.h>
-#import "UCFlashlessView.h"
 
 
-@interface UCFlashTester : NSObject
+@interface UCSpinView : NSView
 {
-	IBOutlet UCFlashlessView * flashView;
+	NSTimer * animationTimer;
+	NSTimeInterval animationDelay;
+	BOOL spinning;
+	NSInteger step;
+	NSColor * tint;
+	NSColor * halo;
 }
 
-- (IBAction)initializePlugin:(id)sender;
-- (IBAction)startPlugin:(id)sender;
-- (IBAction)stopPlugin:(id)sender;
-- (IBAction)destroyPlugin:(id)sender;
-- (IBAction)refresh:(id)sender;
-- (IBAction)test:(id)sender;
+- (void)setTint:(NSColor *)newTint;
+- (void)setHalo:(NSColor *)newHalo;
 
-- (IBAction)setDefaultStatus:(id)sender;
-- (IBAction)setWaitingStatus:(id)sender;
-- (IBAction)setErrorStatus:(id)sender;
+- (void)startAnimation:(id)sender;
+- (void)stopAnimation:(id)sender;
+- (void)animate:(NSTimer *)aTimer;
 
 @end

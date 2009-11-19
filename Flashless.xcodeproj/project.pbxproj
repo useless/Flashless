@@ -39,6 +39,8 @@
 		BF344D360FF141FB003F125D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF344D350FF141FB003F125D /* MainMenu.xib */; };
 		BF344D420FF14255003F125D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF344D410FF14255003F125D /* Localizable.strings */; };
 		BF344D430FF14255003F125D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF344D410FF14255003F125D /* Localizable.strings */; };
+		BF6C8EB410B58A6F00FB5B4F /* UCSpinView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF6C8EB310B58A6F00FB5B4F /* UCSpinView.m */; };
+		BF6C8EB510B58A6F00FB5B4F /* UCSpinView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF6C8EB310B58A6F00FB5B4F /* UCSpinView.m */; };
 		BF73BD9F10506821003D2309 /* UCFlashlessYoutubeService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BD9E10506821003D2309 /* UCFlashlessYoutubeService.m */; };
 		BF73BDA010506821003D2309 /* UCFlashlessYoutubeService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BD9E10506821003D2309 /* UCFlashlessYoutubeService.m */; };
 		BF73BE001050727D003D2309 /* UCFlashlessXtubeService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BDFF1050727D003D2309 /* UCFlashlessXtubeService.m */; };
@@ -122,6 +124,8 @@
 		BF344CE60FF13D0D003F125D /* UCFlashTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCFlashTester.m; path = TestApp/UCFlashTester.m; sourceTree = "<group>"; };
 		BF344D440FF14261003F125D /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF344D450FF14269003F125D /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BF6C8EB210B58A6F00FB5B4F /* UCSpinView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCSpinView.h; path = Plugin/UCSpinView.h; sourceTree = "<group>"; };
+		BF6C8EB310B58A6F00FB5B4F /* UCSpinView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCSpinView.m; path = Plugin/UCSpinView.m; sourceTree = "<group>"; };
 		BF73BD9D10506821003D2309 /* UCFlashlessYoutubeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessYoutubeService.h; sourceTree = "<group>"; };
 		BF73BD9E10506821003D2309 /* UCFlashlessYoutubeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessYoutubeService.m; sourceTree = "<group>"; };
 		BF73BDFE1050727D003D2309 /* UCFlashlessXtubeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessXtubeService.h; sourceTree = "<group>"; };
@@ -223,6 +227,8 @@
 		32DBCF9E0370C38000C91783 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				BF6C8EB210B58A6F00FB5B4F /* UCSpinView.h */,
+				BF6C8EB310B58A6F00FB5B4F /* UCSpinView.m */,
 				BF73BCC5105053E4003D2309 /* Services */,
 				D0BDCC9110354D3800866394 /* PluginView+DOM.m */,
 				D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */,
@@ -442,6 +448,7 @@
 				BF73BE7910507C5A003D2309 /* UCFlashlessFlickrService.m in Sources */,
 				BF73BE7A10507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */,
 				BFC883BD1057C509002F1A9C /* UCFlashlessTwitvidService.m in Sources */,
+				BF6C8EB510B58A6F00FB5B4F /* UCSpinView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +470,7 @@
 				BF73BE7710507C5A003D2309 /* UCFlashlessFlickrService.m in Sources */,
 				BF73BE7810507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */,
 				BFC883BC1057C509002F1A9C /* UCFlashlessTwitvidService.m in Sources */,
+				BF6C8EB410B58A6F00FB5B4F /* UCSpinView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
