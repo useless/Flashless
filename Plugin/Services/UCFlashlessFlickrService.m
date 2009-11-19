@@ -128,6 +128,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			[scan scanUpToString:@"</Item>" intoString:&node];
 			}
 		[node retain];
+		[self foundAVideo:YES];
 
 		[scan setScanLocation:0];
 		[scan scanUpToString:@";url=" intoString:NULL];

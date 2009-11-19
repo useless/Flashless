@@ -44,7 +44,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)_modifiersChanged;
 - (UCFlashIconType)_playIcon;
 
-- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asIcon:(UCFlashIconType)icon;
+- (void)_drawIcon:(UCFlashIconType)icon WithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds;
 
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL;
 - (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes;
@@ -93,10 +93,12 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	return self;
 }
 
-- (void)_drawWithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds asIcon:(UCFlashIconType)icon
+- (void)_drawIcon:(UCFlashIconType)icon WithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds
 {
 	const float kMar = 3;
 	BOOL circled = YES;
+
+	[NSBezierPath setDefaultLineCapStyle:NSButtLineCapStyle];
 
 	NSSize size = (icon==UCDefaultFlashIcon)?NSMakeSize(32, 32):NSMakeSize(48, 48);
 
@@ -370,6 +372,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo
 {
 	_hasVideo=hasVideo;
+	_canFindDownload=[service canFindDownload];
 	[self setNeedsDisplay:YES];
 }
 
@@ -543,7 +546,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[_service startWithDelegate:self];
 
 	_siteLabel = [[_service label] retain];
-	_canFindDownload = [_service canFindDownload];
 	_canPlayDirectly = [_service canPlayDirectly];
 
 	[self setMenu:[self _prepareMenu]];
@@ -680,7 +682,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			}
 		}
 
-	[self _drawWithTint:tint andHalo:halo inRect:bounds asIcon:[self _playIcon]];
+	[self _drawIcon:[self _playIcon] WithTint:tint andHalo:halo inRect:bounds];
 
 	if(_mouseDown && _mouseInside)
 		{
