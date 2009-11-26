@@ -353,7 +353,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		if(_spinner==nil)
 			{
-			_spinner = [[UCSpinView alloc] initWithFrame:NSMakeRect(10,7, 16,16)];
+			_spinner = [[UCSpinView alloc] initWithFrame:NSMakeRect(10,6, 18,18)];
 			[_spinner setTint:[NSColor whiteColor]];
 			[_spinner setHalo:[NSColor colorWithCalibratedWhite:0.0 alpha:0.25]];
 			[self addSubview:_spinner];

@@ -37,7 +37,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	self = [super initWithFrame:frame];
 	if(self!=nil)
 		{
-		animationDelay = 0.15;
+		animationDelay = 0.1;
 		step = 0;
 		tint = [[NSColor blackColor] retain];
 		halo = [[NSColor clearColor] retain];
@@ -76,7 +76,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 		return;
 		}
 
-	const NSInteger count = 8;
+	const NSInteger count = 10;
 	const CGFloat slice = 6.283185307179586/count;
 
 	NSRect bounds = [self bounds];
@@ -90,7 +90,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[NSBezierPath setDefaultLineCapStyle:NSRoundLineCapStyle];
 	[NSBezierPath setDefaultLineWidth:diameter*0.1];
 	CGFloat inner = diameter*0.2;
-	CGFloat outer = diameter*0.4;
+	CGFloat outer = diameter*0.38;
 	CGFloat phi;
 
 	step = step % count;
