@@ -35,8 +35,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 @private
 	NSString * bundleIdentifier;
 	NSMutableDictionary * defaultsDict;
-	NSMutableArray * blacklist;
-	NSMutableArray * whitelist;
+	NSMutableSet * blacklist;
+	NSMutableSet * whitelist;
 	BOOL isPersistent;
 }
 

@@ -94,38 +94,29 @@ static UCBlackwhitelist * sharedInstance = nil;
 	
 	[blacklist release];
 	blacklist = nil;
-	blacklist = [[defaultsDict objectForKey:@"UCBlacklist"] mutableCopy];
-	if(blacklist==nil)
-		{
-		blacklist = [[NSMutableArray alloc] init];
-		}
+	blacklist = [[NSMutableSet alloc] initWithArray:[defaultsDict objectForKey:@"UCBlacklist"]];
 	
 	[whitelist release];
 	whitelist = nil;
-	whitelist = [[defaultsDict objectForKey:@"UCWhitelist"] mutableCopy];
-	if(whitelist==nil)
-		{
-		whitelist = [[NSMutableArray alloc] init];
-		}
+	whitelist = [[NSMutableSet alloc] initWithArray:[defaultsDict objectForKey:@"UCWhitelist"]];
 
 	isPersistent = [[defaultsDict objectForKey:@"UCIsPersistent"] boolValue];
 
 	[defaultsDict setObject:isPersistent?@"YES":@"NO" forKey:@"UCIsPersistent"];
-	[defaultsDict setObject:blacklist forKey:@"UCBlacklist"];
-	[defaultsDict setObject:whitelist forKey:@"UCWhitelist"];
 }
 
 - (void)blackwhitelistDidChange:(NSNotification *)notification
 {
 	if(isPersistent)
 		{
+		[defaultsDict setObject:[blacklist allObjects] forKey:@"UCBlacklist"];
+		[defaultsDict setObject:[whitelist allObjects] forKey:@"UCWhitelist"];
 		[[NSUserDefaults standardUserDefaults] setPersistentDomain:defaultsDict forName:bundleIdentifier];
 		}
 }
 
 - (void)blacklistHost:(NSString *)host
 {
-	[blacklist removeObject:host];
 	[blacklist addObject:host];
 	[whitelist removeObject:host];
 	
@@ -135,7 +126,6 @@ static UCBlackwhitelist * sharedInstance = nil;
 - (void)whitelistHost:(NSString *)host
 {
 	[blacklist removeObject:host];
-	[whitelist removeObject:host];
 	[whitelist addObject:host];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"UCBlackwhitelistDidChange" object:self];
