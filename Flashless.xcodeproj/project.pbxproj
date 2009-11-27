@@ -13,7 +13,6 @@
 			buildPhases = (
 				BFF811BB10526A99003B72D3 /* CopyFiles */,
 				BFF8120F10527553003B72D3 /* Copy Helper Files */,
-				BF9164031052D5CD0084EF4C /* Prepare Icon */,
 				BFF811DB10526CE6003B72D3 /* Setup Contents */,
 				BFF8125C10529573003B72D3 /* Create Disk Image */,
 				BF9163FB1052D3F10084EF4C /* Convert DMG */,
@@ -367,32 +366,13 @@
 			files = (
 			);
 			inputPaths = (
-				"$(DERIVED_FILES_DIR)/pre.dmg",
 			);
 			name = "Convert DMG";
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(PRODCUT_NAME).dmg",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd $BUILT_PRODUCTS_DIR\nhdiutil convert -format UDZO -ov -o $PRODUCT_NAME.dmg \"$DERIVED_FILES_DIR/pre.dmg\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BF9164031052D5CD0084EF4C /* Prepare Icon */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(PROJECT_DIR)/Product/Minidoc.icns",
-			);
-			name = "Prepare Icon";
-			outputPaths = (
-				"$(DERIVED_FILES_DIR)/minidoc.r",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd \"$DERIVED_FILES_DIR\"\nsips -i --out minidoci.icns $PROJECT_DIR/Product/Minidoc.icns\n$SYSTEM_DEVELOPER_TOOLS/DeRez -only icns minidoci.icns > minidoc.r\n";
 			showEnvVarsInLog = 0;
 		};
 		BFF811DB10526CE6003B72D3 /* Setup Contents */ = {
@@ -404,12 +384,10 @@
 			);
 			name = "Setup Contents";
 			outputPaths = (
-				"$(DERIVED_FILES_DIR)/dmg/.VolumeIcon.icns",
-				"$(DERIVED_FILES_DIR)/dmg/Readme.pdf",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$DERIVED_FILES_DIR/dmg\"\n\n$SYSTEM_DEVELOPER_TOOLS/Rez -append ../minidoc.r -o Readme.pdf\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.pdf\n\n$CP $PROJECT_DIR/Product/Volume.icns .VolumeIcon.icns\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
+			shellScript = "cd \"$DERIVED_FILES_DIR/dmg\"\n\n$CP $PROJECT_DIR/Product/Minidoc.icns ../Minidoc.icns\necho \"read 'icns' (-16455) \\\"Minidoc.icns\\\";\" > ../minidoc.r\n$SYSTEM_DEVELOPER_TOOLS/Rez -append -o Readme.pdf ../minidoc.r\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.pdf\n\n$CP $PROJECT_DIR/Product/Volume.icns .VolumeIcon.icns\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
 			showEnvVarsInLog = 0;
 		};
 		BFF8125C10529573003B72D3 /* Create Disk Image */ = {
@@ -418,11 +396,9 @@
 			files = (
 			);
 			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/dmg/*",
 			);
 			name = "Create Disk Image";
 			outputPaths = (
-				"$(DERIVED_FILES_DIR)/pre.dmg",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
