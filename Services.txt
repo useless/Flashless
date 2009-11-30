@@ -52,7 +52,8 @@ ORIGINAL: http://www.vimeo.com/{ID}
 
 
 blip.tv
-SRC>	... file={HINT}& ...
+SRC>	blip.tv/...
+REDIRECTED SRC>	... file={HINT}& ...
 
 HINT>	<link>{ORIGINAL}</link>
 	<blip:thumbnail_src>{PREVIEWID}</blip:thumbnail_src>
@@ -123,10 +124,14 @@ ORIGINAL: http://video.google.com/videoplay?docid={ID}
 
 TwitVid
 SRC>	http://twitvid.com/player/{ID}
+REDIRECTED SRC> ... file={HINT}&
 
-FLASHVARS> file=http://www.twitvid.com/playVideo_{ID}/token_{TOKEN}
+FLASHVARS> file={HINT}
+
+HINT>	http://www.twitvid.com/playVideo_{ID}/token_{SECRET}
+
 PREVIEW: http://cdn.twitvid.com/thumbnails/{ID}.jpg
 
-DOWNLOAD: http://cdn.twitvid.com/{ID}.mp4
+DOWNLOAD: {HINT}
 
 ORIGINAL: http://www.twitvid.com/{ID}

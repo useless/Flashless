@@ -28,10 +28,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import <Cocoa/Cocoa.h>
-#import "UCVideoService.h"
+#import "UCRedirectedVideoService.h"
 
 
-@interface UCVideoServiceTwitvid : UCVideoService
+@interface UCVideoServiceTwitvid : UCRedirectedVideoService
 {
+	NSString * hint;
 }
 @end

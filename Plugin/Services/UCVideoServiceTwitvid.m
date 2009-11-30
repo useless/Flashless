@@ -31,6 +31,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @implementation UCVideoServiceTwitvid
 
+- (void)dealloc
+{
+	[hint release];
+
+	[super dealloc];
+}
+
+#pragma mark -
+
 - (NSString *)label
 {
 	return @"TwitVid";
@@ -38,9 +47,35 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)findURLs
 {
-	NSString * hint = [flashVars objectForKey:@"file"];
+	hint = [flashVars objectForKey:@"file"];
+	if(hint!=nil)
+		{
+		hint = [[hint stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] retain];
+		[self redirectedTo:nil];
+		}
+	else
+		{
+		[self resolveURL:src];
+		}
+}
+
+- (void)redirectedTo:(NSURL *)redirectedURL
+{
+	NSScanner * scan;
+	if(redirectedURL!=nil)
+		{
+		scan = [NSScanner scannerWithString:[redirectedURL absoluteString]];
+		[scan scanUpToString:@"file=" intoString:NULL];
+		if([scan scanString:@"file=" intoString:NULL])
+			{
+			[scan scanUpToString:@"&" intoString:&hint];
+			}
+		[hint retain];
+		}
+
 	if(hint==nil) { return; }
-	NSScanner * scan = [NSScanner scannerWithString:[hint stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+
+	scan = [NSScanner scannerWithString:hint];
 	[scan scanUpToString:@"/playVideo_" intoString:NULL];
 	if([scan scanString:@"/playVideo_" intoString:NULL])
 		{
@@ -51,6 +86,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[self foundAVideo:YES];
 	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://images.twitvid.com/%@.jpg", videoID]]];
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.twitvid.com/%@", videoID]]];
+	[self foundDownload:[NSURL URLWithString:hint]];
 }
 
 @end
