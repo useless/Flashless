@@ -1,5 +1,5 @@
 //
-//  UCFlashlessVimeoService.h
+//  UCVideoServiceVimeo.h
 //  Flashless
 //
 //  Created by Christoph on 03.09.09.
@@ -28,10 +28,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import <Cocoa/Cocoa.h>
-#import "UCFlashlessService.h"
+#import "UCVideoService.h"
 
 
-@interface UCFlashlessVimeoService : UCFlashlessService
+@interface UCVideoServiceVimeo : UCVideoService
 {
 }
 @end

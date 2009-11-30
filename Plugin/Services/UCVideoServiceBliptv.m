@@ -1,5 +1,5 @@
 //
-//  UCFlashlessBliptvService.m
+//  UCVideoServiceBliptv.m
 //  Flashless
 //
 //  Created by Christoph on 04.09.09.
@@ -27,25 +27,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import "UCFlashlessBliptvService.h"
+#import "UCVideoServiceBliptv.h"
 
-@implementation UCFlashlessBliptvService
-
-- (void)dealloc
-{
-	[redirectConnection release];
-
-	[super dealloc];
-}
-
-#pragma mark -
-
-- (void)cancel
-{
-	[redirectConnection cancel];
-
-	[super cancel];
-}
+@implementation UCVideoServiceBliptv
 
 - (NSString *)label
 {
@@ -56,7 +40,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 	if([[src host] isEqualToString:@"blip.tv"])
 		{
-		redirectConnection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:src] delegate:self];
+		[self resolveURL:src];
 		}
 	else
 		{
@@ -125,35 +109,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 	if(downloadURLString!=nil)
 		{
 		[self foundDownload:[NSURL URLWithString:downloadURLString]];
-		}
-}
-
-#pragma mark Connection Delegate
-
-- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
-{
-	if(connection==redirectConnection && redirectResponse!=nil)
-		{
-		[connection cancel];
-		[self redirectedTo:[request URL]];
-		return nil;
-		}
-	else
-		{
-		return request;
-		}
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-	if(connection==redirectConnection)
-		{
-		// We waited for a redirection that didn't happen
-		[self redirectedTo:nil];
-		}
-	else
-		{
-		[super connectionDidFinishLoading:connection];
 		}
 }
 

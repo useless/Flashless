@@ -1,5 +1,5 @@
 //
-//  UCFlashlessGoogleService.h
+//  UCVideoServiceGoogle.h
 //  Flashless
 //
 //  Created by Christoph on 04.09.09.
@@ -28,10 +28,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import <Cocoa/Cocoa.h>
-#import "UCFlashlessService.h"
+#import "UCVideoService.h"
 
 
-@interface UCFlashlessGoogleService : UCFlashlessService
+@interface UCVideoServiceGoogle : UCVideoService
 {
 }
 @end

@@ -1,5 +1,5 @@
 //
-//  UCFlashlessViddlerService.h
+//  UCVideoServiceFlickr.h
 //  Flashless
 //
 //  Created by Christoph on 04.09.09.
@@ -28,10 +28,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import <Cocoa/Cocoa.h>
-#import "UCFlashlessService.h"
+#import "UCVideoService.h"
 
 
-@interface UCFlashlessViddlerService : UCFlashlessService
+@interface UCVideoServiceFlickr : UCVideoService
 {
+	NSString * secret;
+	NSString * node;
+	BOOL findDownload;
 }
 @end

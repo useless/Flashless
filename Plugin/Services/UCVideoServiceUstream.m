@@ -1,8 +1,8 @@
 //
-//  UCFlashlessTwitvidService.h
+//  UCVideoServiceUstream.m
 //  Flashless
 //
-//  Created by Christoph on 09.09.09.
+//  Created by Christoph on 04.09.09.
 //  Copyright Useless Coding 2009.
 /*
 Permission is hereby granted, free of charge, to any person
@@ -27,11 +27,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import <Cocoa/Cocoa.h>
-#import "UCFlashlessService.h"
+#import "UCVideoServiceUstream.h"
 
+@implementation UCVideoServiceUstream
 
-@interface UCFlashlessTwitvidService : UCFlashlessService
+- (NSString *)label
 {
+	return @"USTREAM";
 }
+
 @end

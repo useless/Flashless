@@ -1,5 +1,5 @@
 //
-//  UCFlashlessUstreamService.m
+//  UCVideoServiceViddler.h
 //  Flashless
 //
 //  Created by Christoph on 04.09.09.
@@ -27,13 +27,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import "UCFlashlessUstreamService.h"
+#import <Cocoa/Cocoa.h>
+#import "UCVideoService.h"
 
-@implementation UCFlashlessUstreamService
 
-- (NSString *)label
+@interface UCVideoServiceViddler : UCVideoService
 {
-	return @"USTREAM";
 }
-
 @end

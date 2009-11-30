@@ -1,5 +1,5 @@
 //
-//  UCFlashlessViddlerService.m
+//  UCVideoServiceViddler.m
 //  Flashless
 //
 //  Created by Christoph on 04.09.09.
@@ -27,9 +27,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import "UCFlashlessViddlerService.h"
+#import "UCVideoServiceViddler.h"
 
-@implementation UCFlashlessViddlerService
+@implementation UCVideoServiceViddler
 
 - (NSString *)label
 {

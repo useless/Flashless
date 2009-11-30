@@ -1,5 +1,5 @@
 //
-//  UCFlashlessService.h
+//  UCVideoService.h
 //  Flashless
 //
 //  Created by Christoph on 04.08.09.
@@ -29,7 +29,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Cocoa/Cocoa.h>
 
-@interface UCFlashlessService : NSObject
+@interface UCVideoService : NSObject
 {
 	NSURL * src;
 	NSDictionary * flashVars;
@@ -59,7 +59,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @end
 
-@interface UCFlashlessService (Private)
+@interface UCVideoService (Private)
 
 - (void)findURLs;
 - (void)findDownloadURL;
@@ -81,11 +81,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @interface NSObject (UCFlashlessServiceDelegate)
 
-- (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo;
-- (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview;
-- (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download;
-- (void)findDownloadFailedForService:(UCFlashlessService *)service;
-- (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original;
-- (void)service:(UCFlashlessService *)service didReceivePreviewData:(NSData *)data;
+- (void)service:(UCVideoService *)service didFindAVideo:(BOOL)hasVideo;
+- (void)service:(UCVideoService *)service didFindPreview:(NSURL *)preview;
+- (void)service:(UCVideoService *)service didFindDownload:(NSURL *)download;
+- (void)findDownloadFailedForService:(UCVideoService *)service;
+- (void)service:(UCVideoService *)service didFindOriginal:(NSURL *)original;
+- (void)service:(UCVideoService *)service didReceivePreviewData:(NSData *)data;
 
 @end

@@ -1,5 +1,5 @@
 //
-//  UCFlashlessVimeoService.m
+//  UCVideoServiceVimeo.m
 //  Flashless
 //
 //  Created by Christoph on 03.09.09.
@@ -27,9 +27,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import "UCFlashlessVimeoService.h"
+#import "UCVideoServiceVimeo.h"
 
-@implementation UCFlashlessVimeoService
+@implementation UCVideoServiceVimeo
 
 - (NSString *)label
 {

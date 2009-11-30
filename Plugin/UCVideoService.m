@@ -1,5 +1,5 @@
 //
-//  UCFlashlessService.m
+//  UCVideoService.m
 //  Flashless
 //
 //  Created by Christoph on 04.08.09.
@@ -27,19 +27,19 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import "UCFlashlessService.h"
-#import "UCFlashlessYoutubeService.h"
-#import "UCFlashlessXtubeService.h"
-#import "UCFlashlessVimeoService.h"
-#import "UCFlashlessViddlerService.h"
-#import "UCFlashlessBliptvService.h"
-#import "UCFlashlessUstreamService.h"
-#import "UCFlashlessFlickrService.h"
-#import "UCFlashlessGoogleService.h"
-#import "UCFlashlessTwitvidService.h"
+#import "UCVideoService.h"
+#import "UCVideoServiceYoutube.h"
+#import "UCVideoServiceXtube.h"
+#import "UCVideoServiceVimeo.h"
+#import "UCVideoServiceViddler.h"
+#import "UCVideoServiceBliptv.h"
+#import "UCVideoServiceUstream.h"
+#import "UCVideoServiceFlickr.h"
+#import "UCVideoServiceGoogle.h"
+#import "UCVideoServiceTwitvid.h"
 
 
-@implementation UCFlashlessService
+@implementation UCVideoService
 
 + (NSString *)domainForSrc:(NSURL *)src
 {
@@ -57,20 +57,20 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (id)initWithSrc:(NSURL *)aSrc andFlashVars:(NSDictionary *)theFlashVars
 {
-	if([self isMemberOfClass:[UCFlashlessService class]])
+	if([self isMemberOfClass:[UCVideoService class]])
 		{
 		Class ConcreteSubclass = [[NSDictionary dictionaryWithObjectsAndKeys:
-			[UCFlashlessYoutubeService class], @"youtube.com",
-			[UCFlashlessYoutubeService class], @"ytimg.com",
-			[UCFlashlessYoutubeService class], @"youtube-nocookie.com",
-			[UCFlashlessXtubeService class], @"xtube.com",
-			[UCFlashlessVimeoService class], @"vimeo.com",
-			[UCFlashlessBliptvService class], @"blip.tv",
-			[UCFlashlessViddlerService class], @"viddler.com",
-			[UCFlashlessUstreamService class], @"ustream.tv",
-			[UCFlashlessFlickrService class], @"flickr.com",
-			[UCFlashlessGoogleService class], @"google.com",
-			[UCFlashlessTwitvidService class], @"twitvid.com",
+			[UCVideoServiceYoutube class], @"youtube.com",
+			[UCVideoServiceYoutube class], @"ytimg.com",
+			[UCVideoServiceYoutube class], @"youtube-nocookie.com",
+			[UCVideoServiceXtube class], @"xtube.com",
+			[UCVideoServiceVimeo class], @"vimeo.com",
+			[UCVideoServiceBliptv class], @"blip.tv",
+			[UCVideoServiceViddler class], @"viddler.com",
+			[UCVideoServiceUstream class], @"ustream.tv",
+			[UCVideoServiceFlickr class], @"flickr.com",
+			[UCVideoServiceGoogle class], @"google.com",
+			[UCVideoServiceTwitvid class], @"twitvid.com",
 		nil] objectForKey:[[self class] domainForSrc:aSrc]];
 
 		if(ConcreteSubclass!=nil)
@@ -154,7 +154,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @end
 
-@implementation UCFlashlessService (Private)
+@implementation UCVideoService (Private)
 
 - (void)findURLs
 {
@@ -261,27 +261,27 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @implementation NSObject (UCFlashlessServiceDelegate)
 
-- (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo
+- (void)service:(UCVideoService *)service didFindAVideo:(BOOL)hasVideo
 {
 }
 
-- (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview
+- (void)service:(UCVideoService *)service didFindPreview:(NSURL *)preview
 {
 }
 
-- (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download
+- (void)service:(UCVideoService *)service didFindDownload:(NSURL *)download
 {
 }
 
-- (void)findDownloadFailedForService:(UCFlashlessService *)service
+- (void)findDownloadFailedForService:(UCVideoService *)service
 {
 }
 
-- (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original
+- (void)service:(UCVideoService *)service didFindOriginal:(NSURL *)original
 {
 }
 
-- (void)service:(UCFlashlessService *)service didReceivePreviewData:(NSData *)data
+- (void)service:(UCVideoService *)service didReceivePreviewData:(NSData *)data
 {
 }
 

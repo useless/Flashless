@@ -1,5 +1,5 @@
 //
-//  UCFlashlessXtubeService.m
+//  UCVideoServiceXtube.m
 //  Flashless
 //
 //  Created by Christoph on 03.09.09.
@@ -27,9 +27,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import "UCFlashlessXtubeService.h"
+#import "UCVideoServiceXtube.h"
 
-@implementation UCFlashlessXtubeService
+@implementation UCVideoServiceXtube
 
 - (void)dealloc
 {

@@ -56,12 +56,12 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)setStatus:(UCStatusType)status;
 
-- (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo;
-- (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview;
-- (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download;
-- (void)findDownloadFailedForService:(UCFlashlessService *)service;
-- (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original;
-- (void)service:(UCFlashlessService *)service didReceivePreviewData:(NSData *)data;
+- (void)service:(UCVideoService *)service didFindAVideo:(BOOL)hasVideo;
+- (void)service:(UCVideoService *)service didFindPreview:(NSURL *)preview;
+- (void)service:(UCVideoService *)service didFindDownload:(NSURL *)download;
+- (void)findDownloadFailedForService:(UCVideoService *)service;
+- (void)service:(UCVideoService *)service didFindOriginal:(NSURL *)original;
+- (void)service:(UCVideoService *)service didReceivePreviewData:(NSData *)data;
 
 @end
 
@@ -394,20 +394,20 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 #pragma mark Service Delegate
 
-- (void)service:(UCFlashlessService *)service didFindAVideo:(BOOL)hasVideo
+- (void)service:(UCVideoService *)service didFindAVideo:(BOOL)hasVideo
 {
 	_hasVideo=hasVideo;
 	_canFindDownload=[service canFindDownload];
 	[self setNeedsDisplay:YES];
 }
 
-- (void)service:(UCFlashlessService *)service didFindPreview:(NSURL *)preview
+- (void)service:(UCVideoService *)service didFindPreview:(NSURL *)preview
 {
 	[_previewURL release];
 	_previewURL = [preview retain];
 }
 
-- (void)service:(UCFlashlessService *)service didFindDownload:(NSURL *)download
+- (void)service:(UCVideoService *)service didFindDownload:(NSURL *)download
 {
 	[_downloadURL release];
 	_downloadURL = [download retain];
@@ -424,20 +424,20 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
 }
 
-- (void)findDownloadFailedForService:(UCFlashlessService *)service
+- (void)findDownloadFailedForService:(UCVideoService *)service
 {
 	_canFindDownload=NO;
 	_should = UCShouldNothing;
 	[self setStatus:UCErrorStatus];
 }
 
-- (void)service:(UCFlashlessService *)service didFindOriginal:(NSURL *)original
+- (void)service:(UCVideoService *)service didFindOriginal:(NSURL *)original
 {
 	[_originalURL release];
 	_originalURL = [original retain];
 }
 
-- (void)service:(UCFlashlessService *)service didReceivePreviewData:(NSData *)data
+- (void)service:(UCVideoService *)service didReceivePreviewData:(NSData *)data
 {
 	_previewImage = [[NSImage alloc] initWithData:data];
 	[self setNeedsDisplay:YES];
@@ -566,7 +566,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		return;
 		}
 
-	_service = [[UCFlashlessService alloc] initWithSrc:_src andFlashVars:_flashVars];
+	_service = [[UCVideoService alloc] initWithSrc:_src andFlashVars:_flashVars];
 	[_service startWithDelegate:self];
 
 	_siteLabel = [[_service label] retain];

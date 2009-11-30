@@ -1,5 +1,5 @@
 //
-//  UCFlashlessYoutubeService.m
+//  UCVideoServiceYoutube.m
 //  Flashless
 //
 //  Created by Christoph on 03.09.09.
@@ -27,9 +27,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import "UCFlashlessYoutubeService.h"
+#import "UCVideoServiceYoutube.h"
 
-@implementation UCFlashlessYoutubeService
+@implementation UCVideoServiceYoutube
 
 - (NSString *)label
 {

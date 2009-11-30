@@ -1,8 +1,8 @@
 //
-//  UCFlashlessXtubeService.h
+//  UCVideoServiceUstream.h
 //  Flashless
 //
-//  Created by Christoph on 03.09.09.
+//  Created by Christoph on 04.09.09.
 //  Copyright Useless Coding 2009.
 /*
 Permission is hereby granted, free of charge, to any person
@@ -28,10 +28,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import <Cocoa/Cocoa.h>
-#import "UCFlashlessService.h"
+#import "UCVideoService.h"
 
 
-@interface UCFlashlessXtubeService : UCFlashlessService
+@interface UCVideoServiceUstream : UCVideoService
 {
 }
 @end

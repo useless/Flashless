@@ -1,8 +1,8 @@
 //
-//  UCFlashlessYoutubeService.h
+//  UCRedirectedVideoService.h
 //  Flashless
 //
-//  Created by Christoph on 03.09.09.
+//  Created by Christoph on 30.11.09.
 //  Copyright Useless Coding 2009.
 /*
 Permission is hereby granted, free of charge, to any person
@@ -28,10 +28,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import <Cocoa/Cocoa.h>
-#import "UCFlashlessService.h"
+#import "UCVideoService.h"
 
 
-@interface UCFlashlessYoutubeService : UCFlashlessService
+@interface UCRedirectedVideoService : UCVideoService
 {
+	NSURLConnection * redirectConnection;
 }
+
+- (void)resolveURL:(NSURL *)URL;
+- (void)redirectedTo:(NSURL *)redirectedURL;
+
 @end

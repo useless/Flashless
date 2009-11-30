@@ -40,24 +40,26 @@
 		BF344D430FF14255003F125D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF344D410FF14255003F125D /* Localizable.strings */; };
 		BF6C8EB410B58A6F00FB5B4F /* UCSpinView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF6C8EB310B58A6F00FB5B4F /* UCSpinView.m */; };
 		BF6C8EB510B58A6F00FB5B4F /* UCSpinView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF6C8EB310B58A6F00FB5B4F /* UCSpinView.m */; };
-		BF73BD9F10506821003D2309 /* UCFlashlessYoutubeService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BD9E10506821003D2309 /* UCFlashlessYoutubeService.m */; };
-		BF73BDA010506821003D2309 /* UCFlashlessYoutubeService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BD9E10506821003D2309 /* UCFlashlessYoutubeService.m */; };
-		BF73BE001050727D003D2309 /* UCFlashlessXtubeService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BDFF1050727D003D2309 /* UCFlashlessXtubeService.m */; };
-		BF73BE011050727D003D2309 /* UCFlashlessXtubeService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BDFF1050727D003D2309 /* UCFlashlessXtubeService.m */; };
-		BF73BE2310507597003D2309 /* UCFlashlessVimeoService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE2210507597003D2309 /* UCFlashlessVimeoService.m */; };
-		BF73BE2410507597003D2309 /* UCFlashlessVimeoService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE2210507597003D2309 /* UCFlashlessVimeoService.m */; };
-		BF73BE491050797D003D2309 /* UCFlashlessViddlerService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE481050797D003D2309 /* UCFlashlessViddlerService.m */; };
-		BF73BE4A1050797D003D2309 /* UCFlashlessViddlerService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE481050797D003D2309 /* UCFlashlessViddlerService.m */; };
-		BF73BE5D10507AF7003D2309 /* UCFlashlessBliptvService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE5C10507AF7003D2309 /* UCFlashlessBliptvService.m */; };
-		BF73BE5E10507AF7003D2309 /* UCFlashlessBliptvService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE5C10507AF7003D2309 /* UCFlashlessBliptvService.m */; };
-		BF73BE6910507BBB003D2309 /* UCFlashlessUstreamService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE6810507BBB003D2309 /* UCFlashlessUstreamService.m */; };
-		BF73BE6A10507BBB003D2309 /* UCFlashlessUstreamService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE6810507BBB003D2309 /* UCFlashlessUstreamService.m */; };
-		BF73BE7710507C5A003D2309 /* UCFlashlessFlickrService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7410507C5A003D2309 /* UCFlashlessFlickrService.m */; };
-		BF73BE7810507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7610507C5A003D2309 /* UCFlashlessGoogleService.m */; };
-		BF73BE7910507C5A003D2309 /* UCFlashlessFlickrService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7410507C5A003D2309 /* UCFlashlessFlickrService.m */; };
-		BF73BE7A10507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7610507C5A003D2309 /* UCFlashlessGoogleService.m */; };
-		BFC883BC1057C509002F1A9C /* UCFlashlessTwitvidService.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC883BA1057C509002F1A9C /* UCFlashlessTwitvidService.m */; };
-		BFC883BD1057C509002F1A9C /* UCFlashlessTwitvidService.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC883BA1057C509002F1A9C /* UCFlashlessTwitvidService.m */; };
+		BF73BD9F10506821003D2309 /* UCVideoServiceYoutube.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BD9E10506821003D2309 /* UCVideoServiceYoutube.m */; };
+		BF73BDA010506821003D2309 /* UCVideoServiceYoutube.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BD9E10506821003D2309 /* UCVideoServiceYoutube.m */; };
+		BF73BE001050727D003D2309 /* UCVideoServiceXtube.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BDFF1050727D003D2309 /* UCVideoServiceXtube.m */; };
+		BF73BE011050727D003D2309 /* UCVideoServiceXtube.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BDFF1050727D003D2309 /* UCVideoServiceXtube.m */; };
+		BF73BE2310507597003D2309 /* UCVideoServiceVimeo.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE2210507597003D2309 /* UCVideoServiceVimeo.m */; };
+		BF73BE2410507597003D2309 /* UCVideoServiceVimeo.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE2210507597003D2309 /* UCVideoServiceVimeo.m */; };
+		BF73BE491050797D003D2309 /* UCVideoServiceViddler.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE481050797D003D2309 /* UCVideoServiceViddler.m */; };
+		BF73BE4A1050797D003D2309 /* UCVideoServiceViddler.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE481050797D003D2309 /* UCVideoServiceViddler.m */; };
+		BF73BE5D10507AF7003D2309 /* UCVideoServiceBliptv.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE5C10507AF7003D2309 /* UCVideoServiceBliptv.m */; };
+		BF73BE5E10507AF7003D2309 /* UCVideoServiceBliptv.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE5C10507AF7003D2309 /* UCVideoServiceBliptv.m */; };
+		BF73BE6910507BBB003D2309 /* UCVideoServiceUstream.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE6810507BBB003D2309 /* UCVideoServiceUstream.m */; };
+		BF73BE6A10507BBB003D2309 /* UCVideoServiceUstream.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE6810507BBB003D2309 /* UCVideoServiceUstream.m */; };
+		BF73BE7710507C5A003D2309 /* UCVideoServiceFlickr.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7410507C5A003D2309 /* UCVideoServiceFlickr.m */; };
+		BF73BE7810507C5A003D2309 /* UCVideoServiceGoogle.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7610507C5A003D2309 /* UCVideoServiceGoogle.m */; };
+		BF73BE7910507C5A003D2309 /* UCVideoServiceFlickr.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7410507C5A003D2309 /* UCVideoServiceFlickr.m */; };
+		BF73BE7A10507C5A003D2309 /* UCVideoServiceGoogle.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7610507C5A003D2309 /* UCVideoServiceGoogle.m */; };
+		BFC883BC1057C509002F1A9C /* UCVideoServiceTwitvid.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC883BA1057C509002F1A9C /* UCVideoServiceTwitvid.m */; };
+		BFC883BD1057C509002F1A9C /* UCVideoServiceTwitvid.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC883BA1057C509002F1A9C /* UCVideoServiceTwitvid.m */; };
+		BFD376F510C4352D005EBCC8 /* UCRedirectedVideoService.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD376F410C4352D005EBCC8 /* UCRedirectedVideoService.m */; };
+		BFD376F610C4352D005EBCC8 /* UCRedirectedVideoService.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD376F410C4352D005EBCC8 /* UCRedirectedVideoService.m */; };
 		BFE965A0104FCD5D00432F88 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE9659F104FCD5D00432F88 /* Logo.png */; };
 		BFE965A1104FCD5D00432F88 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE9659F104FCD5D00432F88 /* Logo.png */; };
 		BFF811D010526B49003B72D3 /* background.png in Copy Helper Files */ = {isa = PBXBuildFile; fileRef = BFF811CF10526B49003B72D3 /* background.png */; };
@@ -65,8 +67,8 @@
 		BFF811F8105273C0003B72D3 /* Readme.pdf in CopyFiles */ = {isa = PBXBuildFile; fileRef = BFF811F7105273C0003B72D3 /* Readme.pdf */; };
 		D03EDEE7102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
 		D03EDEE8102B0B19001AD28D /* UCBlackwhitelist.m in Sources */ = {isa = PBXBuildFile; fileRef = D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */; };
-		D096D10F1028946100A47EE6 /* UCFlashlessService.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessService.m */; };
-		D096D1101028946100A47EE6 /* UCFlashlessService.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCFlashlessService.m */; };
+		D096D10F1028946100A47EE6 /* UCVideoService.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCVideoService.m */; };
+		D096D1101028946100A47EE6 /* UCVideoService.m in Sources */ = {isa = PBXBuildFile; fileRef = D096D10E1028946100A47EE6 /* UCVideoService.m */; };
 		D0BDCD4310355D2000866394 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D0BDCD4210355D2000866394 /* LICENSE */; };
 		D0BDCD4410355D2000866394 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D0BDCD4210355D2000866394 /* LICENSE */; };
 /* End PBXBuildFile section */
@@ -125,31 +127,33 @@
 		BF344D450FF14269003F125D /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BF6C8EB210B58A6F00FB5B4F /* UCSpinView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCSpinView.h; path = Plugin/UCSpinView.h; sourceTree = "<group>"; };
 		BF6C8EB310B58A6F00FB5B4F /* UCSpinView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCSpinView.m; path = Plugin/UCSpinView.m; sourceTree = "<group>"; };
-		BF73BD9D10506821003D2309 /* UCFlashlessYoutubeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessYoutubeService.h; sourceTree = "<group>"; };
-		BF73BD9E10506821003D2309 /* UCFlashlessYoutubeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessYoutubeService.m; sourceTree = "<group>"; };
-		BF73BDFE1050727D003D2309 /* UCFlashlessXtubeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessXtubeService.h; sourceTree = "<group>"; };
-		BF73BDFF1050727D003D2309 /* UCFlashlessXtubeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessXtubeService.m; sourceTree = "<group>"; };
-		BF73BE2110507597003D2309 /* UCFlashlessVimeoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessVimeoService.h; sourceTree = "<group>"; };
-		BF73BE2210507597003D2309 /* UCFlashlessVimeoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessVimeoService.m; sourceTree = "<group>"; };
-		BF73BE471050797D003D2309 /* UCFlashlessViddlerService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessViddlerService.h; sourceTree = "<group>"; };
-		BF73BE481050797D003D2309 /* UCFlashlessViddlerService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessViddlerService.m; sourceTree = "<group>"; };
-		BF73BE5B10507AF7003D2309 /* UCFlashlessBliptvService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessBliptvService.h; sourceTree = "<group>"; };
-		BF73BE5C10507AF7003D2309 /* UCFlashlessBliptvService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessBliptvService.m; sourceTree = "<group>"; };
-		BF73BE6710507BBB003D2309 /* UCFlashlessUstreamService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessUstreamService.h; sourceTree = "<group>"; };
-		BF73BE6810507BBB003D2309 /* UCFlashlessUstreamService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessUstreamService.m; sourceTree = "<group>"; };
-		BF73BE7310507C5A003D2309 /* UCFlashlessFlickrService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessFlickrService.h; sourceTree = "<group>"; };
-		BF73BE7410507C5A003D2309 /* UCFlashlessFlickrService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessFlickrService.m; sourceTree = "<group>"; };
-		BF73BE7510507C5A003D2309 /* UCFlashlessGoogleService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessGoogleService.h; sourceTree = "<group>"; };
-		BF73BE7610507C5A003D2309 /* UCFlashlessGoogleService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessGoogleService.m; sourceTree = "<group>"; };
-		BFC883BA1057C509002F1A9C /* UCFlashlessTwitvidService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCFlashlessTwitvidService.m; sourceTree = "<group>"; };
-		BFC883BB1057C509002F1A9C /* UCFlashlessTwitvidService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCFlashlessTwitvidService.h; sourceTree = "<group>"; };
+		BF73BD9D10506821003D2309 /* UCVideoServiceYoutube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceYoutube.h; sourceTree = "<group>"; };
+		BF73BD9E10506821003D2309 /* UCVideoServiceYoutube.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceYoutube.m; sourceTree = "<group>"; };
+		BF73BDFE1050727D003D2309 /* UCVideoServiceXtube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceXtube.h; sourceTree = "<group>"; };
+		BF73BDFF1050727D003D2309 /* UCVideoServiceXtube.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceXtube.m; sourceTree = "<group>"; };
+		BF73BE2110507597003D2309 /* UCVideoServiceVimeo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceVimeo.h; sourceTree = "<group>"; };
+		BF73BE2210507597003D2309 /* UCVideoServiceVimeo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceVimeo.m; sourceTree = "<group>"; };
+		BF73BE471050797D003D2309 /* UCVideoServiceViddler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceViddler.h; sourceTree = "<group>"; };
+		BF73BE481050797D003D2309 /* UCVideoServiceViddler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceViddler.m; sourceTree = "<group>"; };
+		BF73BE5B10507AF7003D2309 /* UCVideoServiceBliptv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceBliptv.h; sourceTree = "<group>"; };
+		BF73BE5C10507AF7003D2309 /* UCVideoServiceBliptv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceBliptv.m; sourceTree = "<group>"; };
+		BF73BE6710507BBB003D2309 /* UCVideoServiceUstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceUstream.h; sourceTree = "<group>"; };
+		BF73BE6810507BBB003D2309 /* UCVideoServiceUstream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceUstream.m; sourceTree = "<group>"; };
+		BF73BE7310507C5A003D2309 /* UCVideoServiceFlickr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceFlickr.h; sourceTree = "<group>"; };
+		BF73BE7410507C5A003D2309 /* UCVideoServiceFlickr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceFlickr.m; sourceTree = "<group>"; };
+		BF73BE7510507C5A003D2309 /* UCVideoServiceGoogle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceGoogle.h; sourceTree = "<group>"; };
+		BF73BE7610507C5A003D2309 /* UCVideoServiceGoogle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceGoogle.m; sourceTree = "<group>"; };
+		BFC883BA1057C509002F1A9C /* UCVideoServiceTwitvid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceTwitvid.m; sourceTree = "<group>"; };
+		BFC883BB1057C509002F1A9C /* UCVideoServiceTwitvid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceTwitvid.h; sourceTree = "<group>"; };
+		BFD376F310C4352D005EBCC8 /* UCRedirectedVideoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCRedirectedVideoService.h; path = Plugin/UCRedirectedVideoService.h; sourceTree = "<group>"; };
+		BFD376F410C4352D005EBCC8 /* UCRedirectedVideoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCRedirectedVideoService.m; path = Plugin/UCRedirectedVideoService.m; sourceTree = "<group>"; };
 		BFE9659F104FCD5D00432F88 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		BFF811CF10526B49003B72D3 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = Product/background.png; sourceTree = "<group>"; };
 		BFF811F7105273C0003B72D3 /* Readme.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = Readme.pdf; path = Product/Readme.pdf; sourceTree = "<group>"; };
 		D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCBlackwhitelist.h; path = Plugin/UCBlackwhitelist.h; sourceTree = "<group>"; };
 		D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCBlackwhitelist.m; path = Plugin/UCBlackwhitelist.m; sourceTree = "<group>"; };
-		D096D10D1028946100A47EE6 /* UCFlashlessService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCFlashlessService.h; path = Plugin/UCFlashlessService.h; sourceTree = "<group>"; };
-		D096D10E1028946100A47EE6 /* UCFlashlessService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCFlashlessService.m; path = Plugin/UCFlashlessService.m; sourceTree = "<group>"; };
+		D096D10D1028946100A47EE6 /* UCVideoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCVideoService.h; path = Plugin/UCVideoService.h; sourceTree = "<group>"; };
+		D096D10E1028946100A47EE6 /* UCVideoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCVideoService.m; path = Plugin/UCVideoService.m; sourceTree = "<group>"; };
 		D0BDCC9110354D3800866394 /* PluginView+DOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PluginView+DOM.m"; path = "Plugin/PluginView+DOM.m"; sourceTree = "<group>"; };
 		D0BDCD4210355D2000866394 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -232,8 +236,10 @@
 				D0BDCC9110354D3800866394 /* PluginView+DOM.m */,
 				D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */,
 				D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */,
-				D096D10D1028946100A47EE6 /* UCFlashlessService.h */,
-				D096D10E1028946100A47EE6 /* UCFlashlessService.m */,
+				D096D10D1028946100A47EE6 /* UCVideoService.h */,
+				D096D10E1028946100A47EE6 /* UCVideoService.m */,
+				BFD376F310C4352D005EBCC8 /* UCRedirectedVideoService.h */,
+				BFD376F410C4352D005EBCC8 /* UCRedirectedVideoService.m */,
 				BF344CE40FF13D0D003F125D /* UCFlashTester.h */,
 				BF344CE60FF13D0D003F125D /* UCFlashTester.m */,
 				0259C57AFE90428111CA0C5A /* UCFlashlessView.h */,
@@ -254,24 +260,24 @@
 		BF73BCC5105053E4003D2309 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				BFC883BA1057C509002F1A9C /* UCFlashlessTwitvidService.m */,
-				BFC883BB1057C509002F1A9C /* UCFlashlessTwitvidService.h */,
-				BF73BE7310507C5A003D2309 /* UCFlashlessFlickrService.h */,
-				BF73BE7410507C5A003D2309 /* UCFlashlessFlickrService.m */,
-				BF73BE7510507C5A003D2309 /* UCFlashlessGoogleService.h */,
-				BF73BE7610507C5A003D2309 /* UCFlashlessGoogleService.m */,
-				BF73BE6710507BBB003D2309 /* UCFlashlessUstreamService.h */,
-				BF73BE6810507BBB003D2309 /* UCFlashlessUstreamService.m */,
-				BF73BE5B10507AF7003D2309 /* UCFlashlessBliptvService.h */,
-				BF73BE5C10507AF7003D2309 /* UCFlashlessBliptvService.m */,
-				BF73BE471050797D003D2309 /* UCFlashlessViddlerService.h */,
-				BF73BE481050797D003D2309 /* UCFlashlessViddlerService.m */,
-				BF73BE2110507597003D2309 /* UCFlashlessVimeoService.h */,
-				BF73BE2210507597003D2309 /* UCFlashlessVimeoService.m */,
-				BF73BDFE1050727D003D2309 /* UCFlashlessXtubeService.h */,
-				BF73BDFF1050727D003D2309 /* UCFlashlessXtubeService.m */,
-				BF73BD9D10506821003D2309 /* UCFlashlessYoutubeService.h */,
-				BF73BD9E10506821003D2309 /* UCFlashlessYoutubeService.m */,
+				BFC883BA1057C509002F1A9C /* UCVideoServiceTwitvid.m */,
+				BFC883BB1057C509002F1A9C /* UCVideoServiceTwitvid.h */,
+				BF73BE7310507C5A003D2309 /* UCVideoServiceFlickr.h */,
+				BF73BE7410507C5A003D2309 /* UCVideoServiceFlickr.m */,
+				BF73BE7510507C5A003D2309 /* UCVideoServiceGoogle.h */,
+				BF73BE7610507C5A003D2309 /* UCVideoServiceGoogle.m */,
+				BF73BE6710507BBB003D2309 /* UCVideoServiceUstream.h */,
+				BF73BE6810507BBB003D2309 /* UCVideoServiceUstream.m */,
+				BF73BE5B10507AF7003D2309 /* UCVideoServiceBliptv.h */,
+				BF73BE5C10507AF7003D2309 /* UCVideoServiceBliptv.m */,
+				BF73BE471050797D003D2309 /* UCVideoServiceViddler.h */,
+				BF73BE481050797D003D2309 /* UCVideoServiceViddler.m */,
+				BF73BE2110507597003D2309 /* UCVideoServiceVimeo.h */,
+				BF73BE2210507597003D2309 /* UCVideoServiceVimeo.m */,
+				BF73BDFE1050727D003D2309 /* UCVideoServiceXtube.h */,
+				BF73BDFF1050727D003D2309 /* UCVideoServiceXtube.m */,
+				BF73BD9D10506821003D2309 /* UCVideoServiceYoutube.h */,
+				BF73BD9E10506821003D2309 /* UCVideoServiceYoutube.m */,
 			);
 			name = Services;
 			path = Plugin/Services;
@@ -413,18 +419,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D1AC96B0486D14A00FE50C9 /* UCFlashlessView.m in Sources */,
-				D096D10F1028946100A47EE6 /* UCFlashlessService.m in Sources */,
+				D096D10F1028946100A47EE6 /* UCVideoService.m in Sources */,
 				D03EDEE8102B0B19001AD28D /* UCBlackwhitelist.m in Sources */,
-				BF73BDA010506821003D2309 /* UCFlashlessYoutubeService.m in Sources */,
-				BF73BE011050727D003D2309 /* UCFlashlessXtubeService.m in Sources */,
-				BF73BE2410507597003D2309 /* UCFlashlessVimeoService.m in Sources */,
-				BF73BE4A1050797D003D2309 /* UCFlashlessViddlerService.m in Sources */,
-				BF73BE5E10507AF7003D2309 /* UCFlashlessBliptvService.m in Sources */,
-				BF73BE6A10507BBB003D2309 /* UCFlashlessUstreamService.m in Sources */,
-				BF73BE7910507C5A003D2309 /* UCFlashlessFlickrService.m in Sources */,
-				BF73BE7A10507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */,
-				BFC883BD1057C509002F1A9C /* UCFlashlessTwitvidService.m in Sources */,
+				BF73BDA010506821003D2309 /* UCVideoServiceYoutube.m in Sources */,
+				BF73BE011050727D003D2309 /* UCVideoServiceXtube.m in Sources */,
+				BF73BE2410507597003D2309 /* UCVideoServiceVimeo.m in Sources */,
+				BF73BE4A1050797D003D2309 /* UCVideoServiceViddler.m in Sources */,
+				BF73BE5E10507AF7003D2309 /* UCVideoServiceBliptv.m in Sources */,
+				BF73BE6A10507BBB003D2309 /* UCVideoServiceUstream.m in Sources */,
+				BF73BE7910507C5A003D2309 /* UCVideoServiceFlickr.m in Sources */,
+				BF73BE7A10507C5A003D2309 /* UCVideoServiceGoogle.m in Sources */,
+				BFC883BD1057C509002F1A9C /* UCVideoServiceTwitvid.m in Sources */,
 				BF6C8EB510B58A6F00FB5B4F /* UCSpinView.m in Sources */,
+				BFD376F610C4352D005EBCC8 /* UCRedirectedVideoService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,18 +442,19 @@
 				BF344CE70FF13D0D003F125D /* main.m in Sources */,
 				BF344CEA0FF13D0D003F125D /* UCFlashTester.m in Sources */,
 				BF344D1B0FF14093003F125D /* UCFlashlessView.m in Sources */,
-				D096D1101028946100A47EE6 /* UCFlashlessService.m in Sources */,
+				D096D1101028946100A47EE6 /* UCVideoService.m in Sources */,
 				D03EDEE7102B0B19001AD28D /* UCBlackwhitelist.m in Sources */,
-				BF73BD9F10506821003D2309 /* UCFlashlessYoutubeService.m in Sources */,
-				BF73BE001050727D003D2309 /* UCFlashlessXtubeService.m in Sources */,
-				BF73BE2310507597003D2309 /* UCFlashlessVimeoService.m in Sources */,
-				BF73BE491050797D003D2309 /* UCFlashlessViddlerService.m in Sources */,
-				BF73BE5D10507AF7003D2309 /* UCFlashlessBliptvService.m in Sources */,
-				BF73BE6910507BBB003D2309 /* UCFlashlessUstreamService.m in Sources */,
-				BF73BE7710507C5A003D2309 /* UCFlashlessFlickrService.m in Sources */,
-				BF73BE7810507C5A003D2309 /* UCFlashlessGoogleService.m in Sources */,
-				BFC883BC1057C509002F1A9C /* UCFlashlessTwitvidService.m in Sources */,
+				BF73BD9F10506821003D2309 /* UCVideoServiceYoutube.m in Sources */,
+				BF73BE001050727D003D2309 /* UCVideoServiceXtube.m in Sources */,
+				BF73BE2310507597003D2309 /* UCVideoServiceVimeo.m in Sources */,
+				BF73BE491050797D003D2309 /* UCVideoServiceViddler.m in Sources */,
+				BF73BE5D10507AF7003D2309 /* UCVideoServiceBliptv.m in Sources */,
+				BF73BE6910507BBB003D2309 /* UCVideoServiceUstream.m in Sources */,
+				BF73BE7710507C5A003D2309 /* UCVideoServiceFlickr.m in Sources */,
+				BF73BE7810507C5A003D2309 /* UCVideoServiceGoogle.m in Sources */,
+				BFC883BC1057C509002F1A9C /* UCVideoServiceTwitvid.m in Sources */,
 				BF6C8EB410B58A6F00FB5B4F /* UCSpinView.m in Sources */,
+				BFD376F510C4352D005EBCC8 /* UCRedirectedVideoService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

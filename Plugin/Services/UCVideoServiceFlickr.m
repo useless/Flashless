@@ -1,5 +1,5 @@
 //
-//  UCFlashlessFlickrService.m
+//  UCVideoServiceFlickr.m
 //  Flashless
 //
 //  Created by Christoph on 04.09.09.
@@ -27,9 +27,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import "UCFlashlessFlickrService.h"
+#import "UCVideoServiceFlickr.h"
 
-@implementation UCFlashlessFlickrService
+@implementation UCVideoServiceFlickr
 
 - (void)dealloc
 {

@@ -29,7 +29,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
-#import "UCFlashlessService.h"
+#import "UCVideoService.h"
 #import "UCSpinView.h"
 
 typedef enum {
@@ -71,7 +71,7 @@ enum {
 
 	NSURL * _src;
 	NSMutableDictionary * _flashVars;
-	UCFlashlessService * _service;
+	UCVideoService * _service;
 	NSString * _siteLabel;
 	BOOL _hasVideo;
 	BOOL _canFindDownload;

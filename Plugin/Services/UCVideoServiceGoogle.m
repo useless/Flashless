@@ -1,5 +1,5 @@
 //
-//  UCFlashlessGoogleService.m
+//  UCVideoServiceGoogle.m
 //  Flashless
 //
 //  Created by Christoph on 04.09.09.
@@ -27,9 +27,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import "UCFlashlessGoogleService.h"
+#import "UCVideoServiceGoogle.h"
 
-@implementation UCFlashlessGoogleService
+@implementation UCVideoServiceGoogle
 
 - (void)dealloc
 {

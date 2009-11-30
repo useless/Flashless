@@ -1,8 +1,8 @@
 //
-//  UCFlashlessUstreamService.h
+//  UCVideoServiceTwitvid.m
 //  Flashless
 //
-//  Created by Christoph on 04.09.09.
+//  Created by Christoph on 09.09.09.
 //  Copyright Useless Coding 2009.
 /*
 Permission is hereby granted, free of charge, to any person
@@ -27,11 +27,30 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#import <Cocoa/Cocoa.h>
-#import "UCFlashlessService.h"
+#import "UCVideoServiceTwitvid.h"
 
+@implementation UCVideoServiceTwitvid
 
-@interface UCFlashlessUstreamService : UCFlashlessService
+- (NSString *)label
 {
+	return @"TwitVid";
 }
+
+- (void)findURLs
+{
+	NSString * hint = [flashVars objectForKey:@"file"];
+	if(hint==nil) { return; }
+	NSScanner * scan = [NSScanner scannerWithString:[hint stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	[scan scanUpToString:@"/playVideo_" intoString:NULL];
+	if([scan scanString:@"/playVideo_" intoString:NULL])
+		{
+		[scan scanUpToString:@"/" intoString:&videoID];
+		}
+	if(videoID==nil) { return; }
+	[videoID retain];
+	[self foundAVideo:YES];
+	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://images.twitvid.com/%@.jpg", videoID]]];
+	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.twitvid.com/%@", videoID]]];
+}
+
 @end
