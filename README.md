@@ -16,17 +16,20 @@ For supported video services see `Services.txt`.
 Changelog
 =========
 
-Version 2.0.2 (In Development)
+Version 2.0.2 (Latest Release)
 -------------
+_The Birds_
 
 * Disable Direct Play and Download for missing video IDs.
 
 * Fix Blip.tv redirection.
 
+* Reenable TwitVid downloads.
+
 * Use custom spinner to show activity.
 
 
-Version 2.0.1 (Latest Release)
+Version 2.0.1
 -------------
 _Panic_
 
