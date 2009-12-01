@@ -393,7 +393,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$DERIVED_FILES_DIR/dmg\"\n\n$CP $PROJECT_DIR/Product/Minidoc.icns ../Minidoc.icns\necho \"read 'icns' (-16455) \\\"Minidoc.icns\\\";\" > ../minidoc.r\n$SYSTEM_DEVELOPER_TOOLS/Rez -append -o Readme.pdf ../minidoc.r\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.pdf\n\n$CP $PROJECT_DIR/Product/Volume.icns .VolumeIcon.icns\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
+			shellScript = "cd \"$DERIVED_FILES_DIR/dmg\"\n\nif [ -f $PROJECT_DIR/Product/UC/Minidoc.icns ]; then\n$CP $PROJECT_DIR/Product/UC/Minidoc.icns ../Minidoc.icns\necho \"read 'icns' (-16455) \\\"Minidoc.icns\\\";\" > ../minidoc.r\n$SYSTEM_DEVELOPER_TOOLS/Rez -append -o Readme.pdf ../minidoc.r\nfi\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.pdf\n\nif [ -f $PROJECT_DIR/Product/UC/Volume.icns ]; then\n$CP $PROJECT_DIR/Product/UC/Volume.icns .VolumeIcon.icns\nfi\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
 			showEnvVarsInLog = 0;
 		};
 		BFF8125C10529573003B72D3 /* Create Disk Image */ = {
