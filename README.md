@@ -16,6 +16,19 @@ For supported video services see `Services.txt`.
 Changelog
 =========
 
+Version 2.1 (In Development)
+-----------
+_Nippon_
+
+* Improve reliability when loading Flash. (Credit: ClickToFlash-Developers)
+
+* Planned: Default to direct play for videos.
+
+* Planned: Support for Audio and sIFR.
+
+* Planned: Improved Spinner behaviour.
+
+
 Version 2.0.2 (Latest Release)
 -------------
 _The Birds_

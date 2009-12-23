@@ -51,20 +51,19 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)_convertToFlash
 {
-	DOMElement * newElement = (DOMElement *)[_element cloneNode:YES];
 	DOMNodeList * nodeList;
 
 	NSUInteger i;
 
-	[self _convertTypesForElement:newElement];
+	[self _convertTypesForElement:_element];
 
-	nodeList = [newElement getElementsByTagName:@"object"];
+	nodeList = [_element getElementsByTagName:@"object"];
 	for(i=0; i<nodeList.length; i++)
 		{
 		[self _convertTypesForElement:(DOMElement *)[nodeList item:i]];
 		}
 
-	nodeList = [newElement getElementsByTagName:@"embed"];
+	nodeList = [_element getElementsByTagName:@"embed"];
 	for(i=0; i<nodeList.length; i++)
 		{
 		[self _convertTypesForElement:(DOMElement *)[nodeList item:i]];
@@ -72,8 +71,12 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 	[[self retain] autorelease];
 
-	[_element.parentNode replaceChild:newElement oldChild:_element];
+	DOMNode * parent = [_element parentNode];
+	DOMNode * successor = [_element nextSibling];
 
+	[_element retain];
+	[parent removeChild:_element];
+	[parent insertBefore:_element refChild:successor];
 	[_element release];
 	_element = nil;
 }
