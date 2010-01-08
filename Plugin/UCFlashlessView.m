@@ -148,28 +148,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			[shape lineToPoint:NSMakePoint(center.x-size.width*0.2, center.y+size.height*0.8)];
 			[shape lineToPoint:NSMakePoint(center.x-size.width*0.2, center.y+size.height*0.2)];
 			break;
-		case UCDirectPlayFlashIcon:
-			[NSGraphicsContext saveGraphicsState];
-				{
-				NSShadow * shadow = [[NSShadow alloc] init];
-				[shadow setShadowColor:[NSColor shadowColor]];
-				[shadow setShadowOffset:NSMakeSize(0, -0.75*kMar)];
-				[shadow setShadowBlurRadius:1.5*kMar];
-				[shadow set];
-				[shadow release];
-				[shape moveToPoint:NSMakePoint(center.x+size.width/3, center.y+size.height/2)];
-				[shape lineToPoint:NSMakePoint(center.x-size.width*0.2, center.y+size.height*0.8)];
-				[shape lineToPoint:NSMakePoint(center.x-size.width*0.2, center.y+size.height*0.2)];
-				[shape fill];
-				NSGradient * gradient = [[NSGradient alloc] initWithStartingColor:[NSColor highlightColor] endingColor:[NSColor keyboardFocusIndicatorColor]];
-				[gradient drawInBezierPath:shape angle:270];
-				[gradient release];
-				}
-			[NSGraphicsContext restoreGraphicsState];
-			[shape closePath];
-			[shape setLineWidth:kMar];
-			[shape stroke];
-			return;
 		case UCDownloadFlashIcon:
 			[shape moveToPoint:NSMakePoint(center.x-size.width*0.15, center.y+size.height*0.8)];
 			[shape lineToPoint:NSMakePoint(center.x-size.width*0.15, center.y+size.height*0.45)];
@@ -278,8 +256,8 @@ static NSString * sHostKey = @"UCFlashlessHost";
 {
 	NSMenu * menu = [[NSMenu alloc] init];
 	NSMenuItem * lastItem;
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Play", nil, _myBundle, @"Play Menu Title") action:@selector(playFlash:) keyEquivalent:@""];
-	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Play Video", nil, _myBundle, @"Play Video Menu Title") action:@selector(playDirectly:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Play", nil, _myBundle, @"Play Menu Title") action:@selector(playDirectly:) keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show Flash", nil, _myBundle, @"Show Flash Menu Title") action:@selector(showFlash:) keyEquivalent:@""];
 	if(_siteLabel!=nil)
 		{
 		[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Show At '%@'", nil, _myBundle, @"Original Menu Title"), _siteLabel] action:@selector(openOriginal:) keyEquivalent:@""];
@@ -291,7 +269,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show Original", nil, _myBundle, @"Original Nil Menu Title") action:@selector(openOriginal:) keyEquivalent:@""];
 		}
-	[menu addItemWithTitle:@"Video" action:@selector(download:) keyEquivalent:@""];
+	[menu addItemWithTitle:@"Download" action:@selector(download:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
 	[menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove", nil, _myBundle, @"Remove Menu Title") action:@selector(remove:) keyEquivalent:@""];
 	[menu addItem:[NSMenuItem separatorItem]];
@@ -301,10 +279,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		NSMenu * smenu = [[NSMenu alloc] initWithTitle:@"Source"];
 		[smenu addItemWithTitle:[_src host] action:NULL keyEquivalent:@""];
 		[smenu addItem:[NSMenuItem separatorItem]];
-		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Play All", nil, _myBundle, @"Play All Menu Title") action:@selector(playAll:) keyEquivalent:@""];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Show All", nil, _myBundle, @"Show All Menu Title") action:@selector(showAll:) keyEquivalent:@""];
 		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Remove All", nil, _myBundle, @"Remove All Menu Title") action:@selector(removeAll:) keyEquivalent:@""];
 		[smenu addItem:[NSMenuItem separatorItem]];
-		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Auto-Play", nil, _myBundle, @"Whitelist Menu Title") action:@selector(whitelistFlash:) keyEquivalent:@""];
+		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Auto-Show", nil, _myBundle, @"Whitelist Menu Title") action:@selector(whitelistFlash:) keyEquivalent:@""];
 		[smenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Auto-Remove...", nil, _myBundle, @"Blacklist Menu Title") action:@selector(blacklistFlash:) keyEquivalent:@""];
 		[menu setSubmenu:smenu forItem:lastItem];
 		[smenu release];
@@ -373,10 +351,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		return UCOriginalFlashIcon;
 		}
-	if((_downloadURL!=nil || _canFindDownload) && _canPlayDirectly && (_modifierFlags&UCDirectPlayModifiers)==UCDirectPlayModifiers)
-		{
-		return UCDirectPlayFlashIcon;
-		}
 	if(_downloadURL!=nil && (_modifierFlags&UCDownloadModifiers)==UCDownloadModifiers)
 		{
 		return UCDownloadFlashIcon;
@@ -385,9 +359,13 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		{
 		return UCTryDownloadFlashIcon;
 		}
-	if(_hasVideo)
+	if((_downloadURL!=nil || _canFindDownload) && _canPlayDirectly && !(_modifierFlags&UCShowFlashModifiers))
 		{
 		return UCPlayFlashIcon;
+		}
+	if(_hasVideo)
+		{
+		return UCShowFlashIcon;
 		}
 	return UCDefaultFlashIcon;
 }
@@ -508,14 +486,17 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)mouseUp:(NSEvent *)event
 {
-	_mouseDown=NO;
+	_mouseDown = NO;
+	_modifierFlags = [event modifierFlags];
+	UCFlashIconType icon = [self _playIcon];
 	[self display];
 
 	if(_mouseInside)
 		{
-		if(([event modifierFlags]&UCOriginalModifiers)==UCOriginalModifiers)
+		switch(icon)
 			{
-			if(([event modifierFlags]&UCNewWindowModifiers)==UCNewWindowModifiers)
+			case UCOriginalFlashIcon:
+			if((_modifierFlags&UCNewWindowModifiers)==UCNewWindowModifiers)
 				{
 				[self openOriginalWindow:self];
 				}
@@ -523,18 +504,16 @@ static NSString * sHostKey = @"UCFlashlessHost";
 				{
 				[self openOriginal:self];
 				}
-			}
-		else if(([event modifierFlags]&UCDirectPlayModifiers)==UCDirectPlayModifiers)
-			{
+			break;
+		case UCPlayFlashIcon:
 			[self playDirectly:self];
-			}
-		else if(([event modifierFlags]&UCDownloadModifiers)==UCDownloadModifiers)
-			{
+			break;
+		case UCDownloadFlashIcon:
+		case UCTryDownloadFlashIcon:
 			[self download:self];
-			}
-		else
-			{
-			[self playFlash:self];
+			break;
+		default:
+			[self showFlash:self];
 			}
 		}
 }
@@ -720,7 +699,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 #pragma mark Actions
 
-- (void)playFlash:(id)sender
+- (void)showFlash:(id)sender
 {
 	[self _convertToFlash];
 }
@@ -793,7 +772,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)whitelistFlash:(id)sender
 {
 	[[UCBlackwhitelist sharedBlackwhitelist] whitelistHost:[_src host]];
-	[self playAll:self];
+	[self showAll:self];
 }
 
 - (void)blacklistFlash:(id)sender
@@ -813,7 +792,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[self _removeFromContainer];
 }
 
-- (void)playAll:(id)sender
+- (void)showAll:(id)sender
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:sPlayAllNotification object:self userInfo:[NSDictionary dictionaryWithObject:[_src host] forKey:sHostKey]];
 }

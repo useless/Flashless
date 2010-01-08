@@ -34,11 +34,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 typedef enum {
 	UCDefaultFlashIcon,
-	UCPlayFlashIcon,
+	UCShowFlashIcon,
 	UCDownloadFlashIcon,
 	UCTryDownloadFlashIcon,
 	UCOriginalFlashIcon,
-	UCDirectPlayFlashIcon
+	UCPlayFlashIcon
 } UCFlashIconType;
 
 typedef enum {
@@ -56,7 +56,7 @@ typedef enum {
 
 enum {
 	UCOriginalModifiers = NSCommandKeyMask,
-	UCDirectPlayModifiers = NSShiftKeyMask,
+	UCShowFlashModifiers = NSShiftKeyMask,
 	UCDownloadModifiers = NSAlternateKeyMask,
 	UCNewWindowModifiers = NSAlternateKeyMask
 };
@@ -95,7 +95,7 @@ enum {
 	NSTrackingArea * _tracking;
 }
 
-- (void)playFlash:(id)sender;
+- (void)showFlash:(id)sender;
 - (void)playDirectly:(id)sender;
 - (void)openOriginal:(id)sender;
 - (void)openOriginalWindow:(id)sender;
@@ -103,7 +103,7 @@ enum {
 - (void)whitelistFlash:(id)sender;
 - (void)blacklistFlash:(id)sender;
 - (void)remove:(id)sender;
-- (void)playAll:(id)sender;
+- (void)showAll:(id)sender;
 - (void)removeAll:(id)sender;
 - (void)copySource:(id)sender;
 - (void)copyPreview:(id)sender;

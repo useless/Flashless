@@ -124,7 +124,7 @@
 		BF344CE50FF13D0D003F125D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BF344CE60FF13D0D003F125D /* UCFlashTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCFlashTester.m; path = TestApp/UCFlashTester.m; sourceTree = "<group>"; };
 		BF344D440FF14261003F125D /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
-		BF344D450FF14269003F125D /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BF344D450FF14269003F125D /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BF6C8EB210B58A6F00FB5B4F /* UCSpinView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCSpinView.h; path = Plugin/UCSpinView.h; sourceTree = "<group>"; };
 		BF6C8EB310B58A6F00FB5B4F /* UCSpinView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCSpinView.m; path = Plugin/UCSpinView.m; sourceTree = "<group>"; };
 		BF73BD9D10506821003D2309 /* UCVideoServiceYoutube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceYoutube.h; sourceTree = "<group>"; };
