@@ -22,7 +22,7 @@ _Nippon_
 
 * Improve reliability when loading Flash. (Credit: ClickToFlash-Developers)
 
-* Planned: Default to direct play for videos.
+* Default to direct play for videos.
 
 * Planned: Support for Audio and sIFR.
 
@@ -125,4 +125,7 @@ Initial public release.
 
 ***
 
-This project is somewhat based on **ClickToFlash** (<http://github.com/rentzsch/clicktoflash>).
+Acknowledgement
+===============
+
+Flashless is originally based on **ClickToFlash** (<http://github.com/rentzsch/clicktoflash>).
