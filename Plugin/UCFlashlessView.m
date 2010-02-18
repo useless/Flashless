@@ -830,7 +830,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[logo release];
 	[about setMessageText:[_myBundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey]];
 	[about setInformativeText:[NSString stringWithFormat:@"%@\nVersion %@ (%@) (%@)\n\n%@",
-		NSLocalizedStringFromTableInBundle(@"A plug-in to block Flash.", nil, _myBundle, @"About Desription"),
+		NSLocalizedStringFromTableInBundle(@"A plug-in to block Flash.", nil, _myBundle, @"About Description"),
 		[_myBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
 		[_myBundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey],
 		[_myBundle objectForInfoDictionaryKey:@"WebPluginDescription"],
