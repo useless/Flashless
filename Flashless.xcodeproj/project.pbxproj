@@ -13,9 +13,7 @@
 			buildPhases = (
 				BFF811BB10526A99003B72D3 /* CopyFiles */,
 				BFF8120F10527553003B72D3 /* Copy Helper Files */,
-				BFF811DB10526CE6003B72D3 /* Setup Contents */,
-				BFF8125C10529573003B72D3 /* Create Disk Image */,
-				BF9163FB1052D3F10084EF4C /* Convert DMG */,
+				BF7B9B4811418E60009113E1 /* Make DMG */,
 			);
 			dependencies = (
 				BFF81261105297EE003B72D3 /* PBXTargetDependency */,
@@ -366,49 +364,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		BF9163FB1052D3F10084EF4C /* Convert DMG */ = {
+		BF7B9B4811418E60009113E1 /* Make DMG */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Convert DMG";
+			name = "Make DMG";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd $BUILT_PRODUCTS_DIR\nhdiutil convert -format UDZO -ov -o $PRODUCT_NAME.dmg \"$DERIVED_FILES_DIR/pre.dmg\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BFF811DB10526CE6003B72D3 /* Setup Contents */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Setup Contents";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd \"$DERIVED_FILES_DIR/dmg\"\n\nif [ -f $PROJECT_DIR/Product/UC/Minidoc.icns ]; then\n$CP $PROJECT_DIR/Product/UC/Minidoc.icns ../Minidoc.icns\necho \"read 'icns' (-16455) \\\"Minidoc.icns\\\";\" > ../minidoc.r\n$SYSTEM_DEVELOPER_TOOLS/Rez -append -o Readme.pdf ../minidoc.r\nfi\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a CE Readme.pdf\n\nif [ -f $PROJECT_DIR/Product/UC/Volume.icns ]; then\n$CP $PROJECT_DIR/Product/UC/Volume.icns .VolumeIcon.icns\nfi\n\nln -sfh /Library/Internet\\ Plug-Ins Internet\\ Plug-Ins\n";
-			showEnvVarsInLog = 0;
-		};
-		BFF8125C10529573003B72D3 /* Create Disk Image */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Create Disk Image";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd \"$DERIVED_FILES_DIR\"\nhdiutil create -srcfolder dmg -volname $PRODUCT_NAME -nospotlight -format UDIF -attach -ov pre.dmg\n\n$SYSTEM_DEVELOPER_TOOLS/SetFile -a C /Volumes/$PRODUCT_NAME\nif [ -f $PROJECT_DIR/Product/UC/DMG.scpt ]; then\nosascript $PROJECT_DIR/Product/UC/DMG.scpt $PRODUCT_NAME: \"$PRODUCT_NAME.$WRAPPER_EXTENSION\" \"Internet Plug-Ins\" \"Readme.pdf\"\nfi\n\nhdiutil detach /Volumes/$PRODUCT_NAME\n";
+			shellScript = "if [ -f $PROJECT_DIR/Product/UC/DMG.sh ]; then\n/bin/sh -c $PROJECT_DIR/Product/UC/DMG.sh\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -561,6 +529,9 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = "/Library/Internet Plug-Ins";
+				README = Readme.pdf;
+				TARGET_NAME = "Internet Plug-Ins";
 			};
 			name = Debug;
 		};
@@ -570,7 +541,9 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				ZERO_LINK = NO;
+				INSTALL_PATH = "/Library/Internet Plug-Ins";
+				README = Readme.pdf;
+				TARGET_NAME = "Internet Plug-Ins";
 			};
 			name = Release;
 		};
