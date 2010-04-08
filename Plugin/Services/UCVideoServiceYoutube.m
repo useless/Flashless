@@ -93,18 +93,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 		return;
 		}
 	NSScanner * scan = [NSScanner scannerWithString:hint];
-	[scan scanUpToString:@"SWF_ARGS" intoString:NULL];
-	[scan scanUpToString:@"\"t\":" intoString:NULL];
-	if(![scan scanString:@"\"t\":" intoString:NULL])
-		{
-		[self foundNoDownload];
-		return;
-		}
-	[scan scanUpToString:@"\"" intoString:NULL];
+	[scan scanUpToString:@"swfHTML" intoString:NULL];
+	[scan scanUpToString:@"&t=" intoString:NULL];
 	NSString * videoHash = nil;
-	if([scan scanString:@"\"" intoString:NULL])
+	if([scan scanString:@"&t=" intoString:NULL])
 		{
-		[scan scanUpToString:@"\"" intoString:&videoHash];
+		[scan scanUpToString:@"&" intoString:&videoHash];
 		}
 	if(videoHash==nil)
 		{
