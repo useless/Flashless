@@ -2,8 +2,8 @@
 //  PluginView+DOM.m
 //  Flashless
 //
-//  Created by Christoph on 14.08.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 14.08.2009.
+//  Copyright 2009-2010 Useless Coding.
 //  Copyright (c) 2008-2009 ClickToFlash Developers.
 /*
 Permission is hereby granted, free of charge, to any person
@@ -27,15 +27,10 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#import "PluginView+DOM.h"
+
 static NSString * sFlashOldMIMEType = @"application/x-shockwave-flash";
 static NSString * sFlashNewMIMEType = @"application/futuresplash";
-
-@interface UCFlashlessView (DOM)
-- (void)_convertToFlash;
-- (void)_convertTypesForElement:(DOMElement *)element;
-- (void)_convertToVideo;
-- (void)_removeFromContainer;
-@end
 
 @implementation UCFlashlessView (DOM)
 

@@ -2,8 +2,8 @@
 //  UCFlashlessView.h
 //  Flashless
 //
-//  Created by Christoph on 13.06.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 13.06.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -29,8 +29,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
-#import "UCVideoService.h"
-#import "UCSpinView.h"
+
+@class UCVideoService, UCSpinView;
 
 typedef enum {
 	UCDefaultFlashIcon,
