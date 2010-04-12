@@ -51,7 +51,8 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes;
 
 - (NSMenu *)_prepareMenu;
-- (void)_writeToPasteboard:(NSURL *)url;
+- (void)_copyURL:(NSURL *)url;
+- (void)_writeURL:(NSURL *)url toPasteboard:(NSPasteboard *)pboard;
 
 - (void)blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
@@ -298,12 +299,17 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	return [menu autorelease];
 }
 
-- (void)_writeToPasteboard:(NSURL *)url
+- (void)_copyURL:(NSURL *)url
 {
-	NSPasteboard * pb = [NSPasteboard generalPasteboard];
-	[pb declareTypes:[NSArray arrayWithObjects:NSURLPboardType, NSStringPboardType, nil] owner:self];
-	[url writeToPasteboard:pb];
-	[pb setString:[url absoluteString] forType:NSStringPboardType];
+	NSPasteboard * pboard = [NSPasteboard generalPasteboard];
+	[pboard declareTypes:[NSArray arrayWithObjects:NSURLPboardType, kUTTypeURL, NSStringPboardType, nil] owner:nil];
+	[self _writeURL:url toPasteboard:pboard];
+}
+
+- (void)_writeURL:(NSURL *)url toPasteboard:(NSPasteboard *)pboard
+{
+	[url writeToPasteboard:pboard];
+	[pboard setString:[url absoluteString] forType:NSStringPboardType];
 }
 
 - (void) blacklistConfirmDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
@@ -481,7 +487,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 {
 	_mouseDown=YES;
 	_mouseInside=YES;
-	
+
 	[self setNeedsDisplay:YES];
 }
 
@@ -517,6 +523,46 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			[self showFlash:self];
 			}
 		}
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+	if(_mouseDown==YES)
+		{
+		_mouseDown = NO;
+		[self setNeedsDisplay:YES];
+		}
+	else
+		{
+		return;
+		}
+
+    NSImage * dragImage = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode('ilht')];
+
+	NSPoint mouseDownPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	NSPoint dragPoint = NSMakePoint(mouseDownPoint.x-[dragImage size].width+10, mouseDownPoint.y-10);
+	NSPasteboard * pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
+	[pboard declareTypes:[NSArray arrayWithObjects:NSURLPboardType, kUTTypeURL, NSStringPboardType, nil] owner:nil];
+	[self _writeURL:_src toPasteboard:pboard];
+
+	if(_siteLabel!=nil)
+		{
+		[pboard addTypes:[NSArray arrayWithObjects: @"public.url-name", nil] owner:nil];
+		[pboard setString:_siteLabel forType:@"public.url-name"];
+		}
+
+	if(_previewImage!=nil)
+		{
+		[pboard addTypes:[NSArray arrayWithObjects:NSTIFFPboardType, nil] owner:nil];
+		[pboard setData:[_previewImage TIFFRepresentation] forType:NSTIFFPboardType];
+		}
+
+	if(_downloadURL!=nil)
+		{
+		[self _writeURL:_downloadURL toPasteboard:pboard];
+		}
+
+	[self dragImage:dragImage at:dragPoint offset:NSZeroSize event:theEvent pasteboard:pboard source:self slideBack:YES];
 }
 
 - (void)windowDidUpdate:(NSNotification *)aNotification
@@ -805,22 +851,22 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)copySource:(id)sender
 {
-	[self _writeToPasteboard:_src];
+	[self _copyURL:_src];
 }
 
 - (void)copyPreview:(id)sender
 {
-	[self _writeToPasteboard:_previewURL];
+	[self _copyURL:_previewURL];
 }
 
 - (void)copyOriginal:(id)sender
 {
-	[self _writeToPasteboard:_originalURL];
+	[self _copyURL:_originalURL];
 }
 
 - (void)copyDownload:(id)sender
 {
-	[self _writeToPasteboard:_downloadURL];
+	[self _copyURL:_downloadURL];
 }
 
 - (void)showAbout:(id)sender
