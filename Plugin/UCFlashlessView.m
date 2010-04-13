@@ -493,10 +493,18 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)mouseUp:(NSEvent *)event
 {
-	_mouseDown = NO;
-	_modifierFlags = [event modifierFlags];
+	if(_mouseDown)
+		{
+		_mouseDown = NO;
+		_modifierFlags = [event modifierFlags];
+		[self display];
+		}
+	else
+		{
+		return;
+		}
+
 	UCFlashIconType icon = [self _playIcon];
-	[self display];
 
 	if(_mouseInside)
 		{
@@ -527,7 +535,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-	if(_mouseDown==YES)
+	if(_mouseDown)
 		{
 		_mouseDown = NO;
 		[self setNeedsDisplay:YES];
