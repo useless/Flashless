@@ -28,7 +28,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import <Cocoa/Cocoa.h>
-#import "UCFlashlessView.h"
+@class UCFlashlessView;
 
 
 @interface UCFlashTester : NSObject

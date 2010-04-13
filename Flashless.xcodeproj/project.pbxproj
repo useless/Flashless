@@ -28,6 +28,7 @@
 		8D1AC96B0486D14A00FE50C9 /* UCFlashlessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0259C576FE90428111CA0C5A /* UCFlashlessView.m */; settings = {ATTRIBUTES = (); }; };
 		8D1AC9700486D14A00FE50C9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
 		8D1AC9800486D23B00FE50C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D1AC97F0486D23B00FE50C9 /* InfoPlist.strings */; };
+		BF29F99A1173DBA200A23C0B /* PluginView+DOM.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BDCC9110354D3800866394 /* PluginView+DOM.m */; };
 		BF344CE70FF13D0D003F125D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BF344CE20FF13D0D003F125D /* main.m */; };
 		BF344CEA0FF13D0D003F125D /* UCFlashTester.m in Sources */ = {isa = PBXBuildFile; fileRef = BF344CE60FF13D0D003F125D /* UCFlashTester.m */; };
 		BF344D100FF14026003F125D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
@@ -427,6 +428,7 @@
 				BFC883BC1057C509002F1A9C /* UCVideoServiceTwitvid.m in Sources */,
 				BF6C8EB410B58A6F00FB5B4F /* UCSpinView.m in Sources */,
 				BFD376F510C4352D005EBCC8 /* UCRedirectedVideoService.m in Sources */,
+				BF29F99A1173DBA200A23C0B /* PluginView+DOM.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,6 +28,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 #import "UCFlashTester.h"
+#import "UCFlashlessView.h"
 
 
 @implementation UCFlashTester

@@ -46,6 +46,11 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)_convertToFlash
 {
+#ifdef TESTAPP
+	NSLog(@"DOM: Convert To Flash");
+	return;
+#endif
+
 	DOMNodeList * nodeList;
 
 	NSUInteger i;
@@ -78,6 +83,11 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)_convertToVideo
 {
+#ifdef TESTAPP
+	NSLog(@"DOM: Convert To Video");
+	return;
+#endif
+
 	DOMElement * videoElement = [[_element ownerDocument] createElement:@"video"];
 
 	[videoElement setAttribute:@"src" value:[_downloadURL absoluteString]];
@@ -100,6 +110,11 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 - (void)_removeFromContainer
 {	
+#ifdef TESTAPP
+	NSLog(@"DOM: Remove from Container.");
+	return;
+#endif
+
 	[[self retain] autorelease];
 
 	[_element.parentNode removeChild:_element];
