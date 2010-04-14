@@ -47,6 +47,8 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)_drawIcon:(UCFlashIconType)icon WithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds;
 
+- (NSImage *)_dragImage;
+
 - (NSURL *)_srcFromAttributes:(NSDictionary *)attributes withBaseURL:(NSURL *)baseURL;
 - (NSMutableDictionary *)_flashVarsFromAttributes:(NSDictionary *)attributes;
 
@@ -95,6 +97,11 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
 
 	return self;
+}
+
+- (NSImage *)_dragImage
+{
+	return 	[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode('ilht')];
 }
 
 - (void)_drawIcon:(UCFlashIconType)icon WithTint:(NSColor *)tint andHalo:(NSColor *)halo inRect:(NSRect)bounds
@@ -463,6 +470,60 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 #pragma mark -
 
+#pragma mark WebPlugIn informal protocol
+
+- (void)webPlugInInitialize
+{
+	// if whitelisted show directly
+	if([[UCBlackwhitelist sharedBlackwhitelist] isWhiteHost:[_src host]])
+		{
+		[self _convertToFlash];
+		return;
+		}
+
+	// if blacklisted remove from container after delay
+	if([[UCBlackwhitelist sharedBlackwhitelist] isBlackHost:[_src host]])
+		{
+		[self performSelector:@selector(_removeFromContainer) withObject:nil afterDelay:0];
+		return;
+		}
+
+	_service = [[UCVideoService alloc] initWithSrc:_src andFlashVars:_flashVars];
+	[_service startWithDelegate:self];
+
+	_siteLabel = [[_service label] retain];
+	_canPlayDirectly = [_service canPlayDirectly];
+
+	[self setMenu:[self _prepareMenu]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldRemove:) name:sRemoveAllNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldPlay:) name:sPlayAllNotification object:nil];
+
+	_modifierFlags = [[NSApp currentEvent] modifierFlags];
+	_mouseInside=YES;
+	_tracking = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingEnabledDuringMouseDrag|NSTrackingInVisibleRect|NSTrackingAssumeInside owner:self userInfo:nil];
+	[self addTrackingArea:_tracking];
+}
+
+- (void)webPlugInDestroy
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[_service cancel];
+	[self removeTrackingArea:_tracking];
+}
+
+- (void)webPlugInStart
+{
+	_mouseInside=YES;
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidUpdate:) name:NSWindowDidUpdateNotification object:[self window]];
+}
+
+- (void)webPlugInStop
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidUpdateNotification object:[self window]];
+}
+
+#pragma mark Events
+
 - (void)mouseEntered:(NSEvent *)event
 {
 	_mouseInside=YES;
@@ -545,7 +606,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		return;
 		}
 
-    NSImage * dragImage = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode('ilht')];
+    NSImage * dragImage = [self _dragImage];
 
 	NSPoint mouseDownPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	NSPoint dragPoint = NSMakePoint(mouseDownPoint.x-[dragImage size].width+10, mouseDownPoint.y-10);
@@ -580,58 +641,6 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		_modifierFlags=[[NSApp currentEvent] modifierFlags];
 		[self _modifiersChanged];
 		}
-}
-
-#pragma mark WebPlugIn informal protocol
-
-- (void)webPlugInInitialize
-{
-	// if whitelisted show directly
-	if([[UCBlackwhitelist sharedBlackwhitelist] isWhiteHost:[_src host]])
-		{
-		[self _convertToFlash];
-		return;
-		}
-	
-	// if blacklisted remove from container after delay
-	if([[UCBlackwhitelist sharedBlackwhitelist] isBlackHost:[_src host]])
-		{
-		[self performSelector:@selector(_removeFromContainer) withObject:nil afterDelay:0];
-		return;
-		}
-
-	_service = [[UCVideoService alloc] initWithSrc:_src andFlashVars:_flashVars];
-	[_service startWithDelegate:self];
-
-	_siteLabel = [[_service label] retain];
-	_canPlayDirectly = [_service canPlayDirectly];
-
-	[self setMenu:[self _prepareMenu]];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldRemove:) name:sRemoveAllNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allShouldPlay:) name:sPlayAllNotification object:nil];
-
-	_modifierFlags = [[NSApp currentEvent] modifierFlags];
-	_mouseInside=YES;
-	_tracking = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingEnabledDuringMouseDrag|NSTrackingInVisibleRect|NSTrackingAssumeInside owner:self userInfo:nil];
-	[self addTrackingArea:_tracking];
-}
-
-- (void)webPlugInDestroy
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[_service cancel];
-	[self removeTrackingArea:_tracking];
-}
-
-- (void)webPlugInStart
-{
-	_mouseInside=YES;
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidUpdate:) name:NSWindowDidUpdateNotification object:[self window]];
-}
-
-- (void)webPlugInStop
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidUpdateNotification object:[self window]];
 }
 
 #pragma mark Draw

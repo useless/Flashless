@@ -2,8 +2,8 @@
 //  UCFlashTester.m
 //  Flashless TestApp
 //
-//  Created by Christoph on 13.06.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 13.06.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -34,17 +34,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)awakeFromNib
 {
-/*	[flashView _initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			@"http://example.com/play.swf", @"src",
-			nil], WebPlugInAttributesKey,
-		[NSURL URLWithString:@"http://example.com"], WebPlugInBaseURLKey,
-		nil]];
-*/	[flashView _initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
+	[flashView _initWithArguments:[NSDictionary dictionaryWithObjectsAndKeys:
 		[NSDictionary dictionaryWithObjectsAndKeys:
 			@"http://vimeo.com/moogaloop.swf?clip_id=4281065", @"src",
 			nil], WebPlugInAttributesKey,
-		[NSURL URLWithString:@"http://www.fscklog.com/"], WebPlugInBaseURLKey,
+		[NSURL URLWithString:@"http://example.com/"], WebPlugInBaseURLKey,
 		nil]];
 
 }
@@ -74,9 +68,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[flashView setNeedsDisplay:YES];
 }
 
-- (IBAction)test:(id)sender
+- (IBAction)previewDrag:(id)sender
 {
+	[previewImage setImage:[flashView _dragImage]];
 }
+
+#pragma mark -
 
 - (IBAction)setDefaultStatus:(id)sender
 {
