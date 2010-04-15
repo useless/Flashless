@@ -35,6 +35,10 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 - (void)_convertTypesForElement:(DOMElement *)element;
 - (void)_convertToVideo;
 - (void)_removeFromContainer;
+
++ (NSString *)webScriptNameForSelector:(SEL)aSelector;
++ (BOOL)isSelectorExcludedFromWebScript:(SEL)aSelector;
+- (id)webScriptValueOfFlashVar:(id)flashVar;
 @end
 
 @implementation UCFlashlessView (DOM)
@@ -111,6 +115,52 @@ static NSString * sFlashNewMIMEType = @"application/futuresplash";
 
 	[_element release];
 	_element = nil;
+}
+
+#pragma mark WebScripting Protocol
+
+// Quick fix for YouTube. Credit: ClickToFlash Developers.
+
++ (NSString *)webScriptNameForSelector:(SEL)aSelector
+{
+	if(aSelector==@selector(webScriptValueOfFlashVar:))
+		{
+		return @"GetVariable";
+		}
+	else
+		{
+		return nil;
+		}
+}
+
++ (BOOL)isSelectorExcludedFromWebScript:(SEL)aSelector
+{
+	return aSelector!=@selector(webScriptValueOfFlashVar:);
+}
+
+- (id)webScriptValueOfFlashVar:(id)flashVar {
+	static NSString *sFlashVersion = nil;
+
+	if(flashVar && [flashVar isKindOfClass:[NSString class]])
+		{
+		if([flashVar isEqualToString:@"$version"])
+			{
+			if(sFlashVersion==nil)
+				{
+				//FIXME: Read Version from Info.plist
+				sFlashVersion = @"MAC 10,0,45,2";
+				}
+			return sFlashVersion;
+			}
+		else
+			{
+			return [_flashVars objectForKey:flashVar];
+			}
+		}
+	else
+		{
+		return nil;
+		}
 }
 
 @end

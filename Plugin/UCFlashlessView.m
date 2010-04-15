@@ -579,6 +579,11 @@ static NSString * sHostKey = @"UCFlashlessHost";
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidUpdateNotification object:[self window]];
 }
 
+- (id)objectForWebScript
+{
+	return self;
+}
+
 #pragma mark Draw
 
 - (void)drawRect:(NSRect)rect
