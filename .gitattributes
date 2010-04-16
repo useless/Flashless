@@ -1,1 +1,2 @@
 *.m	diff=objc
+*.strings diff=utf16
