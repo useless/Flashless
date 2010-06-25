@@ -24,7 +24,13 @@ _Nippon_
 * Planned: Improved Spinner behaviour.
 
 
-Version 2.0.3 (Latest Release)
+Version 2.0.3.1 (Latest Bugfix)
+---------------
+
+* Fix problem with YouTube where users would see "Go Upgrade!" (Credit: ClickToFlash-Developers)
+
+
+Version 2.0.3
 -------------
 _Springtime_
 

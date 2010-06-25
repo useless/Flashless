@@ -36,4 +36,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (void)_convertTypesForElement:(DOMElement *)element;
 - (void)_convertToVideo;
 - (void)_removeFromContainer;
+
++ (NSString *)webScriptNameForSelector:(SEL)aSelector;
++ (BOOL)isSelectorExcludedFromWebScript:(SEL)aSelector;
+- (id)webScriptValueOfFlashVar:(id)flashVar;
 @end
