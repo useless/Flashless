@@ -24,6 +24,13 @@ _Nippon_
 * Planned: Improved Spinner behaviour.
 
 
+Version 2.0.4
+-------------
+
+* Support for additional services.
+* Improve existing services.
+
+
 Version 2.0.3.1 (Latest Bugfix)
 ---------------
 
