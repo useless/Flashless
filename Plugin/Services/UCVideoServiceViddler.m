@@ -41,7 +41,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 	videoID = [flashVars objectForKey:@"key"];
 	if(videoID==nil)
 		{
-		NSScanner * scan = [NSScanner scannerWithString:[self pathString]];
+		NSString * path = [self pathString];
+		if(path==nil) { return; }
+
+		NSScanner * scan = [NSScanner scannerWithString:path];
 		[scan scanUpToString:@"simple/" intoString:NULL];
 		if([scan scanString:@"simple/" intoString:NULL])
 			{

@@ -47,7 +47,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 	if(videoID==nil)
 		{
 		NSScanner * scan;
-		scan = [NSScanner scannerWithString:[self pathString]];
+		NSString * scanString = [self pathString];
+		if(scanString==nil) { return; }
+
+		scan = [NSScanner scannerWithString:scanString];
 		[scan scanUpToString:@"/v/" intoString:NULL];
 		if([scan scanString:@"/v/" intoString:NULL])
 			{
@@ -55,7 +58,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 			}
 		if(videoID==nil)
 			{
-			scan = [NSScanner scannerWithString:[self queryString]];
+			scanString = [self queryString];
+			if(scanString==nil) { return; }
+
+			scan = [NSScanner scannerWithString:scanString];
 			[scan scanUpToString:@"video_id=" intoString:NULL];
 			if([scan scanString:@"video_id=" intoString:NULL])
 				{

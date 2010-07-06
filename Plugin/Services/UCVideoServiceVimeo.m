@@ -42,7 +42,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 	NSScanner * scan;
 	if(videoID==nil)
 		{
-		scan = [NSScanner scannerWithString:[self queryString]];
+		NSString * query = [self queryString];
+		if(query==nil) { return; }
+
+		scan = [NSScanner scannerWithString:query];
 		[scan scanUpToString:@"clip_id=" intoString:NULL];
 		if([scan scanString:@"clip_id=" intoString:NULL])
 			{

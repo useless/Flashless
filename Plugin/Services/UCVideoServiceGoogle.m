@@ -48,7 +48,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 	NSString * videoFile = nil;
 	NSString * thumbnail = nil;
 
-	NSScanner * scan = [NSScanner scannerWithString:[self queryString]];
+	NSString * query = [self queryString];
+	if(query==nil) { return; }
+
+	NSScanner * scan = [NSScanner scannerWithString:query];
 	[scan scanUpToString:@"docid=" intoString:NULL];
 	if([scan scanString:@"docid=" intoString:NULL])
 		{
