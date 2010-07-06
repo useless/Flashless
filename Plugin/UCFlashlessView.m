@@ -847,7 +847,11 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		[_myBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
 		[_myBundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey],
 		[_myBundle objectForInfoDictionaryKey:@"WebPluginDescription"],
+#ifdef PLUGIN_DEBUG
+		@"DEBUG BUILD"
+#else
 		[_myBundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]
+#endif
 		]];
 	[about addButtonWithTitle:@"OK"];
 	[about addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Product Site...", nil, _myBundle, @"Product Site Button")];
