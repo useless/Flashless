@@ -59,14 +59,18 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)setTint:(NSColor *)newTint
 {
+	if(tint==newTint) { return; }
+	[newTint retain];
 	[tint release];
-	tint = [newTint retain];
+	tint = newTint;
 }
 
 - (void)setHalo:(NSColor *)newHalo
 {
+	if(halo==newHalo) { return; }
+	[newHalo retain];
 	[halo release];
-	halo = [newHalo retain];
+	halo = newHalo;
 }
 
 - (void)drawRect:(NSRect)rect

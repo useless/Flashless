@@ -81,8 +81,10 @@ static UCBlackwhitelist * sharedInstance = nil;
 
 - (void)setBundleIdentifier:(NSString *)newBundleIdentifier
 {
-	[bundleIdentifier release];
-	bundleIdentifier = [newBundleIdentifier copy];
+	if(bundleIdentifier!=newBundleIdentifier) {
+		[bundleIdentifier release];
+		bundleIdentifier = [newBundleIdentifier copy];
+	}
 	
 	[defaultsDict release];
 	defaultsDict = nil;

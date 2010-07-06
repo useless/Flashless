@@ -382,14 +382,19 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)service:(UCVideoService *)service didFindPreview:(NSURL *)preview
 {
+	if(_previewURL==preview) { return; }
+	[preview retain];
 	[_previewURL release];
-	_previewURL = [preview retain];
+	_previewURL = preview;
 }
 
 - (void)service:(UCVideoService *)service didFindDownload:(NSURL *)download
 {
-	[_downloadURL release];
-	_downloadURL = [download retain];
+	if(_downloadURL!=download) {
+		[download retain];
+		[_downloadURL release];
+		_downloadURL = download;
+	}
 	[self setStatus:UCDefaultStatus];
 	switch(_should)
 		{
@@ -412,8 +417,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 
 - (void)service:(UCVideoService *)service didFindOriginal:(NSURL *)original
 {
+	if(_originalURL==original) { return; }
+	[original retain];
 	[_originalURL release];
-	_originalURL = [original retain];
+	_originalURL = original;
 }
 
 - (void)service:(UCVideoService *)service didReceivePreviewData:(NSData *)data
