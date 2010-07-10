@@ -28,7 +28,7 @@ Changes and Source
 
 For the version history see `CHANGELOG`.
 
-The source is available as Github or the Bitbucket mirror.
+The source is available from Github or the Bitbucket mirror.
 <http://github.com/useless/Flashless>
 <http://bitbucket.org/useless/flashless>
 
