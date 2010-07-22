@@ -34,4 +34,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 @interface UCVideoServiceYoutube : UCVideoService
 {
 }
+
+- (NSURL *)downloadURLwithVideoID:(NSString *)videoID andHash:(NSString *)hash;
+
 @end

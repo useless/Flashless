@@ -77,7 +77,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	NSString * videoHash = [flashVars objectForKey:@"t"];
 	if(videoHash!=nil)
 		{
-		[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video?fmt=18&video_id=%@&t=%@", videoID, videoHash]]];
+		[self foundDownload:[self downloadURLwithVideoID:videoID andHash:videoHash]];
 		}
 }
 
@@ -112,8 +112,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 		}
 	else
 		{
-		[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video?fmt=18&video_id=%@&t=%@", videoID, videoHash]]];
+		[self foundDownload:[self downloadURLwithVideoID:videoID andHash:videoHash]];
 		}
+}
+
+- (NSURL *)downloadURLwithVideoID:(NSString *)theID andHash:(NSString *)theHash
+{
+	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video?fmt=18&asv=2&video_id=%@&t=%@", theID, theHash]];
 }
 
 @end

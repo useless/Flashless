@@ -7,7 +7,7 @@ FLASHVARS> video_id={ID}
 
 PREVIEW: http://i1.ytimg.com/vi/{ID}/hqdefault.jpg
 
-DOWNLOAD: http://www.youtube.com/get_video?fmt=22&video_id={ID}&t={HASH}
+DOWNLOAD: http://www.youtube.com/get_video?fmt=18&asv=2&video_id={ID}&t={HASH}
 
 ORIGINAL: http://youtube.com/watch?v={ID}
 
