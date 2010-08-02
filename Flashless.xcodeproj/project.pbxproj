@@ -146,15 +146,15 @@
 		BFA4CA2F1170CA61005E22A8 /* PluginView+DOM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PluginView+DOM.h"; path = "Plugin/PluginView+DOM.h"; sourceTree = "<group>"; };
 		BFC883BA1057C509002F1A9C /* UCVideoServiceTwitvid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceTwitvid.m; sourceTree = "<group>"; };
 		BFC883BB1057C509002F1A9C /* UCVideoServiceTwitvid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceTwitvid.h; sourceTree = "<group>"; };
-		BFD376F310C4352D005EBCC8 /* UCRedirectedVideoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCRedirectedVideoService.h; path = Plugin/UCRedirectedVideoService.h; sourceTree = "<group>"; };
-		BFD376F410C4352D005EBCC8 /* UCRedirectedVideoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCRedirectedVideoService.m; path = Plugin/UCRedirectedVideoService.m; sourceTree = "<group>"; };
+		BFD376F310C4352D005EBCC8 /* UCRedirectedVideoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCRedirectedVideoService.h; sourceTree = "<group>"; };
+		BFD376F410C4352D005EBCC8 /* UCRedirectedVideoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCRedirectedVideoService.m; sourceTree = "<group>"; };
 		BFE9659F104FCD5D00432F88 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		BFF811CF10526B49003B72D3 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = Product/background.png; sourceTree = "<group>"; };
 		BFF811F7105273C0003B72D3 /* Readme.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = Readme.pdf; path = Product/Readme.pdf; sourceTree = "<group>"; };
 		D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCBlackwhitelist.h; path = Plugin/UCBlackwhitelist.h; sourceTree = "<group>"; };
 		D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCBlackwhitelist.m; path = Plugin/UCBlackwhitelist.m; sourceTree = "<group>"; };
-		D096D10D1028946100A47EE6 /* UCVideoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCVideoService.h; path = Plugin/UCVideoService.h; sourceTree = "<group>"; };
-		D096D10E1028946100A47EE6 /* UCVideoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UCVideoService.m; path = Plugin/UCVideoService.m; sourceTree = "<group>"; };
+		D096D10D1028946100A47EE6 /* UCVideoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoService.h; sourceTree = "<group>"; };
+		D096D10E1028946100A47EE6 /* UCVideoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoService.m; sourceTree = "<group>"; };
 		D0BDCC9110354D3800866394 /* PluginView+DOM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PluginView+DOM.m"; path = "Plugin/PluginView+DOM.m"; sourceTree = "<group>"; };
 		D0BDCD4210355D2000866394 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -238,10 +238,6 @@
 				D0BDCC9110354D3800866394 /* PluginView+DOM.m */,
 				D03EDEE5102B0B19001AD28D /* UCBlackwhitelist.h */,
 				D03EDEE6102B0B19001AD28D /* UCBlackwhitelist.m */,
-				D096D10D1028946100A47EE6 /* UCVideoService.h */,
-				D096D10E1028946100A47EE6 /* UCVideoService.m */,
-				BFD376F310C4352D005EBCC8 /* UCRedirectedVideoService.h */,
-				BFD376F410C4352D005EBCC8 /* UCRedirectedVideoService.m */,
 				BF344CE40FF13D0D003F125D /* UCFlashTester.h */,
 				BF344CE60FF13D0D003F125D /* UCFlashTester.m */,
 				0259C57AFE90428111CA0C5A /* UCFlashlessView.h */,
@@ -262,6 +258,10 @@
 		BF73BCC5105053E4003D2309 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				BFD376F310C4352D005EBCC8 /* UCRedirectedVideoService.h */,
+				BFD376F410C4352D005EBCC8 /* UCRedirectedVideoService.m */,
+				D096D10D1028946100A47EE6 /* UCVideoService.h */,
+				D096D10E1028946100A47EE6 /* UCVideoService.m */,
 				BFC883BA1057C509002F1A9C /* UCVideoServiceTwitvid.m */,
 				BFC883BB1057C509002F1A9C /* UCVideoServiceTwitvid.h */,
 				BF73BE7310507C5A003D2309 /* UCVideoServiceFlickr.h */,
