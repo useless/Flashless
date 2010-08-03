@@ -43,7 +43,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 + (NSString *)domainForSrc:(NSURL *)src
 {
-	if(src==nil)
+	if(src==nil || [src host]==nil)
 		{
 		return nil;
 		}
@@ -51,6 +51,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 	NSString * host = [@"." stringByAppendingString:[src host]];
 	NSRange dot = [host rangeOfString:@"." options:NSBackwardsSearch range:NSMakeRange(0, [host rangeOfString:@"." options:NSBackwardsSearch].location)];
 	return [host substringFromIndex:dot.location+1];
+}
+
++ (void)scan:(NSString *)scanString from:(NSString *)from to:(NSString *)to into:(NSString **)into
+{
+	NSScanner * scanner = [NSScanner scannerWithString:scanString];
+	[scanner scanUpToString:from intoString:NULL];
+	if([scanner scanString:from intoString:NULL]) {
+		[scanner scanUpToString:to intoString:into];
+	}
 }
 
 #pragma mark -
@@ -125,7 +134,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (void)startWithDelegate:(id)newDelegate
 {
 	[self setDelegate:newDelegate];
+	[self prepare];
 	[self findURLs];
+}
+
+- (void)findDownloadWithDelegate:(id)newDelegate
+{
+	[self setDelegate:newDelegate];
+	[self prepare];
+	[self findDownloadURL];
 }
 
 - (void)cancel
@@ -156,12 +173,19 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @implementation UCVideoService (Private)
 
+- (void)prepare
+{
+}
+
 - (void)findURLs
 {
 }
 
 - (void)findDownloadURL
 {
+	if(![self canFindDownload]) {
+		[self foundNoDownload];
+	}
 }
 
 - (void)retrieveHint:(NSURL *)hintURL
@@ -244,17 +268,17 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (NSString *)srcString
 {
-	return [[src absoluteString] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	return [src absoluteString];
 }
 
 - (NSString *)pathString
 {
-	return [[[src path] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	return [src path];
 }
 
 - (NSString *)queryString
 {
-	return [[src query] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	return [src query];
 }
 
 @end

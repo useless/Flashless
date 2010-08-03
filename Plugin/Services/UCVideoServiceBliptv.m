@@ -2,8 +2,8 @@
 //  UCVideoServiceBliptv.m
 //  Flashless
 //
-//  Created by Christoph on 04.09.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 04.09.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -36,7 +36,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"Blip.tv";
 }
 
-- (void)findURLs
+- (void)prepare
 {
 	if([[src host] isEqualToString:@"blip.tv"])
 		{
@@ -48,6 +48,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 		}
 }
 
+- (void)findDownloadURL
+{
+// Prevent foundNoDownload
+}
+
 - (void)redirectedTo:(NSURL *)redirectedURL
 {
 	NSString * srcString = [self srcString];
@@ -56,19 +61,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 		[self setSrc:redirectedURL];
 		srcString = [self srcString];
 		}
-	else
-		{
-		srcString = [srcString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-		}
 	NSString * hintURLString = nil;
-	NSScanner * scan = [NSScanner scannerWithString:srcString];
-	[scan scanUpToString:@"file=" intoString:NULL];
-	if([scan scanString:@"file=" intoString:NULL])
-		{
-		[scan scanUpToString:@"&" intoString:&hintURLString];
-		}
-	if(hintURLString==nil) { return; }
-	[self retrieveHint:[NSURL URLWithString:hintURLString]];
+	[[self class] scan:srcString from:@"file=" to:@"&" into:&hintURLString];
+	if(hintURLString==nil) {
+		[self foundNoDownload];
+		return;
+	}
+	[self retrieveHint:[NSURL URLWithString:[hintURLString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 }
 
 - (void)receivedHint:(NSString *)hint
@@ -78,34 +77,19 @@ OTHER DEALINGS IN THE SOFTWARE.
 	NSString * originalURLString = nil;
 	NSString * preview = nil;
 	NSString * downloadURLString = nil;
-	NSScanner * scan = [NSScanner scannerWithString:hint];
-	[scan scanUpToString:@"<link>" intoString:NULL];
-	if([scan scanString:@"<link>" intoString:NULL])
-		{
-		[scan scanUpToString:@"</link>" intoString:&originalURLString];
-		}
+	[[self class] scan:hint from:@"<media:player url=\"" to:@"\">" into:&originalURLString];
 	if(originalURLString!=nil)
 		{
 		[self foundOriginal:[NSURL URLWithString:originalURLString]];
 		}
 
-	[scan setScanLocation:0];
-	[scan scanUpToString:@"<blip:thumbnail_src>" intoString:NULL];
-	if([scan scanString:@"<blip:thumbnail_src>" intoString:NULL])
-		{
-		[scan scanUpToString:@"</blip:thumbnail_src>" intoString:&preview];
-		}
+	[[self class] scan:hint from:@"<blip:thumbnail_src>" to:@"</blip:thumbnail_src>" into:&preview];
 	if(preview!=nil)
 		{
 		[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://a.images.blip.tv/%@", preview]]];
 		}
 
-	[scan setScanLocation:0];
-	[scan scanUpToString:@"<media:content url=\"" intoString:NULL];
-	if([scan scanString:@"<media:content url=\"" intoString:NULL])
-		{
-		[scan scanUpToString:@"\"" intoString:&downloadURLString];
-		}
+	[[self class] scan:hint from:@"<media:content url=\"" to:@"\"" into:&downloadURLString];
 	if(downloadURLString!=nil)
 		{
 		[self foundDownload:[NSURL URLWithString:downloadURLString]];

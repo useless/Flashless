@@ -2,8 +2,8 @@
 //  UCVideoServiceYoutube.m
 //  Flashless
 //
-//  Created by Christoph on 03.09.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 03.09.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -41,54 +41,64 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return videoID!=nil;
 }
 
-- (void)findURLs
+- (void)prepare
 {
 	videoID = [flashVars objectForKey:@"video_id"];
-	if(videoID==nil)
-		{
-		NSScanner * scan;
+	if(videoID==nil) {
 		NSString * scanString = [self pathString];
-		if(scanString==nil) { return; }
-
-		scan = [NSScanner scannerWithString:scanString];
-		[scan scanUpToString:@"/v/" intoString:NULL];
-		if([scan scanString:@"/v/" intoString:NULL])
-			{
-			[scan scanUpToString:@"&" intoString:&videoID];
-			}
-		if(videoID==nil)
-			{
-			scanString = [self queryString];
-			if(scanString==nil) { return; }
-
-			scan = [NSScanner scannerWithString:scanString];
-			[scan scanUpToString:@"video_id=" intoString:NULL];
-			if([scan scanString:@"video_id=" intoString:NULL])
-				{
-				[scan scanUpToString:@"&" intoString:&videoID];
-				}
-			}
+		if(scanString==nil) {
+			[self foundNoDownload];
+			return;
 		}
-	if(videoID==nil) { return; }
+		[[self class] scan:scanString from:@"/v/" to:@"&" into:&videoID];
+		if(videoID==nil) {
+			scanString = [self queryString];
+			if(scanString==nil) {
+				[self foundNoDownload];
+				return;
+			}
+			[[self class] scan:scanString from:@"v=" to:@"&" into:&videoID];
+		}
+		if(videoID==nil) {
+			scanString = [self queryString];
+			if(scanString==nil) {
+				[self foundNoDownload];
+				return;
+			}
+			[[self class] scan:scanString from:@"video_id=" to:@"&" into:&videoID];
+		}
+	}
+	if(videoID==nil) {
+		[self foundNoDownload];
+		return;
+	}
 	[videoID retain];
+}
+
+- (void)findURLs
+{
+	if(videoID==nil) { return; }
 	[self foundAVideo:YES];
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@", videoID]]];
 	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://i1.ytimg.com/vi/%@/hqdefault.jpg", videoID]]];
 	NSString * videoHash = [flashVars objectForKey:@"t"];
-	if(videoHash!=nil)
-		{
+	if(videoHash!=nil) {
 		[self foundDownload:[self downloadURLwithVideoID:videoID andHash:videoHash]];
-		}
+	}
 }
 
 - (void)findDownloadURL
 {
-	if(videoID==nil)
-		{
+	if(![self canFindDownload]) {
 		[self foundNoDownload];
 		return;
-		}
-	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@", videoID]]];
+	}
+	NSString * videoHash = [flashVars objectForKey:@"t"];
+	if(videoHash!=nil) {
+		[self foundDownload:[self downloadURLwithVideoID:videoID andHash:videoHash]];
+	} else {
+		[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@", videoID]]];
+	}
 }
 
 - (void)receivedHint:(NSString *)hint
@@ -102,18 +112,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[scan scanUpToString:@"swfHTML" intoString:NULL];
 	[scan scanUpToString:@"&t=" intoString:NULL];
 	NSString * videoHash = nil;
-	if([scan scanString:@"&t=" intoString:NULL])
-		{
+	if([scan scanString:@"&t=" intoString:NULL]) {
 		[scan scanUpToString:@"&" intoString:&videoHash];
-		}
-	if(videoHash==nil)
-		{
+	}
+	if(videoHash==nil) {
 		[self foundNoDownload];
-		}
-	else
-		{
+	} else {
 		[self foundDownload:[self downloadURLwithVideoID:videoID andHash:videoHash]];
-		}
+	}
 }
 
 - (NSURL *)downloadURLwithVideoID:(NSString *)theID andHash:(NSString *)theHash

@@ -2,8 +2,8 @@
 //  UCVideoServiceTwitvid.m
 //  Flashless
 //
-//  Created by Christoph on 09.09.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 09.09.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -45,42 +45,31 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"TwitVid";
 }
 
-- (void)findURLs
+- (void)prepare
 {
 	hint = [flashVars objectForKey:@"file"];
-	if(hint!=nil)
-		{
+}
+	
+- (void)findURLs
+{
+	if(hint!=nil) {
 		hint = [[hint stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] retain];
 		[self redirectedTo:nil];
-		}
-	else
-		{
+	} else {
 		[self resolveURL:src];
-		}
+	}
 }
 
 - (void)redirectedTo:(NSURL *)redirectedURL
 {
-	NSScanner * scan;
-	if(redirectedURL!=nil)
-		{
-		scan = [NSScanner scannerWithString:[redirectedURL absoluteString]];
-		[scan scanUpToString:@"file=" intoString:NULL];
-		if([scan scanString:@"file=" intoString:NULL])
-			{
-			[scan scanUpToString:@"&" intoString:&hint];
-			}
+	if(redirectedURL!=nil) {
+		[[self class] scan:[redirectedURL absoluteString] from:@"file=" to:@"&" into:&hint];
 		[hint retain];
-		}
+	}
 
 	if(hint==nil) { return; }
 
-	scan = [NSScanner scannerWithString:hint];
-	[scan scanUpToString:@"/playVideo_" intoString:NULL];
-	if([scan scanString:@"/playVideo_" intoString:NULL])
-		{
-		[scan scanUpToString:@"/" intoString:&videoID];
-		}
+	[[self class] scan:hint from:@"/playVideo_" to:@"/" into:&videoID];
 	if(videoID==nil) { return; }
 	[videoID retain];
 	[self foundAVideo:YES];

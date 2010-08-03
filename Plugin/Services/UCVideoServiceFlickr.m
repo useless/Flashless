@@ -2,8 +2,8 @@
 //  UCVideoServiceFlickr.m
 //  Flashless
 //
-//  Created by Christoph on 04.09.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 04.09.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -51,7 +51,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return (secret!=nil && node!=nil);
 }
 
-- (void)findURLs
+- (void)prepare
 {
 	videoID = [[flashVars objectForKey:@"photo_id"] retain];
 	if(videoID==nil) { return; }
@@ -62,85 +62,47 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)findDownloadURL
 {
-	if(secret==nil || node==nil)
-		{
+	if([self canFindDownload]) {
+		findDownload=YES;
+		[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/video_playlist.gne?node_id=%@&secret=%@", node, secret]]];
+	} else {
 		[self foundNoDownload];
-		return;
-		}
-	findDownload=YES;
-	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/video_playlist.gne?node_id=%@&secret=%@", node, secret]]];
+	}
 }
 
 - (void)receivedHint:(NSString *)hint
 {
-	if(hint==nil)
-		{
+	if(hint==nil) {
 		[self foundNoDownload];
 		return;
-		}
+	}
 	NSString * server = nil;
 	NSString * URLString = nil;
-	NSScanner * scan = [NSScanner scannerWithString:hint];
-	if(findDownload)
-		{
-		[scan scanUpToString:@"APP=\"" intoString:NULL];
-		if([scan scanString:@"APP=\"" intoString:NULL])
-			{
-			[scan scanUpToString:@"\"" intoString:&server];
-			}
-		[scan scanUpToString:@"FULLPATH=\"" intoString:NULL];
-		if([scan scanString:@"FULLPATH=\"" intoString:NULL])
-			{
-			[scan scanUpToString:@"\"" intoString:&URLString];
-			}
-
-		if(server!=nil && URLString!=nil)
-			{
+	if(findDownload) {
+		[[self class] scan:hint from:@"APP=\"" to:@"\"" into:&server];
+		[[self class] scan:hint from:@"FULLPATH=\"" to:@"\"" into:&URLString];
+		if(server!=nil && URLString!=nil) {
 			[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", server, [URLString stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"]]]];
-			}
-		else
-			{
+		} else {
 			[self foundNoDownload];
-			}
 		}
-	else
-		{
-		[scan scanUpToString:@"<Item id=\"photo_server\">" intoString:NULL];
-		if([scan scanString:@"<Item id=\"photo_server\">" intoString:NULL])
-			{
-			[scan scanUpToString:@"</Item>" intoString:&server];
-			}
-		[scan scanUpToString:@"<Item id=\"photo_secret\">" intoString:NULL];
-		if([scan scanString:@"<Item id=\"photo_secret\">" intoString:NULL])
-			{
-			[scan scanUpToString:@"</Item>" intoString:&secret];
-			}
+	} else {
+		[[self class] scan:hint from:@"<Item id=\"photo_server\">" to:@"</Item>" into:&server];
+		[[self class] scan:hint from:@"<Item id=\"photo_secret\">" to:@"</Item>" into:&secret];
 		[secret retain];
-		if(server!=nil && secret!=nil)
-			{
+		if(server!=nil && secret!=nil) {
 			[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://farm3.static.flickr.com/%@/%@_%@.jpg?0", server, videoID, secret]]];
-			}
+		}
 
-		[scan setScanLocation:0];
-		[scan scanUpToString:@"<Item id=\"id\">" intoString:NULL];
-		if([scan scanString:@"<Item id=\"id\">" intoString:NULL])
-			{
-			[scan scanUpToString:@"</Item>" intoString:&node];
-			}
+		[[self class] scan:hint from:@"<Item id=\"id\">" to:@"</Item>" into:&node];
 		[node retain];
 		[self foundAVideo:YES];
 
-		[scan setScanLocation:0];
-		[scan scanUpToString:@";url=" intoString:NULL];
-		if([scan scanString:@";url=" intoString:NULL])
-			{
-			[scan scanUpToString:@"&" intoString:&URLString];
-			}
-		if(URLString!=nil)
-			{
+		[[self class] scan:hint from:@";url=" to:@"&" into:&URLString];
+		if(URLString!=nil) {
 			[self foundOriginal:[NSURL URLWithString:URLString]];
-			}
 		}
+	}
 }
 
 @end

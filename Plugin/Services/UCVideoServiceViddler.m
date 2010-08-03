@@ -2,8 +2,8 @@
 //  UCVideoServiceViddler.m
 //  Flashless
 //
-//  Created by Christoph on 04.09.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 04.09.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -39,36 +39,18 @@ OTHER DEALINGS IN THE SOFTWARE.
 - (void)findURLs
 {	
 	videoID = [flashVars objectForKey:@"key"];
-	if(videoID==nil)
-		{
+	if(videoID==nil) {
 		NSString * path = [self pathString];
 		if(path==nil) { return; }
 
-		NSScanner * scan = [NSScanner scannerWithString:path];
-		[scan scanUpToString:@"simple/" intoString:NULL];
-		if([scan scanString:@"simple/" intoString:NULL])
-			{
-			[scan scanUpToString:@"/" intoString:&videoID];
-			}
-		if(videoID==nil)
-			{
-			[scan setScanLocation:0];
-			[scan scanUpToString:@"simple_on_site/" intoString:NULL];
-			if([scan scanString:@"simple_on_site/" intoString:NULL])
-				{
-				[scan scanUpToString:@"/" intoString:&videoID];
-				}
-			}
-		if(videoID==nil)
-			{
-			[scan setScanLocation:0];
-			[scan scanUpToString:@"player/" intoString:NULL];
-			if([scan scanString:@"player/" intoString:NULL])
-				{
-				[scan scanUpToString:@"/" intoString:&videoID];
-				}
-			}
+		[[self class] scan:path from:@"simple/" to:@"/" into:&videoID];
+		if(videoID==nil) {
+			[[self class] scan:path from:@"simple_on_site/" to:@"/" into:&videoID];
 		}
+		if(videoID==nil) {
+			[[self class] scan:path from:@"player/" to:@"/" into:&videoID];
+		}
+	}
 	if(videoID==nil) { return; }
 	[videoID retain];
 	[self foundAVideo:YES];

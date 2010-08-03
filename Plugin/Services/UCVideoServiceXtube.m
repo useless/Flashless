@@ -2,8 +2,8 @@
 //  UCVideoServiceXtube.m
 //  Flashless
 //
-//  Created by Christoph on 03.09.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 03.09.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -43,37 +43,55 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"XTube";
 }
 
+- (void)prepare
+{
+	videoID = [flashVars objectForKey:@"video_id"];
+	if(videoID==nil) {
+		NSString * scanString = [self queryString];
+		if(scanString==nil) { return; }
+
+		[[self class] scan:scanString from:@"v=" to:@"&" into:&videoID];
+	}
+	if(videoID==nil) {
+		[self foundNoDownload];
+		return;
+	}
+	[videoID retain];
+	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://video2.xtube.com/find_video.php?video_id=%@", videoID]]];
+}
+
 - (void)findURLs
 {
-	videoID = [[flashVars objectForKey:@"video_id"] retain];
 	if(videoID==nil) { return; }
 	[self foundAVideo:YES];
-	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.xtube.com/play_re.php?v=%@", videoID]]];
-	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://video2.xtube.com/find_video.php?sid=0&v_user_id=%@&idx=%@&video_id=%@&clip_id=%@",
-		[flashVars objectForKey:@"user_id"],
-		[flashVars objectForKey:@"idx"],
-		videoID,
-		[flashVars objectForKey:@"clip_id"]
-	]]];
+	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.xtube.com/play_re.php?v=%@&cont=y", videoID]]];
+}
+
+- (void)findDownloadURL
+{
+	// Prevent foundNoDownload
 }
 
 - (void)receivedHint:(NSString *)hint
 {
-	if(hint==nil) { return; }
-	NSScanner * scan = [NSScanner scannerWithString:hint];
+	if(hint==nil) {
+		[self foundNoDownload];
+		return;
+	}
 	NSString * videoFile = nil;
-	if([scan scanString:@"&filename=" intoString:NULL])
-		{
-		[scan scanUpToString:@"&" intoString:&videoFile];
-		}
-	if(videoFile==nil) { return; }
-	[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [flashVars objectForKey:@"swfURL"], videoFile]]];
+	[[self class] scan:hint from:@"&filename=" to:@"&" into:&videoFile];
+	if(videoFile==nil) {
+		[self foundNoDownload];
+		return;
+	}
+	NSString * base = [flashVars objectForKey:@"swfURL"];
+	if(base==nil) {
+		base = @"http://cdns.xtube.com/s/e13";
+	}
+	[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", base, videoFile]]];
+
 	NSString * thumbnail = nil;
-	scan = [NSScanner scannerWithString:videoFile];
-	if([scan scanString:@"/videos" intoString:NULL])
-		{
-		[scan scanUpToString:@".flv" intoString:&thumbnail];
-		}
+	[[self class] scan:videoFile from:@"/videos" to:@".flv" into:&thumbnail];
 	if(thumbnail==nil) { return; }
 	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://cdns.xtube.com/u/e10/video_thumb%@_0000.jpg", thumbnail]]];
 }

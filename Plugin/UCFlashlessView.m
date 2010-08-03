@@ -225,7 +225,12 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		}
 	else
 		{
-		return [NSURL URLWithString:[srcAttribute stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:baseURL];
+		NSURL * result = [NSURL URLWithString:srcAttribute relativeToURL:baseURL];
+		if(result==nil)
+			{
+			result = [NSURL URLWithString:[srcAttribute stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:baseURL];
+			}
+		return result;
 		}
 }
 
@@ -411,8 +416,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 - (void)findDownloadFailedForService:(UCVideoService *)service
 {
 	_canFindDownload=NO;
+	if(_should!=UCShouldNothing) {
+		[self setStatus:UCErrorStatus];
+	}
 	_should = UCShouldNothing;
-	[self setStatus:UCErrorStatus];
 }
 
 - (void)service:(UCVideoService *)service didFindOriginal:(NSURL *)original

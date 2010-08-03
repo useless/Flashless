@@ -2,8 +2,8 @@
 //  UCVideoServiceGoogle.h
 //  Flashless
 //
-//  Created by Christoph on 04.09.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 04.09.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -33,5 +33,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @interface UCVideoServiceGoogle : UCVideoService
 {
+	NSString * query;
 }
 @end

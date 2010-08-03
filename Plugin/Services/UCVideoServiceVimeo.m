@@ -2,8 +2,8 @@
 //  UCVideoServiceVimeo.m
 //  Flashless
 //
-//  Created by Christoph on 03.09.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 03.09.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -36,59 +36,59 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"Vimeo";
 }
 
-- (void)findURLs
+- (void)prepare
 {
 	videoID = [flashVars objectForKey:@"clip_id"];
-	NSScanner * scan;
-	if(videoID==nil)
-		{
-		NSString * query = [self queryString];
-		if(query==nil) { return; }
-
-		scan = [NSScanner scannerWithString:query];
-		[scan scanUpToString:@"clip_id=" intoString:NULL];
-		if([scan scanString:@"clip_id=" intoString:NULL])
-			{
-			[scan scanUpToString:@"&" intoString:&videoID];
-			}
+	if(videoID==nil) {
+		NSString * scanString = [self queryString];
+		if(scanString==nil) {
+			scanString = [self pathString];
+			[[self class] scan:scanString from:@"/" to:@"/" into:&videoID];
+		} else {
+			[[self class] scan:scanString from:@"clip_id=" to:@"&" into:&videoID];
 		}
-	if(videoID==nil) { return; }
+	}
+	if(videoID==nil) {
+		[self foundNoDownload];
+		return;
+	}
 	[videoID retain];
+	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@", videoID]]];
+}
+
+- (void)findURLs
+{
+	if(videoID==nil) { return; }
 	[self foundAVideo:YES];
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/%@", videoID]]];
-	[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/moogaloop/load/clip:%@", videoID]]];
+}
+
+- (void)findDownloadURL
+{
+	// Prevent foundNoDownload
 }
 
 - (void)receivedHint:(NSString *)hint
 {
-	if(hint==nil) { return; }
+	if(hint==nil) {
+		[self foundNoDownload];
+		return;
+	}
 	NSString * previewFile = nil;
 	NSString * secret = nil;
 	NSString * expires = nil;
-	NSScanner * scan = [NSScanner scannerWithString:hint];
-	[scan scanUpToString:@"<thumbnail>" intoString:NULL];
-	if([scan scanString:@"<thumbnail>" intoString:NULL])
-		{
-		[scan scanUpToString:@"</thumbnail>" intoString:&previewFile];
-		}
-	if(previewFile!=nil)
-		{
+
+	[[self class] scan:hint from:@"<thumbnail>" to:@"</thumbnail>" into:&previewFile];
+	if(previewFile!=nil) {
 		[self foundPreview:[NSURL URLWithString:previewFile]];
-		}
-	[scan scanUpToString:@"<request_signature>" intoString:NULL];
-	if([scan scanString:@"<request_signature>" intoString:NULL])
-		{
-		[scan scanUpToString:@"</request_signature>" intoString:&secret];
-		}
-	[scan scanUpToString:@"<request_signature_expires>" intoString:NULL];
-	if([scan scanString:@"<request_signature_expires>" intoString:NULL])
-		{
-		[scan scanUpToString:@"</request_signature_expires>" intoString:&expires];
-		}
-	if(secret!=nil && expires!=nil)
-		{
+	}
+	[[self class] scan:hint from:@"<request_signature>" to:@"</request_signature>" into:&secret];
+	[[self class] scan:hint from:@"<request_signature_expires>" to:@"</request_signature_expires>" into:&expires];
+	if(secret!=nil && expires!=nil) {
 		[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"http://vimeo.com/moogaloop/play/clip:%@/%@/%@/?q=hd", videoID, secret, expires]]];
-		}
+	} else {
+		[self foundNoDownload];
+	}
 }
 
 @end

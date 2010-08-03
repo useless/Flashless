@@ -44,12 +44,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 }
 
 + (NSString *)domainForSrc:(NSURL *)src;
++ (void)scan:(NSString *)scanString from:(NSString *)from to:(NSString *)to into:(NSString **)into;
 
 - (id)initWithSrc:(NSURL *)aSrc andFlashVars:(NSDictionary *)theFlashVars;
 - (void)setSrc:(NSURL *)aSrc;
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
 - (void)startWithDelegate:(id)newDelegate;
+- (void)findDownloadWithDelegate:(id)newDelegate;
 - (void)cancel;
 
 - (NSString *)label;
@@ -61,6 +63,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 @interface UCVideoService (Private)
 
+- (void)prepare;
 - (void)findURLs;
 - (void)findDownloadURL;
 - (void)retrieveHint:(NSURL *)hintURL;

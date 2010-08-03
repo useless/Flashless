@@ -2,8 +2,8 @@
 //  UCVideoServiceGoogle.m
 //  Flashless
 //
-//  Created by Christoph on 04.09.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 04.09.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -33,6 +33,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 - (void)dealloc
 {
+	[query release];
+
 	[super dealloc];
 }
 
@@ -43,48 +45,47 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"Google Video";
 }
 
+- (void)prepare
+{
+	query = [[self queryString] retain];
+}
+
 - (void)findURLs
 {
-	NSString * videoFile = nil;
 	NSString * thumbnail = nil;
 
-	NSString * query = [self queryString];
 	if(query==nil) { return; }
 
-	NSScanner * scan = [NSScanner scannerWithString:query];
-	[scan scanUpToString:@"docid=" intoString:NULL];
-	if([scan scanString:@"docid=" intoString:NULL])
-		{
-		[scan scanUpToString:@"&" intoString:&videoID];
-		}
+	[[self class] scan:query from:@"docid=" to:@"&" into:&videoID];
 	[videoID retain];
-	if(videoID!=nil)
-		{
+	if(videoID!=nil) {
 		[self foundAVideo:YES];
 		[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://video.google.com/videoplay?docid=%@", videoID]]];
-		}
+	}
 
-	[scan setScanLocation:0];
-	[scan scanUpToString:@"videoURL=" intoString:NULL];
-	if([scan scanString:@"videoURL=" intoString:NULL])
-		{
-		[scan scanUpToString:@"&" intoString:&videoFile];
-		}
-	if(videoFile!=nil)
-		{
-		[self foundDownload:[NSURL URLWithString:[videoFile stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-		}
+	[self findDownloadURL];
 
-	[scan setScanLocation:0];
-	[scan scanUpToString:@"thumbnailUrl=" intoString:NULL];
-	if([scan scanString:@"thumbnailUrl=" intoString:NULL])
-		{
-		[scan scanUpToString:@"&" intoString:&thumbnail];
-		}
-	if(thumbnail!=nil)
-		{
+	[[self class] scan:query from:@"thumbnailUrl=" to:@"&" into:&thumbnail];
+	if(thumbnail!=nil) {
 		[self foundPreview:[NSURL URLWithString:[thumbnail stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-		}
+	}
+}
+
+- (void)findDownloadURL
+{
+	NSString * videoFile = nil;
+
+	if(query==nil) {
+		[self foundNoDownload];
+		return;
+	}
+
+	[[self class] scan:query from:@"videoURL=" to:@"&" into:&videoFile];
+	if(videoFile==nil) {
+		[self foundNoDownload];
+	} else {
+		[self foundDownload:[NSURL URLWithString:[videoFile stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+	}
 }
 
 @end
