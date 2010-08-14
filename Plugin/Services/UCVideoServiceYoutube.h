@@ -35,6 +35,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 {
 }
 
-- (NSURL *)downloadURLwithVideoID:(NSString *)videoID andHash:(NSString *)hash;
+- (NSInteger)bestFmtAvailable;
+- (NSURL *)downloadURLwithVideoID:(NSString *)theID forFmt:(NSInteger)fmt andHash:(NSString *)hash;
 
 @end
