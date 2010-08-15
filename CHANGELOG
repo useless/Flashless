@@ -1,7 +1,16 @@
 Flashless Changelog
 ===================
 
-Version 2.0.4 (Latest Release)
+Version 2.0.5 (Latest Release)
+-------------
+_HD_
+
+* Enable HD video on YouTube.
+* Fix problems with URL encodings.
+* Refactor video service classes for external usage.
+
+
+Version 2.0.4
 -------------
 _Summer_
 

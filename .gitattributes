@@ -1,2 +1,3 @@
 *.m	diff=objc
 *.strings diff=utf16
+*.plist	diff=html
