@@ -83,10 +83,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 	if(videoFile==nil) {
 		[self foundNoDownload];
 		return;
+	} else {
+		videoFile = [videoFile stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		videoFile = [videoFile stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	}
 	NSString * base = [flashVars objectForKey:@"swfURL"];
 	if(base==nil) {
-		base = @"http://cdns.xtube.com/s/e13";
+		base = @"http://cdn1.publicvideo.xtube.com";
 	}
 	[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", base, videoFile]]];
 
