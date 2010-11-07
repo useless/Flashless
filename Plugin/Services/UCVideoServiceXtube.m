@@ -43,6 +43,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 	return @"XTube";
 }
 
+- (BOOL)canPlayDirectly
+{
+	return NO;
+}
+
 - (void)prepare
 {
 	videoID = [flashVars objectForKey:@"video_id"];

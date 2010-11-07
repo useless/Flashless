@@ -13,13 +13,10 @@ ORIGINAL: http://youtube.com/watch?v={ID}
 
 
 XTube
-FLASHVARS> user_id={USERID}
-	idx={IDX}
-	video_id={ID}
-	clip_id={CLIPID}
+FLASHVARS> video_id={ID}
 	swfURL={SERVER}
 
-HINT:	http://video2.xtube.com/find_video.php?sid=0&v_user_id={USERID}&idx={IDX}&video_id={ID}&clip_id={CLIPID}
+HINT:	http://video2.xtube.com/find_video.php?video_id={ID}
 
 HINT> ... &filename={VIDEOFILE}& ...
 
@@ -29,7 +26,7 @@ PREVIEW: http://cdns.xtube.com/u/e10/video_thumb{PREVIEWID}_0000.jpg
 
 DOWNLOAD: {SERVER}{VIDEOFILE}
 
-ORIGINAL: http://www.xtube.com/play_re.php?v={ID}
+ORIGINAL: http://www.xtube.com/play_re.php?v={ID}&cont=y
 
 
 Vimeo
