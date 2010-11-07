@@ -29,6 +29,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #import "UCVideoService.h"
 #import "UCVideoServiceYoutube.h"
+#import "UCVideoServiceTumblr.h"
 #import "UCVideoServiceXtube.h"
 #import "UCVideoServiceVimeo.h"
 #import "UCVideoServiceViddler.h"
@@ -72,6 +73,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			[UCVideoServiceYoutube class], @"youtube.com",
 			[UCVideoServiceYoutube class], @"ytimg.com",
 			[UCVideoServiceYoutube class], @"youtube-nocookie.com",
+			[UCVideoServiceTumblr class], @"tumblr.com",
 			[UCVideoServiceXtube class], @"xtube.com",
 			[UCVideoServiceVimeo class], @"vimeo.com",
 			[UCVideoServiceBliptv class], @"blip.tv",

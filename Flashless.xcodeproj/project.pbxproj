@@ -55,6 +55,8 @@
 		BF73BE7810507C5A003D2309 /* UCVideoServiceGoogle.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7610507C5A003D2309 /* UCVideoServiceGoogle.m */; };
 		BF73BE7910507C5A003D2309 /* UCVideoServiceFlickr.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7410507C5A003D2309 /* UCVideoServiceFlickr.m */; };
 		BF73BE7A10507C5A003D2309 /* UCVideoServiceGoogle.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73BE7610507C5A003D2309 /* UCVideoServiceGoogle.m */; };
+		BF75974512874FAD00977779 /* UCVideoServiceTumblr.m in Sources */ = {isa = PBXBuildFile; fileRef = BF75974412874FAD00977779 /* UCVideoServiceTumblr.m */; };
+		BF75974612874FAD00977779 /* UCVideoServiceTumblr.m in Sources */ = {isa = PBXBuildFile; fileRef = BF75974412874FAD00977779 /* UCVideoServiceTumblr.m */; };
 		BFA4CA1F1170CA32005E22A8 /* PluginView+DOM.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BDCC9110354D3800866394 /* PluginView+DOM.m */; };
 		BFC883BC1057C509002F1A9C /* UCVideoServiceTwitvid.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC883BA1057C509002F1A9C /* UCVideoServiceTwitvid.m */; };
 		BFC883BD1057C509002F1A9C /* UCVideoServiceTwitvid.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC883BA1057C509002F1A9C /* UCVideoServiceTwitvid.m */; };
@@ -143,6 +145,8 @@
 		BF73BE7410507C5A003D2309 /* UCVideoServiceFlickr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceFlickr.m; sourceTree = "<group>"; };
 		BF73BE7510507C5A003D2309 /* UCVideoServiceGoogle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceGoogle.h; sourceTree = "<group>"; };
 		BF73BE7610507C5A003D2309 /* UCVideoServiceGoogle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceGoogle.m; sourceTree = "<group>"; };
+		BF75974312874FAD00977779 /* UCVideoServiceTumblr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceTumblr.h; sourceTree = "<group>"; };
+		BF75974412874FAD00977779 /* UCVideoServiceTumblr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceTumblr.m; sourceTree = "<group>"; };
 		BFA4CA2F1170CA61005E22A8 /* PluginView+DOM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PluginView+DOM.h"; path = "Plugin/PluginView+DOM.h"; sourceTree = "<group>"; };
 		BFC883BA1057C509002F1A9C /* UCVideoServiceTwitvid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UCVideoServiceTwitvid.m; sourceTree = "<group>"; };
 		BFC883BB1057C509002F1A9C /* UCVideoServiceTwitvid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UCVideoServiceTwitvid.h; sourceTree = "<group>"; };
@@ -258,6 +262,8 @@
 		BF73BCC5105053E4003D2309 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				BF75974312874FAD00977779 /* UCVideoServiceTumblr.h */,
+				BF75974412874FAD00977779 /* UCVideoServiceTumblr.m */,
 				BFD376F310C4352D005EBCC8 /* UCRedirectedVideoService.h */,
 				BFD376F410C4352D005EBCC8 /* UCRedirectedVideoService.m */,
 				D096D10D1028946100A47EE6 /* UCVideoService.h */,
@@ -405,6 +411,7 @@
 				BF6C8EB510B58A6F00FB5B4F /* UCSpinView.m in Sources */,
 				BFD376F610C4352D005EBCC8 /* UCRedirectedVideoService.m in Sources */,
 				BFA4CA1F1170CA32005E22A8 /* PluginView+DOM.m in Sources */,
+				BF75974612874FAD00977779 /* UCVideoServiceTumblr.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +436,7 @@
 				BF6C8EB410B58A6F00FB5B4F /* UCSpinView.m in Sources */,
 				BFD376F510C4352D005EBCC8 /* UCRedirectedVideoService.m in Sources */,
 				BF29F99A1173DBA200A23C0B /* PluginView+DOM.m in Sources */,
+				BF75974512874FAD00977779 /* UCVideoServiceTumblr.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,7 +571,7 @@
 				GCC_PREFIX_HEADER = Plugin/Flashless_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = PLUGIN_DEBUG;
 				INFOPLIST_FILE = Plugin/Info.plist;
-				PRODUCT_VERSION = 2.0.5;
+				PRODUCT_VERSION = 2.0.6;
 			};
 			name = Debug;
 		};
@@ -573,7 +581,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_PREFIX_HEADER = Plugin/Flashless_Prefix.pch;
 				INFOPLIST_FILE = Plugin/Info.plist;
-				PRODUCT_VERSION = 2.0.5;
+				PRODUCT_VERSION = 2.0.6;
 			};
 			name = Release;
 		};

@@ -132,3 +132,17 @@ PREVIEW: http://cdn.twitvid.com/thumbnails/{ID}.jpg
 DOWNLOAD: {HINT}
 
 ORIGINAL: http://www.twitvid.com/{ID}
+
+
+Tumblr
+FLASHVARS> file={VIDEOFILE}
+
+	dataFile={HINT}
+
+HINT>	<image source="{PREVIEW}"...
+
+VIDEOFILE> http://---.tumblr.com/video_file/{POSTID}/tumblr_{ID}...
+
+PREVIEW: http://media.tumblr.com/tumblr_{ID}_r1_frame1.jpg
+
+DOWNLOAD: {VIDEOFILE}
