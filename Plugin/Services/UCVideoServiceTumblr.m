@@ -70,9 +70,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[self foundAVideo:YES];
 	[self findDownloadURL];
 
-	[[self class] scan:videoFile from:@"tumblr_" to:@"_" into:&videoID];
-	if(videoID!=nil) {
-		[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://media.tumblr.com/tumblr_%@_r1_frame1.jpg", videoID]]];
+	NSString * posters = [flashVars objectForKey:@"poster"];
+	if(posters!=nil) {
+		NSString * preview = [[posters componentsSeparatedByString:@","] objectAtIndex:0];
+		preview = [preview stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		[self foundPreview:[NSURL URLWithString:preview]];
 	}
 }
 
