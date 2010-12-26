@@ -262,22 +262,22 @@
 		BF73BCC5105053E4003D2309 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				BF75974312874FAD00977779 /* UCVideoServiceTumblr.h */,
-				BF75974412874FAD00977779 /* UCVideoServiceTumblr.m */,
-				BFD376F310C4352D005EBCC8 /* UCRedirectedVideoService.h */,
-				BFD376F410C4352D005EBCC8 /* UCRedirectedVideoService.m */,
 				D096D10D1028946100A47EE6 /* UCVideoService.h */,
 				D096D10E1028946100A47EE6 /* UCVideoService.m */,
-				BFC883BA1057C509002F1A9C /* UCVideoServiceTwitvid.m */,
-				BFC883BB1057C509002F1A9C /* UCVideoServiceTwitvid.h */,
+				BFD376F310C4352D005EBCC8 /* UCRedirectedVideoService.h */,
+				BFD376F410C4352D005EBCC8 /* UCRedirectedVideoService.m */,
+				BF73BE5B10507AF7003D2309 /* UCVideoServiceBliptv.h */,
+				BF73BE5C10507AF7003D2309 /* UCVideoServiceBliptv.m */,
 				BF73BE7310507C5A003D2309 /* UCVideoServiceFlickr.h */,
 				BF73BE7410507C5A003D2309 /* UCVideoServiceFlickr.m */,
 				BF73BE7510507C5A003D2309 /* UCVideoServiceGoogle.h */,
 				BF73BE7610507C5A003D2309 /* UCVideoServiceGoogle.m */,
+				BF75974312874FAD00977779 /* UCVideoServiceTumblr.h */,
+				BF75974412874FAD00977779 /* UCVideoServiceTumblr.m */,
+				BFC883BB1057C509002F1A9C /* UCVideoServiceTwitvid.h */,
+				BFC883BA1057C509002F1A9C /* UCVideoServiceTwitvid.m */,
 				BF73BE6710507BBB003D2309 /* UCVideoServiceUstream.h */,
 				BF73BE6810507BBB003D2309 /* UCVideoServiceUstream.m */,
-				BF73BE5B10507AF7003D2309 /* UCVideoServiceBliptv.h */,
-				BF73BE5C10507AF7003D2309 /* UCVideoServiceBliptv.m */,
 				BF73BE471050797D003D2309 /* UCVideoServiceViddler.h */,
 				BF73BE481050797D003D2309 /* UCVideoServiceViddler.m */,
 				BF73BE2110507597003D2309 /* UCVideoServiceVimeo.h */,
@@ -334,9 +334,18 @@
 /* Begin PBXProject section */
 		0259C573FE90428111CA0C5A /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Useless Coding";
+			};
 			buildConfigurationList = C027D11D08A954E7001699E2 /* Build configuration list for PBXProject "Flashless" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 0259C574FE90428111CA0C5A /* Flashless */;
 			projectDirPath = "";
 			projectRoot = "";

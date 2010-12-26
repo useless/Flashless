@@ -3,7 +3,7 @@
 //  Flashless
 //
 //  Created by Christoph on 07.11.2010.
-//  Copyright Useless Coding 2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
