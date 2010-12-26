@@ -2,8 +2,8 @@
 //  UCVideoServiceYoutube.h
 //  Flashless
 //
-//  Created by Christoph on 03.09.09.
-//  Copyright Useless Coding 2009.
+//  Created by Christoph on 03.09.2009.
+//  Copyright 2009-2010 Useless Coding.
 /*
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -34,8 +34,4 @@ OTHER DEALINGS IN THE SOFTWARE.
 @interface UCVideoServiceYoutube : UCVideoService
 {
 }
-
-- (NSInteger)bestFmtAvailable;
-- (NSURL *)downloadURLwithVideoID:(NSString *)theID forFmt:(NSInteger)fmt andHash:(NSString *)hash;
-
 @end
