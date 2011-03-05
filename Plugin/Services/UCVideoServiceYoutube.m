@@ -81,9 +81,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[self foundAVideo:YES];
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@", videoID]]];
 	[self foundPreview:[NSURL URLWithString:[NSString stringWithFormat:@"http://i1.ytimg.com/vi/%@/hqdefault.jpg", videoID]]];
-	NSString * videoHash = [flashVars objectForKey:@"t"];
-	if(videoHash!=nil) {
-		[self foundDownload:[self downloadURLwithVideoID:videoID forFmt:[self bestFmtAvailable] andHash:videoHash]];
+	NSString * fmtMap = [flashVars objectForKey:@"fmt_url_map"];
+	if(fmtMap!=nil) {
+		[self foundDownload:[self downloadURLwithVideoID:videoID fmtMap:fmtMap]];
 	}
 }
 
@@ -93,56 +93,59 @@ OTHER DEALINGS IN THE SOFTWARE.
 		[self foundNoDownload];
 		return;
 	}
-	NSString * videoHash = [flashVars objectForKey:@"t"];
-	if(videoHash!=nil) {
-		[self foundDownload:[self downloadURLwithVideoID:videoID forFmt:[self bestFmtAvailable] andHash:videoHash]];
+	NSString * fmtMap = [flashVars objectForKey:@"fmt_url_map"];
+	if(fmtMap!=nil) {
+		[self foundDownload:[self downloadURLwithVideoID:videoID fmtMap:fmtMap]];
 	} else {
-		[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@", videoID]]];
+		[self retrieveHint:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video_info?video_id=%@", videoID]]];
 	}
 }
 
 - (void)receivedHint:(NSString *)hint
 {
-	if(hint==nil)
-		{
+	if(hint==nil) {
 		[self foundNoDownload];
 		return;
-		}
-	NSScanner * scan = [NSScanner scannerWithString:hint];
-	[scan scanUpToString:@"swfHTML" intoString:NULL];
-	[scan scanUpToString:@"&t=" intoString:NULL];
-	NSString * videoHash = nil;
-	if([scan scanString:@"&t=" intoString:NULL]) {
-		[scan scanUpToString:@"&" intoString:&videoHash];
 	}
-	if(videoHash==nil) {
+	NSString * fmtMap = nil;
+	[[self class] scan:hint from:@"fmt_url_map=" to:@"&" into:&fmtMap];
+	if(fmtMap==nil) {
 		[self foundNoDownload];
 	} else {
-		[self foundDownload:[self downloadURLwithVideoID:videoID forFmt:[self bestFmtAvailable] andHash:videoHash]];
+		[self foundDownload:[self downloadURLwithVideoID:videoID fmtMap:fmtMap]];
 	}
 }
 
-- (NSInteger)bestFmtAvailable
+- (NSURL *)downloadURLwithVideoID:(NSString *)theID fmtMap:(NSString *)theMap;
 {
-	NSString * fmts = [[flashVars objectForKey:@"fmt_map"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-	if(fmts!=nil) {
-		NSScanner * scan = [NSScanner scannerWithString:fmts];
-		NSInteger fmt;
-		if([scan scanInteger:&fmt]) {
-			switch(fmt) {
-				case 38: // 4K
-				case 37: // 1080p
-				case 22: // 720p
-				case 18: return fmt;
-			}
+	// We use the format map instead to find the download URL.
+	// This solution was originally contributed by jburton
+	// https://github.com/jburton/Flashless/commit/73886947e1fc3bb684fa0cb99e3cdcfa90d77dc9
+
+	NSString * fmtMap = [theMap stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSScanner * scan = [NSScanner scannerWithString:fmtMap];
+	NSInteger fmt = 0;
+	NSString * urlString = nil;
+
+	// We assume that formats are sorted descending
+	// 34|http,18|http
+	while(![scan isAtEnd] && urlString==nil) {
+		[scan scanInteger:&fmt];
+		switch(fmt) {
+			case 38: // 4K
+			case 37: // 1080p
+			case 22: // 720p
+			case 18: break;
+			default: fmt=0;
 		}
+		if(fmt!=0 && [scan scanString:@"|" intoString:NULL]) {
+			[scan scanUpToString:@"," intoString:&urlString];
+		} else {
+			[scan scanUpToString:@"," intoString:NULL];
+		}
+		[scan scanString:@"," intoString:NULL];
 	}
-	return 18;
-}
-
-- (NSURL *)downloadURLwithVideoID:(NSString *)theID forFmt:(NSInteger)fmt andHash:(NSString *)theHash
-{
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/get_video?fmt=%d&asv=2&video_id=%@&t=%@", fmt, theID, theHash]];
+	return [NSURL URLWithString:urlString];
 }
 
 @end
