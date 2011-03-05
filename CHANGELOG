@@ -1,7 +1,15 @@
 Flashless Changelog
 ===================
 
-Version 2.0.6 (Latest Release)
+Version 2.0.7 (Latest Release)
+-------------
+_Fork you_
+
+* Reenable YouTube download support. (Credit: jburton)
+* Remove broken Vimeo video support.
+
+
+Version 2.0.6
 -------------
 
 * Remove broken YouTube video support.
