@@ -401,8 +401,10 @@ static NSString * sHostKey = @"UCFlashlessHost";
 		_downloadURL = download;
 	}
 	[self setStatus:UCDefaultStatus];
-	switch(_should)
-		{
+	if(_downloadURL==nil) {
+		return;
+	}
+	switch(_should) {
 		case UCShouldDownloadNow:
 			[self download:self];
 			break;
@@ -410,7 +412,7 @@ static NSString * sHostKey = @"UCFlashlessHost";
 			[self _convertToVideo];
 			break;
 		default: break;
-		}
+	}
 }
 
 - (void)findDownloadFailedForService:(UCVideoService *)service
