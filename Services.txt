@@ -3,12 +3,17 @@ SRC>	http://youtube.com/v/{ID}& ...
 	... video_id={ID}& ...
 
 FLASHVARS> video_id={ID}
-	t={HASH}
+	fmt_url_map={MAP}
+
+HINT:	http://www.youtube.com/get_video_info?video_id={ID}
+
+HINT>	... fmt_url_map={MAP}& ...
+
+MAP>	{FMT}|{DOWNLOAD},...
 
 PREVIEW: http://i1.ytimg.com/vi/{ID}/hqdefault.jpg
 
-DOWNLOAD: http://www.youtube.com/get_video?fmt=18&asv=2&video_id={ID}&t={HASH}
---Broken as of December 2010
+DOWNLOAD: {DOWNLOAD}
 
 ORIGINAL: http://youtube.com/watch?v={ID}
 
