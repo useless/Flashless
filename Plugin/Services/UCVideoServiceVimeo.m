@@ -63,11 +63,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 	[self foundOriginal:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.vimeo.com/%@", videoID]]];
 }
 
-- (void)findDownloadURL
-{
-	// Prevent foundNoDownload
-}
-
 - (void)receivedHint:(NSString *)hint
 {
 	if(hint==nil) {
@@ -75,19 +70,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 		return;
 	}
 	NSString * previewFile = nil;
-	NSString * secret = nil;
-	NSString * expires = nil;
 
 	[[self class] scan:hint from:@"<thumbnail>" to:@"</thumbnail>" into:&previewFile];
 	if(previewFile!=nil) {
 		[self foundPreview:[NSURL URLWithString:previewFile]];
-	}
-	[[self class] scan:hint from:@"<request_signature>" to:@"</request_signature>" into:&secret];
-	[[self class] scan:hint from:@"<request_signature_expires>" to:@"</request_signature_expires>" into:&expires];
-	if(secret!=nil && expires!=nil) {
-		[self foundDownload:[NSURL URLWithString:[NSString stringWithFormat:@"http://vimeo.com/moogaloop/play/clip:%@/%@/%@/?q=hd", videoID, secret, expires]]];
-	} else {
-		[self foundNoDownload];
 	}
 }
 

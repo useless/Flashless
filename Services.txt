@@ -36,7 +36,7 @@ ORIGINAL: http://www.xtube.com/play_re.php?v={ID}&cont=y
 
 
 Vimeo
-SRC>	http://www.vimeo.com/moogaloop.swf?clip_id={ID}&...
+SRC>	http://vimeocdn.com/moogaloop.swf?clip_id={ID}&...
 
 FLASHVARS> clip_id={ID}
 
@@ -48,8 +48,8 @@ HINT>	... <thumbnail>{PREVIEW}</thumbnail> ...
 
 PREVIEW: {PREVIEW}
 
-DOWNLOAD: http://vimeo.com/moogaloop/play/clip:{ID}/{SECRET}/{EXP}/?q=hd
-(Credit: http://rentzsch.github.com/clicktoflash/killers.html)
+DOWNLOAD: http://player.vimeo.com/play_redirect?clip_id={ID}&sig={SECRET}&time={EXP}&quality=hd
+--Unable to obtain correct values for the token
 
 ORIGINAL: http://www.vimeo.com/{ID}
 

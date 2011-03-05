@@ -76,6 +76,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 			[UCVideoServiceTumblr class], @"tumblr.com",
 			[UCVideoServiceXtube class], @"xtube.com",
 			[UCVideoServiceVimeo class], @"vimeo.com",
+			[UCVideoServiceVimeo class], @"vimeocdn.com",
 			[UCVideoServiceBliptv class], @"blip.tv",
 			[UCVideoServiceViddler class], @"viddler.com",
 			[UCVideoServiceUstream class], @"ustream.tv",
